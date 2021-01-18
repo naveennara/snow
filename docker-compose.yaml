@@ -1,0 +1,18 @@
+version: '3'
+services:
+  nodejs-server:
+    image: jclingireddymm/snow:snow-server-v04
+    ports:
+      - "2138:2138"
+    container_name: nodeserver
+    volumes:
+       - ./server:/temp/server
+       - /server/node_modules
+  angular-ui:
+    image: jclingireddymm/snow:snow-ui-v04
+    ports:
+      - "4200:4200"
+    container_name: ui
+    volumes:
+       - ./:/src/app
+       - /src/app/node_modules
