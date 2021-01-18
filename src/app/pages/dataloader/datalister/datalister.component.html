@@ -1,0 +1,200 @@
+
+ <div class="card">
+  <div class="card-header">
+     <div class="card-head-row card-tools-still-right">
+    <h4 class="card-title">Data Mapper <span 
+      tooltip="Map data with standard data model" placement="bottom">
+        <i class="fa fa-info-circle"></i></span> </h4>
+  
+        <div class="card-tools">
+          
+
+            <a (click)="navigateToMapPreview()" class="btn btn-info btn-border btn-round btn-sm mr-2">
+              <span class="btn-label">
+                  <i class="fa fa-arrow-left"></i>
+              </span>
+              Go Back
+          </a>
+             
+          
+          <a (click)="migrate()" class="btn btn-info btn-border btn-round btn-sm mr-2">
+            <span class="btn-label">
+                <i class="fa fa-random"></i>
+            </span>
+            Migrate
+        </a>
+
+        </div> 
+</div>
+        
+  </div>
+  <app-confirm-template [openModal]="openConfirmModal" (deleteOrCancel)="confirmDelete($event)"></app-confirm-template>
+
+<div class="row mt-3">
+  <div class="dataLister-container col-md-12">
+    <div class="row mb-3">
+      <div class="col-md-5">
+        <h6 class="text-muted op-7 mb-2">Uploaded Data Structure</h6>
+        <ng-multiselect-dropdown  
+              name="datalisteruserds" 
+              [placeholder]="UploadedData[0].name" 
+              [settings]="dropdownSettings"  
+              [data]="UploadedData" 
+              [(ngModel)]="selectedUsrCollObj"
+              (onSelect)="onSelectionSrcColl($event)" 
+              [disabled]="disabled">
+            </ng-multiselect-dropdown>
+      </div>
+
+      <div class="col-md-5 ml-auto">
+        <h6 class="text-muted op-7 mb-2 text-right">Standard Data Structure</h6>
+        <ng-multiselect-dropdown  
+              [placeholder]="tableNameMapping[0].name"  
+              name="datalisterstndrdds" 
+              [settings]="stndrddropdownSettings" 
+              [data]="tableNameMapping" 
+              [(ngModel)]="selectedDCollObj"
+              (onSelect)="onSelectionDefColl($event)" 
+              [disabled]="disabled">
+          </ng-multiselect-dropdown>
+      </div>
+    </div>
+
+    
+    <!-- START NEW ROW -->
+    <div class="row my-5">
+      <div class="col">
+        <div class="card">
+          <div class="pane">
+
+
+            <div mat-subheader>
+              <h3 class="listHeaderFld">   FIELD NAME  </h3>
+              <h3 class="listHeaderType">     DATA TYPE</h3>
+       </div>
+
+        <mat-selection-list [multiple]="false" [(ngModel)]="selectedSrcField" #srcnodes 
+        (selectionChange)="onSelectionSrc($event, srcnodes.selectedOptions)" >
+        
+        <mat-list-option  [ngClass]="{  'is-selected': selectedSrcColForstyle(fld.name)}" 
+          *ngFor="let fld of getFieldsbyUpColl(selectedUsrCollObj[0].name).children;let i = index" value= "{{fld.name}}#{{i}}">
+          <div class="sfldDtype" >
+            <span class="sFld" >
+                {{sFldText}}
+            </span>
+            <span class="sDtype">
+              {{sDtypeText}}       
+            </span>
+          </div>
+
+          <mat-divider></mat-divider>
+        
+        </mat-list-option>
+        
+        </mat-selection-list>
+        </div>  
+        </div>
+      </div>
+      <div class="col-2">
+        <button class="btn btn-primary btn-lg btn-block" id="mapper" (click)="mapToUploadedData()" title="Map Data">
+          <i class="fas fa-arrows-alt-h" style="font-size: 30px;"></i>
+        </button>
+      </div>
+      <div class="col pr-0">
+        <div class="card">
+        <div class="pane">
+
+      
+          <div mat-subheader>
+            <h3 class="listHeaderFld">   FIELD NAME  </h3>
+            <h3 class="listHeaderType">    DATA TYPE</h3>
+     </div>
+
+        <mat-selection-list [multiple]="false"  #defnodes  [(ngModel)]="selectedDstField"
+        (selectionChange)="onSelectionDef($event, defnodes.selectedOptions)" >
+        
+  
+          <mat-list-option [ngClass]="{  'is-selected': selectedDColForstyle(fld.name)}" 
+           *ngFor="let fld of getFieldsbyDColl(selectedDCollObj[0].id).children;let i = index"  value= "{{fld.name}}#{{i}}">
+          
+           <div class="dFldDtype">
+            <span class="dFld" >
+                {{dFldText}}
+            </span>
+            <span class="dDtype">
+                   {{dDtypeText}} 
+            </span>
+</div>
+            <mat-divider></mat-divider>
+          </mat-list-option>
+        </mat-selection-list>
+        </div>
+      </div>
+      </div>
+    </div>
+    <!-- END ROW -->
+
+    <div class="row mt-4 ml-3">
+      <div id="mappingbtnpane" *ngIf="showMappedData">
+        <button mat-button (click)="expandMapping()"> 
+          <i class="far fa-plus-square  mr-1 mb-1 "></i>  EXPAND ALL</button>
+        <button mat-button (click)="collapseMapping()"> 
+          <i class="far fa-minus-square  mr-1 mb-1"></i>
+          COLLAPSE ALL</button>
+      
+      </div>
+      <div class="tree" *ngIf="showMappedData">
+      <mat-tree #mappingtree [dataSource]="userdataSource" [treeControl]="treeControl">
+      <!-- This is the tree node template for leaf nodes -->
+      
+      <mat-tree-node id="child" *matTreeNodeDef="let node" matTreeNodePadding>
+        <!-- use a disabled button to provide padding for tree leaf -->
+        <i  class="fas fa-file mr-2 mb-1"></i>
+        {{node.name}}
+      
+        
+        <button  mat-icon-button (click)="unmapField(node.name)" title="Unmap Field">
+          <i class="fas fa-minus-circle mb-1"></i>
+           
+        </button>
+      
+      </mat-tree-node>
+      <!-- This is the tree node template for expandable nodes -->
+      <mat-tree-node  *matTreeNodeDef="let pnode;when: hasChild" matTreeNodePadding>
+          
+        <button  mat-icon-button matTreeNodeToggle
+                [attr.aria-label]="'toggle ' + pnode.name">
+         
+                <span class="mr-2 ml-2"> 
+                  <i class="far" [ngClass]="treeControl.isExpanded(pnode)  ? 'fa-minus-square' : 'fa-plus-square'"></i>
+                </span>
+               
+                
+        </button>
+       
+      
+         
+         {{pnode.name.substr(0,pnode.name.lastIndexOf("- ")-1).trim()+" - "+getExtName([pnode.name.substr(pnode.name.lastIndexOf("- ")+1, pnode.name.length).trim()])}}
+       
+          
+        <button  mat-icon-button (click)="unmapField(pnode.name)" title="Unmap Collection">
+          <i class="fas fa-minus-circle mb-1"></i>
+        </button>
+      
+            
+      </mat-tree-node>
+      </mat-tree>
+      </div>
+    </div>
+
+  </div>
+  <!-- END  dataLister-container-->
+</div>
+
+</div>
+<script>
+ window.onpopstate = function (e) { window.history.forward(1); }
+
+</script>
+ 
+

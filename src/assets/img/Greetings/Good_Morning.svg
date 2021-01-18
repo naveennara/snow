@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="371" height="243.77" viewBox="0 0 371 243.77">
+  <g id="Group_822" data-name="Group 822" transform="translate(-345 -400.23)">
+    <g id="sunrise" transform="translate(425 286.67)">
+      <g id="Group_807" data-name="Group 807" transform="translate(0 150.321)">
+        <g id="Group_806" data-name="Group 806">
+          <path id="Path_840" data-name="Path 840" d="M154.8,270.912a52.381,52.381,0,1,0-100.361,0H0v12.26H209.23v-12.26Zm-12.962,0H67.4a39.7,39.7,0,0,1-2.9-15.016,40.122,40.122,0,1,1,80.243,0A39.7,39.7,0,0,1,141.834,270.911Z" transform="translate(0 -203.515)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_809" data-name="Group 809" transform="translate(98.485 113.561)">
+        <g id="Group_808" data-name="Group 808">
+          <rect id="Rectangle_1567" data-name="Rectangle 1567" width="12.26" height="24.519" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_811" data-name="Group 811" transform="translate(131.634 122.458)">
+        <g id="Group_810" data-name="Group 810">
+          <rect id="Rectangle_1568" data-name="Rectangle 1568" width="24.519" height="12.26" transform="translate(0 21.229) rotate(-59.974)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_813" data-name="Group 813" transform="translate(157.531 152.876)">
+        <g id="Group_812" data-name="Group 812">
+          <rect id="Rectangle_1569" data-name="Rectangle 1569" width="24.518" height="12.259" transform="translate(0 12.242) rotate(-29.955)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_815" data-name="Group 815" transform="translate(169.228 196.641)">
+        <g id="Group_814" data-name="Group 814">
+          <rect id="Rectangle_1570" data-name="Rectangle 1570" width="12.26" height="24.519" transform="translate(0 12.26) rotate(-89.931)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_817" data-name="Group 817" transform="translate(54.349 122.451)">
+        <g id="Group_816" data-name="Group 816">
+          <rect id="Rectangle_1571" data-name="Rectangle 1571" width="12.259" height="24.518" transform="matrix(0.866, -0.5, 0.5, 0.866, 0, 6.133)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_819" data-name="Group 819" transform="translate(23.966 152.877)">
+        <g id="Group_818" data-name="Group 818">
+          <rect id="Rectangle_1572" data-name="Rectangle 1572" width="12.259" height="24.518" transform="translate(0 10.621) rotate(-60.045)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_821" data-name="Group 821" transform="translate(15.113 196.65)">
+        <g id="Group_820" data-name="Group 820">
+          <rect id="Rectangle_1573" data-name="Rectangle 1573" width="24.519" height="12.26" transform="translate(0 0.029) rotate(-0.069)" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+    <text id="Good_Morning" data-name="Good Morning" transform="translate(345 628)" fill="#fff" font-size="58" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Good Morning</tspan></text>
+  </g>
+</svg>

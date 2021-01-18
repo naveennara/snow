@@ -1,0 +1,51 @@
+
+<div class="card full-height" >
+  <div class="card-header">
+    <div class="card-head-row">
+      <!-- Display current page info and no of records -->
+      <!-- <p class="card-license" *ngIf="licenseList && licenseList.length">
+        Showing ({{(pageNumber -1) * limit + 1}} to {{ ((pageNumber * limit) - (licenseList.length-limit)) }})  out of
+        {{licenseList.length}} Licenses Account
+      </p> -->
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive scroll">
+      <table class="table table-bordered table-condensed table-hover" *ngIf="licenseList && licenseList.length">
+          <thead class="thead-light">
+              <tr>
+                <th>#</th>
+                <!-- <th *ngFor="let i = index;let headers of licenseList[0] | keyvalue" class="pointer" (click)="sort(headers.key)">{{constants.tableList[headers.key] }} <i class="fa" [ngClass]="{'fas fa-sort': column != headers.key, 'fas fa-arrow-up': (column == headers.key && isDesc), 'fas fa-arrow-down': (column == headers.key && !isDesc) }" aria-hidden="true"> </i></th> -->
+                <th  class="pointer" (click)="sort(constants['accountValue'])">{{constants.tableList['account']}} <i class="fa" [ngClass]="{'fas fa-sort': column != 'account', 'fas fa-arrow-up': (column == 'account' && isDesc), 'fas fa-arrow-down': (column == 'account' && !isDesc) }" aria-hidden="true"> </i></th>
+                <th  class="pointer" (click)="sort(constants['daysForRenewal'])">{{constants.tableList['daysForRenewal']}} <i class="fa" [ngClass]="{'fas fa-sort': column != 'daysForRenewal', 'fas fa-arrow-up': (column == 'daysForRenewal' && isDesc), 'fas fa-arrow-down': (column == 'daysForRenewal' && !isDesc) }" aria-hidden="true"> </i></th>
+                <th  class="pointer" (click)="sort(constants['licenses'])">{{constants.tableList['licenses'] }} <i class="fa" [ngClass]="{'fas fa-sort': column != 'licenses', 'fas fa-arrow-up': (column == 'licenses' && isDesc), 'fas fa-arrow-down': (column == 'licenses' && !isDesc) }" aria-hidden="true"> </i></th>
+                <!-- <th  class="pointer" (click)="sort(constants['mobileLicenses'])">{{constants.tableList['mobileLicenses'] }} <i class="fa" [ngClass]="{'fas fa-sort': column != 'mobileLicenses', 'fas fa-arrow-up': (column == 'mobileLicenses' && isDesc), 'fas fa-arrow-down': (column == 'mobileLicenses' && !isDesc) }" aria-hidden="true"> </i></th> -->
+                <th  class="pointer" (click)="sort(constants['expiryDate'])">{{constants.tableList['expiryDate'] }} <i class="fa" [ngClass]="{'fas fa-sort': column != 'expiryDate', 'fas fa-arrow-up': (column == 'expiryDate' && isDesc), 'fas fa-arrow-down': (column == 'expiryDate' && !isDesc) }" aria-hidden="true"> </i></th>
+                <th>Renewal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let i = index;let record of licenseList | paginate: { itemsPerPage: limit, currentPage: pageNumber} | orderBy: {property: column, direction: direction}">
+                <td>{{ i + 1 + (pageNumber - 1) * limit}}</td>
+                <td>{{record[constants['accountValue']]}}</td>
+                <td>{{record[constants['daysForRenewal']]}}</td>
+                <td>{{record[constants['licenses']]}}</td>
+                <!-- <td>{{record[constants['mobileLicenses']]}}</td> -->
+                <td>{{record[constants['expiryDate']] | date : "shortDate"}}</td>
+                <td><a href="javascript:;" (click)="editLicense(record)"><img class="customSvg" [src]='imgIcons.renewLicense' alt="Renew License">
+                </a></td>
+             </tr>
+            </tbody>
+      </table>
+    </div>
+    <pagination-controls (pageChange)="pageNumber = $event" *ngIf="licenseList && licenseList.length"></pagination-controls>
+    <div *ngIf="licenseList && !licenseList.length" align="center">
+        <img [src]="Imgsrc" class="img-responsive">
+    </div>
+  </div>
+</div>
+
+<!-- No Preview Block @PK -->
+<!-- <div class="mx-auto d-flex justify-content-center flex-wrap" *ngIf="licenseList && !licenseList.length">
+  <img [src]="imageSrc" class="img-responsive">
+</div> -->

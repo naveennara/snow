@@ -1,0 +1,150 @@
+<div class="page-inner">
+    <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pb-3">
+        <!-- <h4 class="page-title">Device Management</h4> -->
+        <div>
+            <h2 class="pageTitle">
+                <img [src]='pageDetails.pageIcon.mapLocationGrey' class="headerImg mr-2">{{constants['mapLocationsHeader']}}</h2>
+            <ul class="pb-2 breadcrumbs">
+
+            </ul>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row m-l-0 m-r-0 m-b-10">
+              <section>
+                <div #map class="mapPage" data-tap-disabled="true">            
+                </div>
+                <div class="openBlock fadeInLeft" [hidden]="open">
+                  <button type="button" class="btn btn-icon btn-sm" (click)="openSideBar()" title="{{constants['label_Open']}}">
+                    <!-- <i class="fa fa-search search-icon"></i> -->
+                    <img [src]="icons.frontFlip">
+                  </button>
+                </div> 
+                <div class="refresh">
+                  <button class="btn btn-icon btn-sm btn-info" (click)="getUserLocations()">
+                    <span class="fa fa-sync-alt icon-white" title="{{constants['label_Refresh']}}"></span>
+                  </button>
+                </div>
+                <div class="userList animated fadeIn scrollable-menu" [ngClass]="open?'userListOpen':'userList'">
+                  <div class="card"> 
+                    <div class="card-header">
+                      <div class="card-title">Users-list</div>
+                      <div class="closeBlock fadeOut" [hidden]="!open" title="{{constants['label_Close']}}">
+                        <button type="button" class="btn btn-icon btn-sm" (click)="closeSideBar()">
+                          <img [src]="icons.backFlip">
+                        </button>
+                      </div>
+                    </div>
+                     <div class="card-body pb-0"> 
+                      <div class="searchBar">
+                          <form class="navbar-left navbar-form nav-search mx-1 my-2">
+                            <div class="input-group">
+                                <input type="text" placeholder="Search..." class="form-control" (keyup)="onKey($event)">
+                            </div>
+                          </form>
+                      </div>
+
+                      <div class="scrollContent">
+                        <div  *ngFor="let user of usersList | filter:searchDept:'username'; let i = index">
+                          <div class="message-notif-scroll scrollbar-outer">
+                            <div class="d-flex list"  (click)="selectUserIndex(i)"> 
+                              <div class="flex-1 pt-1 ml-2" (click)="userLocation()" [ngClass]="{'active': selectedUserIndex == i}">
+                                <h6 class="fw-bold mb-1">{{user.username}}</h6>
+                                <!-- <small class="text-muted">Cascading Style Sheets</small> -->
+                              </div>
+                            </div>
+                            <!-- <div class="separator-dashed"></div> -->
+                          </div>
+                        </div>
+                      </div>
+                    
+                     </div> 
+                   </div> 
+               
+                </div>
+              </section>
+                <!-- <div class="dropdown">
+                    <button class="btn-dropdown btn btn-icon btn-round btn-transparent" data-toggle="dropdown"
+                      aria-expanded="false" title="Actions">
+                      <i class="icon-options-vertical"></i>
+                    </button>
+                    <ul class="dropdown-menu messages-notif-box animated fadeIn scrollable-menu"
+                      aria-labelledby="departmentSearch">
+                      <div class="searchBar">
+                        <li>
+                          <form class="navbar-left navbar-form nav-search mx-2 my-2">
+                            <div class="input-group" style="background: #eee !important;">
+                              <div class="input-group-prepend">
+                                <button type="button" class="btn btn-search pr-1">
+                                  <i class="fa fa-search search-icon"></i>
+                                </button>
+                              </div>
+                              <input type="text" placeholder="Search" class="form-control" (keyup)="onKey($event)">
+                            </div>
+                          </form>
+                        </li>
+                      </div>
+          
+                      <div class="scrollContent">
+                        <li>
+                          <div class="message-notif-scroll scrollbar-outer">
+                            <div class="notif-center" style="border-bottom: 1px dashed #ebecec;">
+                              <a href="javascript:;" *ngFor="let user of usersList | filter:searchDept:'name'; let i = index" (click)="deptChange(user)">
+                                <div class="notif-content">
+                                  <span class="subject mx-2">{{user}}</span>
+                                </div>
+                              </a>
+                            </div>
+                          </div>
+                        </li>
+                      </div>
+                    </ul>
+                  </div> -->
+<!--                
+                <div id="collapseBasiic" *ngIf="showAssetBlock">
+                  <div class="assetForm">
+                    <div class="card">
+                      <div class="card-header sticky-top cardClass">
+                        <div class="card-head-row card-tools-still-right">
+                          <h4 class="card-title text-white ellipseTitle" title="Users">Users</h4>
+                          
+                          <div class="card-tools">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pb-0">
+                        <div class="searchBar">
+                            <form class="navbar-left navbar-form nav-search mx-2 my-2">
+                              <div class="input-group" style="background: #eee !important;">
+                                <div class="input-group-prepend">
+                                  <button type="button" class="btn btn-search pr-1">
+                                    <i class="fa fa-search search-icon"></i>
+                                  </button>
+                                </div>
+                                <input type="text" placeholder="Search" class="form-control" (keyup)="onKey($event)">
+                              </div>
+                            </form>
+                        </div>
+                        <div class="listView" *ngFor="let user of usersList | filter:searchDept:'name'; let i = index" (click)="selectAssetIndex(i)">
+                          <div class="d-flex" title="{{user}}" [ngClass]="{'active': selectedAssetIndex == i, 'listView': true}"
+                            (click)="openAssetForm(form)">
+                            <div class="status"><b>{{user}}:</b> {{user}}</div>
+
+                          </div>
+                          <div class="listView-Separator"></div>
+                        </div>
+                       
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+            </div>
+        </div>
+        
+    </div>
+
+
+
+
+</div>

@@ -1,0 +1,162 @@
+<!-- <button type="button" class="btn btn-icon btn-round mr-2 btn-xs btn-transparent"
+      (click)="workflowHistory()" title="Workflow history task">
+      <i class="fas fa-history icon-color" aria-hidden="true"></i>
+    </button>
+
+    <ngx-smart-modal #historyModel [closable]="false" [identifier]="'historyModel'">
+      <div class="nsm-dialog  nsm-dialog custom nsm-dialog-animation-btt medium-modal nsm-dialog-open"
+        style="max-width:1000px;">
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-head-row card-tools-still-right">
+            <h4 class="card-title">Task Workflow history</h4>
+            <div class="card-tools modelclosebutton">
+              <button class="btn btn-icon btn-link btn-primary btn-xs" style="cursor: pointer" (click)="historyModel.close()"><span
+                  class="fa fa-times"></span></button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div id="myChartLegend my-2">
+            <ul class="0-legend html-legend">
+              <li><span style="background-color:#28a745"></span>Accepted</li>
+              <li><span style="background-color:#f3545d"></span>Rejected</li>
+            </ul>
+          </div>
+
+          <div class="row WFC mx-4 p-5" style="height: 100px !important;"
+            *ngFor="let list of historyModel.getData(), let i = index ;let first = first; let last = last">
+            <div class="d-flex flex-row justify-content-left" *ngIf="i%2===0">
+              <div *ngFor="let data of list;let listIndex = index">
+                <button class="btn btn-primary btn-sm btn-border btn-round ">{{data.to}}</button>
+                <span class="RImg" *ngIf="i % 2 === 0 && listIndex !== 3">
+                  <figure>
+                    <img
+                      [src]=" data.status === 'accepted'? workflowDirectionalIcons.WAR:workflowDirectionalIcons.WRR"
+                      alt="">
+                    <figcaption class="txtSize">{{data.date | date:'mediumDate'}}</figcaption>
+                  </figure>
+                </span>
+
+                <span class="RImgEB" *ngIf="(listIndex  === 3  && i % 2 === 0)">
+                  <figure>
+                    <img [ngClass]="data.status === 'accepted'?'verticalImg':'horizontalTxt'"
+                      [src]=" data.status === 'accepted'? workflowDirectionalIcons.WAB:workflowDirectionalIcons.WRB"
+                      alt="">
+                    <figcaption class="txtSize" [ngClass]="data.status === 'accepted'?'verticalTxt':'horizontalTxt'">
+                      {{data.date | date:'mediumDate'}}</figcaption>
+                  </figure>
+                </span>
+              </div>
+            </div>
+
+            <div class="d-flex flex-row-reverse " *ngIf="i%2===1">
+              <div class="" *ngFor="let data of list;let listIndex = index">
+                <button class="btn btn-primary btn-sm btn-border btn-round" *ngIf="last != true" >{{data.to}}</button>
+                <button class="btn btn-primary btn-sm btn-border btn-round" *ngIf="last === true " [ngStyle]="{'margin-left':getMargin(listIndex)}">{{data.to}}</button>
+                <span class="RImgO" *ngIf="i % 2 === 1 && listIndex !== 3 || last === true" [ngStyle]="{'float':getIndex(listIndex)}">
+                  <figure>
+                    <img
+                      [src]=" data.status === 'accepted'? workflowDirectionalIcons.WAL:workflowDirectionalIcons.WRL"
+                      alt="">
+                    <figcaption class="txtSize">{{data.date | date:'mediumDate'}}</figcaption>
+                  </figure>
+                </span>
+
+                <span class="RImgOB" *ngIf="(listIndex  === 3  && i % 2 === 1)">
+                  <figure>
+                    <img [ngClass]="data.status === 'accepted'?'verticalImg':'horizontalTxt'"
+                      [src]=" data.status === 'accepted'? workflowDirectionalIcons.WAB:workflowDirectionalIcons.WRB"
+                      alt="">
+                    <figcaption class="txtSize" [ngClass]="data.status === 'accepted'?'verticalTxt':'horizontalTxt'">
+                      {{data.date | date:'mediumDate'}}</figcaption>
+                  </figure>
+                </span>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </ngx-smart-modal> -->
+<!-- START DATA -->
+<div class="card">
+
+
+
+  <div class="workflow-list" *ngFor="let i=index;let workflow of workflowHistory">
+    <div class="card-header p-l-0" [ngStyle]="{'border-left':getStatusType(workflow.status)}">
+      <div class="d-flex">
+        <div class="flex-1 ml-2 pt-1">
+          <h6 class="text-uppercase fw-bold mb-1">
+            {{workflow.from.username}} - {{workflow.to?.username || 'N/A'}}
+            <!-- <span class="text pl-3" [class.text-primary]="workflow.status === 'accepted'"
+            [class.text-warning]="workflow.status === 'rejected'">{{workflow.status}}
+          </span> -->
+          </h6>
+          <small class="text-muted">
+            <span title="Workflow date">
+              <i class="fas fa-calendar-check icon-color"></i> {{workflow.date | date:'mediumDate'}}
+            </span>
+          </small>
+
+        </div>
+        <div class="float-right task-ActionBar pt-3 m-r-10">
+          <button class="btn  btn-xs btn-outline-primary" title="View Details" (click)="viewDetails(workflow,i)" *ngIf="viewHistoryIndex != i">View
+            Details
+          </button>
+          <button class="btn  btn-xs btn-outline-danger" title="Close Details" (click)="closeDetails()" *ngIf="viewHistoryIndex == i">
+            Close
+          </button>
+        </div>
+      </div>
+      <!-- <div class="separator-dashed"></div> -->
+    </div>
+
+    <div class="card-body" *ngIf="viewHistoryIndex === i">
+      <h6 class="text-color fw-bold mb-1"> Workflow Details</h6>
+      <div class="row">
+        <div class="col-md-6">
+          <span class="fw-bold mb-1">FROM</span> : {{selectedWorkFlow.from.username}}
+        </div>
+        <div class="col-md-6">
+          <span class="fw-bold mb-1">TO</span> : {{selectedWorkFlow.to?.username || 'N/A'}}
+        </div>
+        <small class="m-l-10 m-t-5">
+           <span title="Info" *ngIf="selectedWorkFlow.to && selectedWorkFlow.status != 'Data submitted'">
+            <i class="fas fa-info-circle icon-color"></i> Workflow has been {{selectedWorkFlow.status}} by
+            {{selectedWorkFlow.from.username}} and sent to {{selectedWorkFlow.to.username}}
+          </span>
+          <span title="Info" *ngIf="selectedWorkFlow.to && selectedWorkFlow.status == 'Data submitted'">
+            <i class="fas fa-info-circle icon-color"></i> Data has been submitted by
+            {{selectedWorkFlow.from.username}} and sent to {{selectedWorkFlow.to.username}}
+          </span>
+          
+          <span title="Info" *ngIf="!selectedWorkFlow.to">
+            <i class="fas fa-info-circle icon-color"></i> Workflow has been {{selectedWorkFlow.status}} by
+            {{selectedWorkFlow.from.username}}.
+          </span>
+        </small>
+      </div>
+      <h6 class="text-color fw-bold mb-1 m-t-10">Status
+      </h6>
+      <span class="text-uppercase fw-bold mb-1" [ngStyle]="getStatusText(workflow.status)">
+        {{selectedWorkFlow.status}}
+      </span>
+      <h6 class="text-color fw-bold mb-1 m-t-10">Comments</h6>
+      <p>
+        {{selectedWorkFlow.comments}}
+      </p>
+
+    </div>
+  </div>
+
+  <!-- END DATA -->
+  <div class="mx-auto d-flex justify-content-center flex-wrap" *ngIf="workflowHistory && !workflowHistory.length">
+    <img [src]="Imgsrc" class="img-responsive">
+  </div>
+</div>

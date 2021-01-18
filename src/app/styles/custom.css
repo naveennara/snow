@@ -1,0 +1,375 @@
+/* @media screen and (min-width: 768px) */
+
+.cardText {
+  font-size: 14px;
+  line-height: 1.82;
+  color: #8D9498;
+  margin-bottom: 1rem;
+  word-break: break-word;
+}
+
+.p-0 {
+  padding: 0;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+
+.card-title {
+  margin: 0;
+  color: #575962;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.card-header {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.bodyBg {
+  background: rgba(249, 249, 249, 0.52)
+}
+
+.card-body.card-padding {
+  padding: 15px 25px;
+  margin-top: 0px;
+}
+
+.row.padding {
+  padding: 15px 25px;
+}
+
+.tabWidth {
+  width: 100%;
+}
+
+.tab-container {
+  width: 100% !important;
+}
+
+/* .nav nav-pills > li{
+  width: 33.333%;
+  background: #f5f5f5;
+} */
+
+/* .nav-item {
+  width: 33.333%;
+} */
+/* .wizard-container .wizard-menu li {
+  background: #f5f5f5;
+} */
+
+/* .nav-pills.nav-primary .nav-link.active {
+  background: #1572e8;
+  border: 1px solid #1572e8;
+} */
+.wizard-container {
+  padding: 0px !important;
+}
+
+.wizard-container .wizard-menu li {
+  width: 33.333%;
+}
+
+.wizard-container .wizard-menu li a.active {
+  color: #FFF !important;
+  background: #1572e8 !important;
+  /* width: 265.583px; 
+    transform: translate3d(265.583px, 0px, 0px);
+    transition: all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1) 0s; */
+}
+
+.wizard-container .wizard-header {
+  padding: 15px 15px;
+  border-bottom: 1px solid #eee;
+  background-color: transparent;
+}
+
+.tab-content>.active {
+  display: block;
+  background: #FCFCFC;
+}
+
+/*Css for widgets by Phani Kumar Narina*/
+.usercard-image {
+  float: left;
+  vertical-align: middle;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.usercard-image img {
+  border-radius: 23px;
+  width: 46px;
+  height: 46px;
+}
+
+.borderClsVersion {
+  padding: 10px !important;
+  line-height: 1.42857143 !important;
+  vertical-align: top !important;
+  /*border-top: 1px solid #f0f0f0;*/
+}
+
+.usercard-title {
+  position: relative;
+  max-width: 80%;
+  font-size: 15px;
+  font-weight: 300;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  margin: 0 0 15px;
+  padding: 0 0 2px;
+}
+
+.usercard-title>small {
+  display: block;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 300;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.usercard-Block {
+  /* background-color: #F1F3FA; */
+  background-color: #d8ddeded;
+}
+
+.usercard-Block .widget_actionBar {
+  position: absolute;
+  opacity: 0;
+  width: auto;
+  text-align: left;
+  padding-left: 28px;
+  top: 65px;
+  transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+}
+
+.usercard-Block:hover .widget_actionBar {
+  opacity: 1;
+  transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+}
+
+.usercard-Block .widget_actionBar a:hover {
+  text-decoration: none;
+}
+
+.SearchFilter {
+  float: right;
+  /* display: inline-block; */
+  padding: 4px 0;
+}
+
+.input-inline {
+  display: inline-block;
+  width: 145px !important;
+  vertical-align: middle;
+}
+
+.input-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.input-circle {
+  border-radius: 25px !important;
+}
+
+input.fontAwesome {
+  font-family: Helvetica, 'FontAwesome', sans-serif;
+}
+
+.widget_height {
+  /* height: 300px; */
+  overflow-y: auto;
+}
+
+/* .login:after {
+  content: "";
+  vertical-align: middle;
+  display: inline-block;
+  width: 1px;
+  height: 100%;
+}
+
+.login:before {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-image: url("../../assets/img/portal_BG_1366x768.jpg");
+  background-repeat: no-repeat;
+  content: "";
+  z-index: 0;
+} */
+
+.dropdown-toggle::before {
+  display: inline-block;
+  margin-left: .255em;
+  vertical-align: .255em;
+  /* content: none; */
+  border-top: .3em solid;
+  border-right: .3em solid transparent;
+  border-bottom: 0;
+  border-left: .3em solid transparent;
+}
+
+.disabledList {
+  /* cursor: no-drop; */
+  color: grey;
+  pointer-events: none;
+  opacity: .4;
+}
+
+.disabledEvent {
+  /* cursor: no-drop; */
+  color: rgb(36, 32, 32);
+  pointer-events: none;
+  /* opacity: .4; */
+}
+
+.formPadding {
+  padding: 15px 250px 15px 250px;
+  display: block;
+  background: #FCFCFC;
+}
+
+.widget_height {
+  height: 300px;
+  overflow: auto;
+}
+
+
+.textP {
+  text-align: center;
+}
+
+.dropdown-list {
+  position: relative !important;
+}
+
+.dropdown-list li {
+  width: 100%;
+}
+
+.modal.show .modal-dialog {
+  top: 150px !important;
+}
+
+.dropdown-alignment {
+  margin-top: 6px;
+}
+
+.rowColor {
+  background-color: #91b3d2;
+  font-weight:bold;
+}
+
+
+/* Workflow Styles */
+.RImg {
+  float: right;
+}
+
+.RImgO {
+  float: left;
+}
+
+.txtSize {
+  font-size: 10px;
+  margin-left: 20px;
+}
+
+/* .RImgEB figure figcaption.txtSize:nth-child(4) {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  color: red;
+} */
+.verticalTxt{
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+  margin-left: 10px;
+}
+.horizontalTxt{
+  writing-mode: horizontal-tb;
+}
+.verticalImg{
+  position: absolute;
+  width: 100px;
+  display: inline-block;
+  margin-left: -15px;
+  
+}
+.WFC>div>span>img {
+  width: 100px;
+}
+
+.WFC .R .RImg img {
+  width: 100px;
+}
+
+.RE {
+  width: 100px;
+}
+
+.RImg figure img {
+  width: 100px;
+  float: right;
+}
+
+
+.RImgO figure img {
+  float: left;
+  width: 100px;
+}
+
+.RImgOB img {
+  position: absolute;
+  width: 100px;
+  height: 68px;
+  /* margin-top: 28px;
+  margin-left: -40px; */
+  /* margin-top: -15px; */
+  margin-left: -20px;
+}
+
+.RImgEB img {
+  position: absolute;
+  width: 100px;
+  height: 68px;
+  margin-left: -20px;
+}
+
+.WFC>span>img {
+  position: absolute;
+  width: 100px;
+  height: 68px;
+  margin-top: 28px;
+  margin-left: -50px;
+}
+
+
+.ag-body-horizontal-scroll-viewport {
+  overflow-x: hidden;
+}

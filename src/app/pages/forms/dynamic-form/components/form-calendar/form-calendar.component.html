@@ -1,0 +1,37 @@
+<div class="row p-5 animated fadeIn">
+  <div class="kanban-board col-md-12" [ngStyle]="{'background-color':setColor()}">
+    <header class="kanban-board-header success">
+      <div class="kanban-title-board">
+          <app-common-form-labels [widget]="config"></app-common-form-labels>
+        <!-- <img [src]='WidgetInfo.displayIcon' alt="{{WidgetInfo.displayText}}" class="dragged_Widget_Img">
+        {{WidgetInfo.displayText}}  -->
+      </div>
+      <app-common-formaction-view [config]="config" *ngIf="ispreview!='preview' &&  ispreview != 'Edit'"></app-common-formaction-view>
+    </header>
+    <form [formGroup]="group">
+      <div class="form-group form-group-default" *ngIf="ispreview == 'preview' || ispreview == 'Edit'">
+        <!-- <label for="form-calendar" class="p-5">{{config[widgetKey.label] || "Calendar" }}
+          <span class="required-label" *ngIf="config[widgetKey.isRequired]">*</span>
+        </label> -->
+        <span *ngIf="ispreview == 'preview'">
+          <input *ngIf="group.get([config[widgetKey._id]]).value" type="text" id="{{config[widgetKey._id]}}" class="form-control"  [value]="group.get([config[widgetKey._id]]).value |date:'shortDate'" [formControlName]="config[widgetKey._id]" [ngClass]="{'disabledEvent':ispreview == 'preview' }" />
+          <input *ngIf="!group.get([config[widgetKey._id]]).value || group.get([config[widgetKey._id]]).value==''" type="text" id="{{config[widgetKey._id]}}" class="form-control"    [ngClass]="{'disabledEvent':ispreview == 'preview' }" />
+        </span>
+        <span *ngIf="ispreview == 'Edit'">
+          <input type="text" appCalendar class="form-control mb-3"  bsDatepicker [formControlName]="config[widgetKey._id]" 
+          [bsConfig]="{ dateInputFormat: dateFormat.mmddyyy, containerClass: 'theme-dark-blue' }"/> 
+            
+        </span>
+        <!-- <span *ngIf="ispreview == 'Edit' && config[this.widgetKey.disabled] != true">
+          <input type="text" appCalendar class="form-control mb-3"  bsDatepicker [formControlName]="config[widgetKey._id]"
+          [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }" 
+            /> 
+            
+        </span> -->
+        <app-validation [dynamicFormControlRef]="group.get(config[widgetKey._id])">
+
+          </app-validation>
+      </div>
+    </form>
+  </div>
+</div>

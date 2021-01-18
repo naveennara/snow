@@ -1,0 +1,95 @@
+
+<div class="row">
+<div class="col-sm-10">
+  <app-breadcumb-layout [isBreadCumItemsShow]="true" [breadCumpList]="breadCumbs"></app-breadcumb-layout>
+
+</div>
+
+</div>
+
+  <div class="card custom-card-assignment-list webuser-assignment-card">
+      <div class="card-header">
+          <div class="card-head-row">
+           <p class="card-category wu-header-text" *ngIf="workOrdersList && workOrdersList.length>0">
+              Showing ({{workOrdersList.length}}) out of
+              &nbsp;{{totalworkOrders}}
+              <span *ngIf="fillterBy == null">All -&nbsp;</span>
+              <span *ngIf="filterBy == 'New'">Assigned -&nbsp;</span>
+              <span *ngIf="filterBy == 'Reassigned'">Re-assigned -&nbsp;</span>
+              Work Orders
+            </p> 
+      
+            <div class="card-tools">
+              <div class="btn-group">
+                <button type="button" class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2" data-toggle="dropdown"
+                  aria-expanded="false" title="{{constants['label_Filter']}}">
+                  <i class="fas fa-filter icon-color"></i>
+                </button>
+
+                <button type="button" class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2" 
+                aria-expanded="false" title="{{constants['addNewWorkOrder']}}" (click)="goToForm()">
+                <i class="fa fa-plus icon-color" aria-hidden="true"></i>
+
+                </button>
+                <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-sm btn-transparent"
+                  (click)="back()" title="{{constants['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+                   </button>
+            
+                <ul class="dropdown-menu dropdown-menu-right animated fadeIn" x-placement="bottom-end">
+                  <li *ngFor="let filterItem of filtersList">
+                    <a [class.active]='filterItem.value == filterBy' href="javascript:;" class="dropdown-item p-l-10" (click)="getRecordsFillter(filterItem.value)"
+                     >
+                      <ul class="wu-list-item-ul">
+                          <li class=" wu-list-item" >
+                              {{filterItem.name}}
+                          </li>
+            
+                      </ul>
+                    </a>
+                  </li>
+                </ul>
+             
+              </div>
+            </div>
+      
+          </div>
+      </div>
+      <div class="card-body">
+        <div class="task-list list-item-mouse-over" infinite-scroll
+        [infiniteScrollDistance]="scrollDistance"
+        [infiniteScrollUpDistance]="scrollUpDistance"
+        [infiniteScrollThrottle]="throttle"
+        (scrolled)="getAssignmentListOnScrolldown()" *ngFor="let workorder of workOrdersList"
+        [ngStyle]="{'border-left':getType(workorder[workOrdersListKeys.status])}" (click)="gotoFormView(workorder)">
+        <div class="d-flex">
+          <div class="flex-1 ml-2 pt-1">
+            <h6 class="text-uppercase fw-bold mb-1">
+              <a href="javascript:;" 
+                title="Work Orders">{{workorder[displayKey]}}</a>
+                <span class="text pl-3"
+                [class.text-danger]="workorder[workOrdersListKeys.status] === 3"
+                [class.text-success]="workorder[workOrdersListKeys.status] === 0">
+                {{workorder[workOrdersListKeys.status]==0?'Assigned': 'Re-assigned'}} 
+                </span> 
+            </h6>
+          </div>
+          
+        </div>
+        <div class="separator-dashed"></div>
+      </div>
+
+      <div class="wu-no-data-found" *ngIf="workOrdersList.length == 0 && !isIntialRequestInProcess && intialRequestStatus === 3">
+          <app-no-data-found></app-no-data-found>
+      </div>
+      
+
+      </div>
+  </div>
+
+  <app-page-loader *ngIf="isIntialRequestInProcess"></app-page-loader>
+
+  <!-- rest API success template start -->
+  <app-api-call-res  (tryAgin)= "tryAginForGetRecords()" *ngIf="(intialRequestStatus === 2 || intialRequestStatus === 1) && !isIntialRequestInProcess"></app-api-call-res>
+  <!-- rest API success template start end -->
+
+  

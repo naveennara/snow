@@ -1,0 +1,51 @@
+<button class="btn btn-icon btn-border btn-round btn-xs mr-2 btn-transparent" (click)="createFormAsTemplate()"
+  aria-controls="collapse" title="{{constantKeys['importTemplate']}}">
+  <i class="fa fa-download icon-color" aria-hidden="true"></i>
+</button>
+
+<ngx-smart-modal #importAsTemplatePopup [identifier]="'importAsTemplatePopup'" [closable]="false">
+  <!-- <div class="card"> -->
+    <div class="modal-header ">
+      <h4 class="modal-title">{{constantKeys['importTemplate']}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="importAsTemplatePopup.close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- <div class="modal-body"> -->
+      <form name="importForm" [formGroup]="importForm" class="form-horizontal">
+        <div class="form-group form-group-default">
+          <label>{{constantKeys['label_Templatename']}}<span class="required-label">*</span></label>
+          <input type="text" id="formname" class="form-control" [formControlName]="constantKeys['formname']" />
+          <div *ngIf="submitted">
+            <span *ngIf="importForm.value.formname.length=='0'" class="errorText">{{constantKeys['required_TemplateName']}}</span>
+          </div>
+        </div>
+        <div class="form-group form-group-default">
+          <label>{{constantKeys['label_Categories']}}<span class="required-label">*</span></label>
+          <!-- <ng-select [items]="categoriesList"
+                        [addTag]="addTag"
+                        [hideSelected]="true"
+                        multiple="true"
+                        bindLabel="name" [formControlName]="constantKeys['categories']">
+          </ng-select> -->
+          <ng-multiselect-dropdown class="form-control" [placeholder]="'Select Category'" [settings]="dropdownSettings" [data]="categoriesList"
+            [formControlName]="constantKeys['categories']" name="formzCategory" >
+          </ng-multiselect-dropdown>
+          <div *ngIf="submitted">
+            <span *ngIf="importForm.value.categories.length=='0'" class="errorText">{{constantKeys['required_category']}}</span>
+          </div>
+        </div>
+        <div class="separator-solid"></div>
+        <div class="btn-group d-flex justify-content-center p-t-10">
+          <button type="button" class="btn btn-outline-primary btn-rounded btn-sm mr-2 buttonBorder" (click)="CreateTemplate()">
+            {{constantKeys['label_Create']}}
+          </button>
+          <button type="button" class="btn btn-outline-danger btn-rounded btn-sm mr-2 buttonBorder"
+            (click)="importAsTemplatePopup.close()">
+            {{constantKeys['label_Cancel']}}
+          </button>
+        </div>
+      </form>
+    <!-- </div> -->
+  <!-- </div> -->
+</ngx-smart-modal>

@@ -1,0 +1,177 @@
+<div class="card full-height">
+  <div class="card-header">
+    <div class="card-head-row">
+      <div class="card-title"></div>
+      <div class="card-tools">
+        <div class="btn-group">
+          <button type="button" class="btn btn-icon btn-sm btn-transparent mr-2" (click)="toggle()">
+            <i [ngClass]="show?'icon-grid':'icon-list'"></i>
+          </button>
+          <div class="float-right padding">
+            <!-- <a href="javascript:;" *ngIf="taskType == 'projectTask'" (click)="BackToProjects()">
+              <i class="fas fa-arrow-left" title="Back"></i>
+            </a> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="card-body" *ngIf="tasksList  && tasksList.length >0">
+    <!-- Task List View -->
+    <div *ngIf="show">
+      <div class="task-list"
+        *ngFor="let task of tasksList | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: totalCount }"
+        [ngStyle]="{'border-left':getTaskType(task.statusOfTheTask)}">
+        <div class="d-flex">
+          <div class="flex-1 ml-2 pt-1">
+            <h6 class="text-uppercase fw-bold mb-1">
+              <span  title="{{constants['label_WorkAssignments']}}">{{task.name}}</span>
+              <span class="text pl-3" [class.text-secondary]="task.statusOfTheTask === 'New'"
+                [class.text-warning]="task.statusOfTheTask === 'Assigned'"
+                [class.text-primary]="task.statusOfTheTask === 'In progress'"
+                [class.text-success]="task.statusOfTheTask === 'Completed'">{{task.statusOfTheTask}}
+              </span>
+            </h6>
+            <!-- Task Dates -->
+            <small class="text-muted">
+              <span title="{{constants['label_StartDate']}}">
+                  <i class="fas fa-calendar-check icon-color"></i> {{task.startDate | date:'mediumDate'}}
+              </span>|
+              <span title="{{constants['label_EndDate']}}">
+                  <i class="fas fa-calendar-times icon-color"></i> {{task.endDate | date:'mediumDate'}}
+              </span>|
+              <span class="text-muted" title="{{constants['label_WorkflowStatus']}}"><img [src]='headerIcons.workflowGrey' class="catImg"> {{task.workflowStatus}}<span *ngIf="task.workflowLevel == 0">(Task Level)</span>
+              <span *ngIf="task.workflowLevel == 1">(Record Level)</span></span> |
+              <span class="text-muted" title="{{constants['label_PendingDays']}}"><img [src]='displayIcons.pendingDays' class="catImg">  {{task.workFlowAssignedToAdminOn  | nofdays :  task.workflowStatus}}</span>
+
+            </small>
+            <!-- End Task Dates -->
+          </div>
+          <!-- Task Action Bar -->
+          <div class="float-right task-ActionBar pt-3">
+            <!-- <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="editTask(task)" title="Edit">
+              <i class="far fa-edit icon-color"></i>
+            </button> -->
+
+          
+            <button
+              *ngIf="task.statusOfTheTask === 'workflow Cycle Started' && globalInfo._id === task.workFlowAssignedTo?._id"
+              type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="acceptWorkflow(task)"
+              title="{{constants['label_Accept']}}">
+              <i class="fa fa-check icon-color"></i>
+            </button>
+
+            <button
+              *ngIf="task.statusOfTheTask === 'workflow Cycle Started' && globalInfo._id === task.workFlowAssignedTo?._id"
+              type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="rejectWorkflow(task)"
+              title="{{constants['label_Reject']}}">
+              <i class="fa fa-times icon-color"></i>
+            </button>
+            <button *ngIf="task.workflowLevel == 0 && task.statusOfTheTask === 'workflow Cycle Started'"
+            class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="viewWorkFlowHistory(task)"
+            title="View workflow history">
+            <i class="fas fa-history icon-color"></i>
+          </button>
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+            (click)="assignWA(task)" title="{{constants['label_WorkAssignments']}}">
+            <i class="far fa-clipboard icon-color"></i>
+          </button>
+
+          </div>
+          <!-- End Task Action Bar -->
+        </div>
+        <div class="separator-dashed"></div>
+      </div>
+    </div>
+    <!-- End Task List View -->
+
+    <!-- TASK GRID VIEW -->
+    <div class="row" *ngIf="!show">
+      <div class="col-md-3 p-10"
+        *ngFor="let task of tasksList | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: totalCount }">
+        <div class="card card-info taskGrid">
+          <div class="card-body bubble-shadow">
+            <h2 class="py-2 mb-0">
+                <a href="javascript:;" (click)="assignWA(task)" title="{{task.name}}">{{task.name  | shortText :8}}</a>
+              <!-- <span class="badge badge-success float-right">Completed</span> -->
+              <span class="badge float-right" [class.badge-secondary]="task.statusOfTheTask === 'New'"
+                [class.badge-warning]="task.statusOfTheTask === 'Assigned'"
+                [class.badge-primary]="task.statusOfTheTask === 'In progress'"
+                [class.badge-success]="task.statusOfTheTask === 'Completed'">{{task.statusOfTheTask}}
+              </span>
+            </h2>
+            <div class="row">
+              <div class="col-8 pr-0">
+                <h3 class="fw-bold mb-1">{{task.description}}</h3>
+                <div class="text-small text-uppercase fw-bold op-8" title="{{constants['label_StartDate']}}"> <i class="fas fa-calendar-check icon-white"></i>
+                  {{task.startDate | date:'mediumDate'}}</div>
+                <div class="text-small text-uppercase fw-bold op-8" title="{{constants['label_EndDate']}}"> <i class="fas fa-calendar-times icon-white"></i>
+                  {{task.endDate | date:'mediumDate'}}</div>
+                <div class="text-small text-uppercase fw-bold op-8" title="{{task.workflowStatus}}">
+                    <img [src]='sidebarIcons.workflow' class="catImg m-l-2"> {{task.workflowStatus  | shortText :15}}<span *ngIf="task.workflowLevel == 0">(Task Level)</span>
+                    <span *ngIf="task.workflowLevel == 1">(Record Level)</span></div>
+                    <div class="text-small text-uppercase fw-bold op-8" title="{{constants['label_PendingDays']}}">
+                      <img [src]='displayIcons.pendingDays' class="catImg icon-white m-l-2"> {{task.workFlowAssignedToAdminOn | nofdays :  task.workflowStatus}}</div>
+                <div class="btn-group m-t-2 taskGrid-ActionBar">
+                  <!-- <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+                    (click)="editTask(task)" title="Edit">
+                    <i class="far fa-edit icon-color"></i>
+                  </button> -->
+                  <button
+                    *ngIf="task.statusOfTheTask === 'workflow Cycle Started' && globalInfo._id === task.workFlowAssignedTo?._id"
+                    type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+                    (click)="acceptWorkflow(task)" title="{{constants['label_Accept']}}">
+                    <i class="fa fa-check  icon-white"></i>
+                  </button>
+
+                  <button
+                    *ngIf="task.statusOfTheTask === 'workflow Cycle Started' && globalInfo._id === task.workFlowAssignedTo?._id"
+                    type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+                    (click)="rejectWorkflow(task)" title="{{constants['label_Reject']}}">
+                    <i class="fa fa-times  icon-white"></i>
+                  </button>
+                  <button *ngIf="task.workflowLevel == 0 && task.statusOfTheTask === 'workflow Cycle Started'"
+                  class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="viewWorkFlowHistory(task)"
+                  title="View workflow history">
+                  <i class="fas fa-history icon-white"></i>
+                </button>
+                  <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+                  (click)="assignWA(task)" title="{{constants['label_WorkAssignments']}}">
+                  <i class="far fa-clipboard icon-white"></i>
+                </button>
+                  <!-- <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="getSubmittedRecords(task)"
+                    title="Submitted records">
+                    <img [src]='recordsIcons.submitted' alt="Submitted records">
+                  </button> -->
+                </div>
+              </div>
+              <!-- WA's count is commented -->
+              <!-- <div class="col-4 pl-0 text-right">
+                <h3 class="fw-bold mb-1">26</h3>
+                <div class="text-small text-uppercase fw-bold op-8">Work Assignments</div>
+              </div> -->
+
+              <div class="col-4"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END TASK GRID VIEW -->
+
+  </div>
+  <!-- Error Block -->
+  <div class="card-body" *ngIf="tasksList && !tasksList.length" align="center">
+    <img [src]="Imgsrc" class="img-responsive">
+  </div>
+  <!-- End Error Block -->
+  <div class="card-footer">
+    <div class="row" *ngIf="tasksList && tasksList.length">
+      <pagination-controls class="pagination" (pageChange)="getListOfTasks($event, 'All');pageNumber = $event">
+      </pagination-controls>
+    </div>
+  </div>
+</div>
+

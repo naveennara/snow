@@ -1,0 +1,158 @@
+<h5 class="op-7 mb-2">
+  <span *ngIf="deptName.length">Filtered results of Account: {{deptName}}</span>
+</h5>
+
+<!-- new UI -->
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-head-row">
+          <p class="card-category"  *ngIf="Admins && Admins.length">
+            Showing ({{(pageNumber -1) * limit + 1}} to {{limit * (pageNumber-1) + Admins.length }}) out of
+            {{totalCount}}
+            <span *ngIf="adminType != 'All' && adminType != undefined">&nbsp;- {{adminType}}s&nbsp;</span>
+            <span *ngIf="adminType == 'All' || adminType == undefined">&nbsp;Administrators</span>
+          </p>
+          <div class="card-tools">
+            <div class="btn-group">
+              <button type="button" class="btn btn-icon btn-rounded btn-transparent btn-sm" data-toggle="dropdown"
+                aria-expanded="false" title="{{adminKeys['label_Filter']}}">
+                <i class="fas fa-filter icon-color"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right animated fadeIn" x-placement="bottom-end">
+                <li *ngFor="let list of adminTypes; let i = index" class="adminsLi">
+                  <a href="javascript:;" class="dropdown-item p-l-10" (click)="checkType(list,i)" [class.active]='i == selectedRow'>
+                    <ul class="html-legend legend">
+                      <li *ngIf="list=='All'">
+                        <span style="background-color:#efd9d9"></span>{{list}}
+                      </li>
+                      <li *ngIf="list=='Moderator'">
+                        <span style="background-color:grey"></span>{{list}}
+                      </li>
+                      <li *ngIf="list=='Group Administrator'">
+                        <span style="background-color:#31CE36"></span>{{list}}
+                      </li>
+                      <li *ngIf="list=='Account Administrator'">
+                        <span style="background-color:#FFAD46"></span>{{list}}
+                      </li>
+                    </ul>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-3 my-2"
+            *ngFor="let  admin of Admins | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: totalCount }">
+            <div class="card card-flip h-100">
+              <div class="card-front" [ngStyle]="{'border-left':setColor(admin.adminType)}">
+                <div class="card-body card-shadow">
+                  <div class="avatar avatar-md float-right">
+                    <img src="{{imgUrldataAdmin+admin.imageurl}}" (error)="errorHandler($event)" alt="..." class="avatar-img rounded-circle avatarBorder">
+                    <span class="notification"  *ngIf="admin.isAccountLocked">
+                      <i class="fas fa-lock" style="color: #dc3545d1;text-shadow: 0 0 4px #dcf7f8;"></i>
+                    </span>
+                  </div>
+                  
+                  <h4 class="card-title" title="{{admin[adminKeys['name']]+' '+admin[adminKeys['lastname']]}}">{{admin.name || 'Admin Name'| shortText :20}} {{admin.lastname}}</h4>
+                  <div class="card-desc">{{admin.adminType}}</div>
+                </div>
+              </div>
+
+              <div class="card-back" [ngStyle]="{'border-left':setColor(admin.adminType)}">
+                <div class="card-body card-shadow">
+                  
+                  <div class="avatar avatar-md float-right">
+                    <img src="{{imgUrldataAdmin+admin.imageurl}}" (error)="errorHandler($event)" alt="..." class="avatar-img rounded-circle avatarBorder">
+                    <span class="notification" tooltip="Account Locked" placement="bottom"  *ngIf="admin.isAccountLocked">
+                      <i class="fas fa-lock" style="color: #dc3545d1;text-shadow: 0 0 4px #dcf7f8;"></i>
+                    </span>
+                  </div>
+                  <h3 class="card-title" title="{{admin[adminKeys['username']]}}">{{admin[adminKeys['username']] | shortText :24}}</h3>
+                  <div class="btn-group" style="margin-top:0px;margin-left:-5px;">
+                  
+                    <button type="button" title="{{adminKeys['label_Unlock']}}" placement="bottom" 
+                      class="btn btn-icon btn-xs" 
+                      (click)="unlockUser(admin)" *ngIf="admin.isAccountLocked">
+                      <i class="fas fa-unlock-alt icon-color"></i>
+                    </button>
+
+                    <button type="button" title="{{adminKeys['label_Edit']}}" placement="bottom" *ngIf="loginDetails.type == 0 || (loginDetails.type == 1 && editAdmin && admin.createdBy == loginDetails._id)"
+                      class="btn btn-icon btn-xs" (click)="editAdministrator(admin)">
+                      <i  class="far fa-edit icon-color"></i>
+                    </button>
+
+                    <button type="button" title="{{adminKeys['label_Preview']}}" placement="bottom" *ngIf="loginDetails.type == 1 && (!editAdmin || admin.createdBy != loginDetails._id)"
+                      class="btn btn-icon btn-xs " (click)="editAdministrator(admin)">
+                      <i  class="far fa-eye icon-color"></i>
+                    </button>
+
+                    <button type="button" class="btn btn-icon btn-xs" *ngIf="loginDetails.type == 0"
+                        (click)="deleteAdministrator1(admin._id)" title="{{adminKeys['label_Delete']}}">
+                        <i class="far fa-trash-alt icon-color"></i>
+                    </button>
+                    
+                    <button type="button" class="btn btn-icon btn-xs" *ngIf="loginDetails.type == 1 &&  editAdmin && admin.createdBy == loginDetails._id"
+                      (click)="deleteAdministrator1(admin._id)" title="{{adminKeys['label_Delete']}}">
+                        <i class="far fa-trash-alt icon-color"></i>
+                    </button>
+                    <button type="button" class="btn btn-icon btn-xs" *ngIf="loginDetails.type == 0 || (loginDetails.type == 1 && editAdmin && admin.createdBy == loginDetails._id)" (click)="openConfirmation(admin)" title="{{adminKeys['label_resetPassword']}}">
+                      <i class="fa fa-sync-alt icon-color"></i>
+                  </button>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <app-delete-template (deleteOrCancel)="confirmDelete($event)"></app-delete-template>
+        <div class="card-body" *ngIf="Admins && !Admins.length" align="center">
+          <img [src]="noDataImg" class="img-responsive">
+        </div>
+      </div>
+
+      <div class="row m-15" *ngIf="Admins && Admins.length && !paginationHide">
+        <pagination-controls (pageChange)="getAdmins($event, 'All');pageNumber = $event"></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End New UI -->
+<!-- No Preview Block @PK -->
+<!-- <div class="mx-auto d-flex justify-content-center flex-wrap" *ngIf="Admins && !Admins.length" align="center">
+  <img [src]="noDataImg" class="img-responsive">
+</div> -->
+<ngx-smart-modal #passwordModel [closable]="false" [identifier]="'passwordModel'">
+  <div class="modal-header">
+      <h5 class="modal-title"  *ngIf="!resetSuccessfull">{{adminKeys['confirmActionMsg']}}</h5>
+      <h5 class="modal-title"  *ngIf="resetSuccessfull">{{adminKeys['informationHeader']}}</h5>
+
+      <button aria-label="Close" class="close btn-lg" data-dismiss="modal" type="button" (click)="passwordModel.close()">
+          <span aria-hidden="true"><i class="fas fa-times icon-color"></i></span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <p class="m-b-5" *ngIf="!resetSuccessfull">{{adminKeys['resetPasswordMsg']}}</p>
+      <p class="m-b-5" *ngIf="resetSuccessfull">{{adminKeys['pwdChangedMsg']}} <b>{{password}}</b></p>
+
+  </div>
+  <div class="modal-footer p-10" *ngIf="!resetSuccessfull">
+      <button type="button" 
+          class="btn btn-outline-primary btn-rounded btn-sm mr-2" 
+          (click)="resetPassword()">{{adminKeys['label_Yes']}}
+      </button>
+  
+      <button type="button" class="btn btn-outline-danger btn-rounded btn-sm" (click)="passwordModel.close()">
+        {{adminKeys['label_No']}}
+      </button>
+  </div>
+
+ 
+</ngx-smart-modal>

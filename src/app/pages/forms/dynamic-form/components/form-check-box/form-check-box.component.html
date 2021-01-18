@@ -1,0 +1,34 @@
+<div class="row p-5 animated fadeIn">
+    <div class="kanban-board col-md-12" [ngStyle]="{'background-color':setColor()}">
+      <header class="kanban-board-header success">
+        <div class="kanban-title-board">
+            <app-common-form-labels [widget]="config"></app-common-form-labels>
+          <!-- <img [src]='WidgetInfo.displayIcon' alt="{{WidgetInfo.displayText}}" class="dragged_Widget_Img">
+          {{WidgetInfo.displayText}}  -->
+        </div>
+        <app-common-formaction-view [config]="config" *ngIf="ispreview!='preview' &&  ispreview != 'Edit'"></app-common-formaction-view>
+      </header>
+      <form [formGroup]="group" >
+          <div class="form-group form-group-default setHeight" *ngIf="ispreview == 'preview' || ispreview == 'Edit'">
+          <!-- <label class="p-5">{{config[widgetKey.label]}}
+              <span class="required-label" *ngIf="config[widgetKey.isRequired]">*</span>
+          </label> -->
+           <div class="custom-control custom-checkbox" >
+              <div class="form-check" >
+               
+                  <label class="custom-checkbox custom-control checkbox-info" *ngFor="let entry of config[widgetKey.options];let i =index" [ngClass]="{'disabledEvent':ispreview == 'preview'}">
+                      <input type="checkbox" class="custom-control-input"  [value] ="entry.value"   [checked]="data ? data[this.config[widgetKey._id]]?data[this.config[widgetKey._id]].split(',').indexOf(entry.value) >-1:false :false"
+                      [ngClass]="{'disabledEvent':ispreview == 'preview' }" (click)="getSelectedCheckBoxValue(config[widgetKey._id],entry.value)"><span class="custom-control-label">{{entry[widgetKey.optionDisplayName]}}</span>
+                    </label>
+                    <app-validation [dynamicFormControlRef]="group.get(config[widgetKey._id])">
+
+                      </app-validation>
+                <!-- <input type="checkbox" class="custom-control-input" id="i" [value] ="entry.value"  
+                [ngClass]="{'disabledEvent':ispreview == 'preview' }" [formControlName]="config[widgetKey._id]">
+                <label class="custom-control-label" for="i"  [ngClass]="{'disabledEvent':ispreview == 'preview' }">{{entry[widgetKey.optionDisplayName]}}</label> -->
+              </div>
+            </div>
+            </div>
+      </form>
+    </div>
+</div>

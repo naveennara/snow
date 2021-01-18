@@ -1,0 +1,56 @@
+<div class="lessons-list" *ngIf="!data.length else loading">
+  <img [src]="noDataImg" class="img-responsive">
+</div>
+<ng-template #loading>
+  <div class="separator-dashed"></div>
+  <div class=" float-right">
+    <button class="btn btn-link btn-transparent p-0"  (click)="add()"
+    title="{{constants['label_Add']}}">
+    <i class="fas fa-plus icon-color px-1"></i>Add
+  </button>
+    <button class="btn btn-link btn-transparent"  (click)="editTable()"
+    title="{{constants['label_Edit']}}">
+    <i class="far fa-edit icon-color px-1"></i>Edit
+  </button>
+    <button class="btn btn-primary btn-round btn-sm" (click)="submit()" [ngClass]="{
+      'diasbleButton':!showSubmit}">
+      Submit
+    </button>
+  </div>
+  <form [formGroup]="tableForm">
+    <div class="table-responsive">
+      <table class="table table-bordered table-condensed table-hover">
+        <thead>
+          <tr  class="bg-info colorWhite">
+            <th scope="col">#</th>
+            <th scope="col" *ngFor="let item of keys; let i = index;"> {{item}}</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody [formArrayName]="[constants.options]"
+          *ngFor=" let i = index;let option of tableForm.get('options').controls | paginate: { itemsPerPage: limit, currentPage: pageNumber }">
+          <tr role='row' [formGroupName]="[i  + (pageNumber - 1) * limit]">
+            <th scope="row">{{ i + 1 + (pageNumber - 1) * limit}}</th>
+            <td *ngFor="let item of keys;let j=index">
+              <span [hidden]="edit">{{option.value[item]}}</span>
+              <input [hidden]="!edit" class="form-control m-t-5 m-b-5 wpx-150" type="text" [formControlName]="item" (change)="onchange(i  + (pageNumber - 1) * limit)" >
+            </td>
+            <td >
+              <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+                *ngIf="!(isTableColumnEditshow && selectedIndex == i)" (click)="removeIndex(i  + (pageNumber - 1) * limit)" title="{{constants['label_Delete']}}">
+                <i class="far fa-trash-alt" aria-hidden="true"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row">
+      <span class="col-md-9">
+        <pagination-controls (pageChange)="pageNumber = $event"></pagination-controls>
+      </span>
+  
+    </div>
+  </form>
+  <app-delete-template (deleteOrCancel)="confirmDelete($event)"></app-delete-template>
+</ng-template>

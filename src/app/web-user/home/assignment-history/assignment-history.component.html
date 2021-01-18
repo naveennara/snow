@@ -1,0 +1,84 @@
+
+<app-breadcumb-layout [isBreadCumItemsShow]="true" [breadCumpList]="breadCumbs"></app-breadcumb-layout>
+
+
+
+  <div class="card custom-card-assignment-list webuser-assignment-card">
+    
+      <div class="card-header">
+          <div class="card-head-row">
+           <p class="card-category wu-header-text" *ngIf="historyList && historyList.length>0">
+              Showing ({{historyList.length}}) out of
+              &nbsp;{{totalCount}}
+              Work Orders
+            </p> 
+            <div class="card-tools">
+              <div class="btn-group">
+                <div class="float-right padding">
+                  <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+                  (click)="back()" title="Back"><i class="fas fa-arrow-left icon-color"></i>
+                   </button>
+                </div>
+              </div>
+            </div>
+        
+          </div>
+      </div>
+    <div class="card-body" >
+<!-- 
+        <div class="list-group "  infinite-scroll
+
+        [infiniteScrollDistance]="scrollDistance"
+        [infiniteScrollUpDistance]="scrollUpDistance"
+        [infiniteScrollThrottle]="throttle"
+        (scrolled)="getAssignmentListOnScrolldown()"
+        *ngIf="historyList.length > 0"
+        >
+            <div  (click)="gotoFormView(historyRecord)" class="list-group-item list-group-item-action flex-column align-items-start webuser-cursor-pointer history-list-item" *ngFor="let historyRecord of historyList">
+              <div class="d-flex w-100 justify-content-between">
+                <h5  class="mb-1 history-name"  >{{historyRecord[displayKey]}}</h5>
+                <div class="kanban-title-button d-inline-flex" >
+                    <p class="mb-1">{{historyRecord[historyRecordsListKeys.submittedTime] | dateAgo}}</p>
+                </div>
+              </div>
+
+            </div>
+
+        </div> -->
+
+        <div class="task-list list-item-mouse-over" infinite-scroll
+        [infiniteScrollDistance]="scrollDistance"
+        [infiniteScrollUpDistance]="scrollUpDistance"
+        [infiniteScrollThrottle]="throttle"
+        (scrolled)="getAssignmentListOnScrolldown()" *ngFor="let historyRecord of historyList" style="cursor: pointer;"
+       (click)="gotoFormView(historyRecord)">
+        <div class="d-flex">
+          <div class="flex-1 ml-2 pt-1">
+            <h6 class="text-uppercase fw-bold mb-1">
+              <a href="javascript:;" 
+                title="Work Orders">{{historyRecord[displayKey]}}</a>
+                <span class="text pl-3" style="float: right;">
+                {{historyRecord[historyRecordsListKeys.submittedTime] | dateAgo}}
+                </span> 
+            </h6>
+          </div>
+          
+        </div>
+        <div class="separator-dashed"></div>
+      </div>
+
+
+
+        <div class="wu-no-data-found" *ngIf="historyList.length == 0 && !isIntialRequestInProcess && intialRequestStatus === 3">
+            <app-no-data-found></app-no-data-found>
+          </div>
+    </div>
+  </div>
+  <app-page-loader *ngIf="isIntialRequestInProcess"></app-page-loader>
+
+  <!-- rest API success template start -->
+  <app-api-call-res  (tryAgin)= "tryAginForGetHistory()" *ngIf="(intialRequestStatus === 2 || intialRequestStatus === 1) && !isIntialRequestInProcess"></app-api-call-res>
+  <!-- rest API success template start end -->
+
+
+

@@ -1,0 +1,45 @@
+<div class="page-inner">
+  <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pb-3">
+    <div>
+      <h2 class="pageTitle">
+          <img [src]="pageDetails['pageIcon']" class="headerImg mr-2">{{pageDetails['pageName']}}</h2> 
+      <ul class="breadcrumbs" [hidden]="!breadcrumbs.length">
+        <li class="nav-home">
+          <a href="javascript:" (click)="home()">
+            <i class="flaticon-home"></i>
+          </a>
+        </li>
+        <!-- <li class="separator">
+          <i class="flaticon-right-arrow"></i>
+        </li> -->
+        <li class="nav-item" *ngFor="let item of breadcrumbs">
+          <!-- <div [hidden]="item.length==0"> -->
+              <i class="flaticon-right-arrow" *ngIf="item!=undefined && item!=''"></i>
+              <a href="javascript:" *ngIf="item!=undefined && item!=''">{{item}}</a>
+          <!-- </div> -->
+        </li>
+      </ul>
+    </div>
+   
+    <div class="ml-md-auto py-2 py-md-0 mr-2" [hidden]="pageDetails['hideSearch'] || breadcrumbs.length">
+      <app-search (searchEvent)="callMe($event)" [headerInputs]="headerInputs"></app-search>
+    </div>
+
+    <div style="float:right;" [hidden]="!showCreateButton || breadcrumbs.length || pageDetails['hideCreate']">
+      <div class="dropdown" *ngIf="ellipseList && ellipseList.length>0">
+        <button class="btn-dropdown btn btn-icon btn-round btn-transparent pulse" data-toggle="dropdown"
+          aria-expanded="false" title="Actions">
+          <i class="icon-options-vertical"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right animated fadeIn" x-placement="bottom-end">
+          <li *ngFor="let list of ellipseList">
+            <a href="javascript:;" class="dropdown-item" (click)="create(list)"> {{list}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,23 @@
+<div class="row animated fadeIn p-5">
+  <div class="kanban-board col-md-12" [ngStyle]="{'background-color':setColor()}">
+    <header class="kanban-board-header success">
+      <div class="kanban-title-board">
+        <app-common-form-labels [widget]="config"></app-common-form-labels>
+      </div>
+      <app-common-formaction-view [config]="config" *ngIf="ispreview!='preview' &&  ispreview != 'Edit'"></app-common-formaction-view>
+    </header>
+    <form [formGroup]="group">
+    <div class="form-group form-group-default" *ngIf="ispreview == 'preview' ||ispreview == 'Edit' ">
+      <!-- <label for="form-input" class="p-5">{{config[widgetKey.label] || "User Properties"}} 
+        <span class="required-label" *ngIf="config[widgetKey.isRequired]">*</span>
+      </label> -->
+      <span >
+      <input  type="text" id="form-input" class="form-control"  [formControlName]="config[widgetKey._id]" [readonly]="ispreview == 'preview'">
+      <app-validation [dynamicFormControlRef]="group.get(config[widgetKey._id])">
+        </app-validation>
+      <!-- [ngClass]="{'disabledEvent':ispreview == 'preview' }" -->
+    </span>
+    </div>
+  </form>
+  </div>
+</div>

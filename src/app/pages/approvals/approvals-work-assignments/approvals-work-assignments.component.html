@@ -1,0 +1,59 @@
+
+<div class="card full-height">
+  <div class="card-header">
+    <div class="card-head-row">
+      <div class="card-title">{{taskName}} - Work Assignments</div>
+      <div class="card-tools">
+       
+        <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="BackToTasks()"
+              title="{{constants['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+        </button>
+        <!-- <div class="float-right padding">
+          <a href="javascript:;" (click)="BackToTasks()">
+              <i class="fas fa-arrow-left" title="Back"></i>
+          </a>
+        </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="card-body" *ngIf="taskWAList  && taskWAList.length >0">
+    <div class="taskWA-list" *ngFor="let taskWA of taskWAList;let i='index'">
+      <div class="d-flex">
+        <div class="flex-1 ml-2 pt-1">
+          <h6 class="text-uppercase fw-bold mb-1">{{taskWA.name}}</h6>
+          <small class="text-muted">
+            <span title="{{constants['label_StartDate']}}">
+              <i class="fas fa-calendar-check icon-color"></i> {{taskWA.startDate | date:'mediumDate'}}
+            </span>|
+            <span title="{{constants['label_EndDate']}}">
+              <i class="fas fa-calendar-times icon-color"></i> {{taskWA.endDate | date:'mediumDate'}}
+            </span>
+          </small>
+        </div>
+        <div class="float-right taskWA-ActionBar pt-3">
+         
+          <button class="btn btn-icon btn-border btn-round btn-xs btn-transparent mr-2"
+          (click)="getSubmittedRecords(taskWA)" title="{{constants['label_Submitted']}}">
+          <img [src]='recordsIcons.getRecords' alt="{{constants['label_Submitted']}}">
+        </button>
+        <!-- <button *ngIf="isPrepop" class="btn btn-icon btn-border btn-round btn-xs btn-transparent mr-2"
+        (click)="getPendingRecords(taskWA)" title="Pending records">
+        <img [src]='recordsIcons.pending' alt="Pending records">
+      </button> -->
+          <!-- <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+          (click)="deleteTaskAssignment(taskWA._id)" title="Delete Work Assignment">
+            <i class="far fa-trash-alt"></i>
+          </button> -->
+        </div>
+      </div>
+      <div class="separator-dashed"></div>
+    </div>
+    
+  </div>
+  <div *ngIf="taskWAList && !taskWAList.length" align="center">
+    <img [src]="Imgsrc" class="img-responsive">
+  </div>
+ 
+</div>
+
+

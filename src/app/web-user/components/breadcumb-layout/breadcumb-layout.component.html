@@ -1,0 +1,22 @@
+
+<div class="page-inner">
+  <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pb-3">
+    <div>
+      <h2 class="pageTitle">{{breadCumpList[0].name}}</h2>
+      <ul class="breadcrumbs">
+        <li class="nav-home">
+          <a href="javascript:" (click)="goOnClick(0)">
+            <i class="flaticon-home"></i>
+          </a>
+        </li>
+        <li class="nav-item" *ngFor="let item of breadCumpList; let indexRef= index" (click)="goOnClick(indexRef)">
+          <i class="flaticon-right-arrow" *ngIf="item!=undefined && item!=''"></i>
+          <a href="javascript:" *ngIf="item!=undefined && item!=''">{{item.name}}</a>
+        </li>
+      </ul>
+    </div>
+    <!-- <div class="ml-md-auto py-2 py-md-0 mr-2" [hidden]="breadCumpList.length>1">
+      <app-search (searchEvent)="search($event)"></app-search>
+    </div> -->
+  </div>
+</div>

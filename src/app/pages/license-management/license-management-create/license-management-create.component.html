@@ -1,0 +1,133 @@
+<div class="card shadow mb-4">
+  <div class="card-header">
+    <!-- <h6 class="m-0 font-weight-bold text-primary">{{constants['mapTitle']}}</h6> -->
+    <div class="card-head-row">
+      <div class="card-tools">
+        <div class="btn-group">
+          <div class="float-right padding">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+            (click)="cancel()" title="{{constants['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body mx-4">
+      <form [formGroup]="createLicenses" (ngSubmit)="onCreate()">
+
+    <div class="row">
+            <div class="col-md-12">
+          <div class="form-group  form-group-default">
+            <label for="constants['accountValue']" class="placeholder">{{constants['accountLabel']}}<span
+                class="required-label">*</span></label>
+                <select class="form-control"  [formControlName]="constants['accountValue']" >
+                  <option [ngValue]="null"  disabled></option>
+                   <option [ngValue]="entry" *ngFor="let entry of  departmentList">{{entry.name}}</option>
+                 </select>
+        
+            <div *ngIf="submitted && f[constants['accountValue']].errors" class="invalid-feedback">
+              <span *ngIf="f[constants['accountValue']].errors.required" class="form-text text-red">{{constants['accountReqMsg']}}</span>
+            </div>
+          </div>
+
+          <!-- <div class="form-group  form-group-default">
+            <label for="description" class="placeholder">{{constants['webLicensesLabel']}}<span
+              class="required-label">*</span> </label><br>
+            <input type="text" [formControlName]="constants['adminLicenses']"   maxlength='4'
+             class="form-control input-border-bottom"
+            [ngClass]="{ 'is-invalid': submitted && f[constants['adminLicenses']].errors }" numbersOnly />
+          
+          </div> -->
+          <div class="form-group  form-group-default">
+            <label for="description" class="placeholder">{{constants['licensesLabel']}}<span
+              class="required-label">*</span> </label><br>
+            <input type="text" [formControlName]="constants['licenses']"   maxlength='4'
+            class="form-control input-border-bottom"
+            [ngClass]="{ 'is-invalid': submitted && f[constants['licenses']].errors }" numbersOnly />
+          
+            <div *ngIf="submitted && f[constants['licenses']].errors " class="invalid-feedback">
+                <span *ngIf="f[constants['licenses']].errors.required" class="form-text text-red">{{userkeys['required_Phone']}}</span>
+               
+            </div>
+          </div>
+         <div class="form-group  form-group-default">
+            <label for="description" class="placeholder">{{constants['monthLabel']}}<span
+              class="required-label">*</span></label><br>
+            <input type="text" [formControlName]="constants['validity']"  maxlength='2'
+            class="form-control input-border-bottom"
+            [ngClass]="{ 'is-invalid': submitted && f[constants['validity']].errors }" numbersOnly />
+          
+          </div>
+          
+
+          <div class="form-group">
+            <div class="col-md-4 offset-md-5">
+              <!-- <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3"
+              [disabled]="!createLicenses.valid" >Create</button> -->
+              <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3"
+             >Create</button>
+              <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+              (click)="cancel()">Cancel</button> </div>
+          </div>
+        </div>
+
+      
+
+    
+    </div>
+  </form>
+  </div>
+</div>
+<!-- <div class="card shadow mb-4 wizard-container wizard-round col-md-8">
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary">Create Task</h6>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="createLicenses" (ngSubmit)="onUpdate()">
+
+      <div class="form-group form-group-default">
+        <label for="constants['account']" class="placeholder">{{constants['accountLabel']}} <span
+          class="required-label">*</span></label>
+          <select class="form-control"  [formControlName]="constants['account']" (change)="accountChanged($event.target.value)">
+            <option [ngValue]="null"  disabled></option>
+             <option [value]="entry._id" *ngFor="let entry of  departmentList">{{entry.name}}</option>
+           </select>
+  
+      <div *ngIf="submitted && f[constants['account']].errors" class="invalid-feedback">
+        <span *ngIf="f[constants['account']].errors.required" class="form-text text-red">{{constants['accountReqMsg']}}</span>
+      </div>
+      </div>
+
+
+      <div class="form-group form-group-default">
+        <label for="description" class="placeholder">{{constants['nofLicensesLabel']}} </label><br>
+            <input type="text" [formControlName]="constants['adminLicenses']"  minlength='10' maxlength='12'
+            id="phone" class="form-control input-border-bottom"
+            [ngClass]="{ 'is-invalid': submitted && f.adminLicenses.errors }" numbersOnly />
+          
+      </div>
+      <div class="form-group form-group-default">
+        <label for="description" class="placeholder">{{constants['monthLabel']}} </label><br>
+            <input type="text" [formControlName]="constants['validity']"  minlength='10' maxlength='12'
+            id="phone" class="form-control input-border-bottom"
+            [ngClass]="{ 'is-invalid': submitted && f.validity.errors }" numbersOnly />
+          
+      </div>
+      <div class="form-group form-group-default">
+        <label for="description" class="placeholder">{{constants['nofLicensesLabel']}} </label><br>
+            <input type="text" [formControlName]="constants['adminLicenses']"  minlength='10' maxlength='12'
+            id="phone" class="form-control input-border-bottom"
+            [ngClass]="{ 'is-invalid': submitted && f.adminLicenses.errors }" numbersOnly />
+          
+      </div>
+      <div class="form-group">
+        <div class="col-md-3 offset-md-4">
+          <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3">Create</button>
+          <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+            (click) = goToTaskList()>Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div> -->

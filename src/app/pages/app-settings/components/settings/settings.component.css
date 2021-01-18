@@ -1,0 +1,23 @@
+#version-setting-update-btn :hover{
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.version-update-cancel{
+    color: red;
+    margin-right: 10px;
+}
+
+:host >>> .tooltip-inner {
+    background-color: #009688;
+    color: #fff;
+    height: 10px;
+  }
+  :host >>> .tooltip.top .tooltip-arrow:before,
+  :host >>> .tooltip.top .tooltip-arrow {
+    border-top-color: #009688;
+  }
+.resetColor{
+  color: red;
+  margin-right: 10px;
+}

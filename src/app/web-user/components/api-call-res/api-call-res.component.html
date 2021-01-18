@@ -1,0 +1,12 @@
+<div >
+    <img [src]="noDataFoundUrl" class="rounded centered" alt="Cinque Terre">
+  <!-- <img [src]="noDataFoundUrl" class="centered" width="100px" height="100px"/> -->
+</div>
+<div class="internal-server-down-text-centered" >
+   <h3><b>Internal server down, please try again later</b></h3>
+   <div class="text-center try-again-center" (click)="tryAginCall()"><a>Try Again</a></div>
+</div>
+<!-- <div class="internal-server-down-text-centered" *ngIf="errorType === 1">
+    <h3><b>Something went wrong  ,  please try again </b></h3>
+    <div class="text-center try-again-center" (click)="tryAginCall()"><a>Try Again</a></div>
+ </div> -->

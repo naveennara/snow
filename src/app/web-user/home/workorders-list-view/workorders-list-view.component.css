@@ -1,0 +1,34 @@
+.workorders-list-item{
+  border-left: 1px solid #eae1e1;
+  border-right: 1px solid #eae1e1;
+}
+.fillter-toggle{
+  margin-top: 25px;
+}
+.wu-list-item a.active  {
+  display: inline-block;
+   vertical-align: middle;
+   padding: 0 5px;
+   margin-right: 5px;
+   margin-bottom: 6px;
+   color: #8d9498;
+ }
+
+ .dropdown-menu {
+   position: absolute !important;
+ }
+ .list-item-mouse-over{
+   cursor: pointer;
+ }
+ .wu-no-data-found{
+  text-align: center;
+}
+.wu-list-item{
+  list-style: none;
+  padding-bottom: 10px;
+  padding-left: 0px;
+ 
+}
+.wu-list-item-ul {
+  padding-left: 0px
+}

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="84" viewBox="0 0 120 84">
+  <g id="alarm-clock" transform="translate(-2 -20)">
+    <path id="Path_59" data-name="Path 59" d="M116,28h-2V22a2,2,0,0,0-2-2H100a2,2,0,0,0-2,2v6H94V22a2,2,0,0,0-2-2H80a2,2,0,0,0-2,2v6H8a6,6,0,0,0-6,6V90a6,6,0,0,0,6,6H18a8,8,0,0,0,16,0H90a8,8,0,0,0,16,0h10a6,6,0,0,0,6-6V34a6,6,0,0,0-6-6Zm-14-4h8v4h-8ZM82,24h8v4H82ZM26,100a4,4,0,0,1-4-4h8A4,4,0,0,1,26,100Zm72,0a4,4,0,0,1-4-4h8A4,4,0,0,1,98,100Zm20-10a2,2,0,0,1-2,2H8a2,2,0,0,1-2-2V34a2,2,0,0,1,2-2H116a2,2,0,0,1,2,2Z" fill="#4c4c4c"/>
+    <path id="Path_60" data-name="Path 60" d="M6,80H110V28H6Zm4-48h96V76H10Z" transform="translate(4 8)" fill="#4c4c4c"/>
+    <g id="Group_4" data-name="Group 4" transform="translate(5)">
+      <path id="Path_69" data-name="Path 69" d="M56,34H48a4,4,0,0,0-4,4v8a2,2,0,0,0,4,0V38h8v8a2,2,0,0,0,4,0V38A4,4,0,0,0,56,34Z" transform="translate(42 14)" fill="#4c4c4c"/>
+      <path id="Path_70" data-name="Path 70" d="M56,43v8H48V43a2,2,0,0,0-4,0v8a4,4,0,0,0,4,4h8a4,4,0,0,0,4-4V43a2,2,0,0,0-4,0Z" transform="translate(42 21)" fill="#4c4c4c"/>
+    </g>
+    <path id="Path_71" data-name="Path 71" d="M30,37a2,2,0,0,0-2,2v2a2,2,0,0,0,4,0V39A2,2,0,0,0,30,37Z" transform="translate(32 17)" fill="#4c4c4c"/>
+    <path id="Path_72" data-name="Path 72" d="M30,42a2,2,0,0,0-2,2v2a2,2,0,0,0,4,0V44A2,2,0,0,0,30,42Z" transform="translate(32 22)" fill="#4c4c4c"/>
+    <g id="Group_5" data-name="Group 5" transform="translate(-17)">
+      <path id="Path_69-2" data-name="Path 69" d="M56,34H48a4,4,0,0,0-4,4v8a2,2,0,0,0,4,0V38h8v8a2,2,0,0,0,4,0V38A4,4,0,0,0,56,34Z" transform="translate(42 14)" fill="#4c4c4c"/>
+      <path id="Path_70-2" data-name="Path 70" d="M56,43v8H48V43a2,2,0,0,0-4,0v8a4,4,0,0,0,4,4h8a4,4,0,0,0,4-4V43a2,2,0,0,0-4,0Z" transform="translate(42 21)" fill="#4c4c4c"/>
+    </g>
+    <g id="Group_6" data-name="Group 6" transform="translate(-47)">
+      <path id="Path_69-3" data-name="Path 69" d="M56,34H48a4,4,0,0,0-4,4v8a2,2,0,0,0,4,0V38h8v8a2,2,0,0,0,4,0V38A4,4,0,0,0,56,34Z" transform="translate(42 14)" fill="#4c4c4c"/>
+      <path id="Path_70-3" data-name="Path 70" d="M56,43v8H48V43a2,2,0,0,0-4,0v8a4,4,0,0,0,4,4h8a4,4,0,0,0,4-4V43a2,2,0,0,0-4,0Z" transform="translate(42 21)" fill="#4c4c4c"/>
+    </g>
+    <g id="Group_7" data-name="Group 7" transform="translate(-69)">
+      <path id="Path_69-4" data-name="Path 69" d="M56,34H48a4,4,0,0,0-4,4v8a2,2,0,0,0,4,0V38h8v8a2,2,0,0,0,4,0V38A4,4,0,0,0,56,34Z" transform="translate(42 14)" fill="#4c4c4c"/>
+      <path id="Path_70-4" data-name="Path 70" d="M56,43v8H48V43a2,2,0,0,0-4,0v8a4,4,0,0,0,4,4h8a4,4,0,0,0,4-4V43a2,2,0,0,0-4,0Z" transform="translate(42 21)" fill="#4c4c4c"/>
+    </g>
+  </g>
+</svg>

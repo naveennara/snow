@@ -1,0 +1,61 @@
+<div class="card shadow mb-4">
+  <div class="card-header">
+    <div class="card-head-row">
+      <div class="card-tools">
+        <div class="btn-group">
+          <div class="float-right padding">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+            [routerLink]="['/mainLayout','accounts']" title="{{deptKeys['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <h6 class="m-0 font-weight-bold text-primary">{{deptKeys['header_CreateAcc']}}</h6> -->
+  </div>
+  <div class="card-body mx-4">
+    <form  [autocomplete]="autoCompleteFieldForm" [formGroup]="createDepart" (ngSubmit)="createDepartment()" >
+
+      <div class="form-group form-group-default">
+        <label for="dep1" class="placeholder">{{deptKeys['label_Name']}}<span class="required-label">*</span></label>
+        
+        <input id ="dep1" [autocomplete]="autoCompleteField" name="department" type="text"   class="form-control" [formControlName]="[deptKeys['name']]"
+          [ngClass]="{ 'is-invalid': submitted && f[deptKeys['name']].errors }"  appSpecialCharacter myNoSpaces appTrimValues/>
+
+        <div *ngIf="submitted && f[deptKeys['name']].errors" class="invalid-feedback">
+          <span *ngIf="f[deptKeys['name']].errors.required" class="emailText">{{deptKeys['required_AccName']}}</span>
+          <span *ngIf="!f[deptKeys['name']].errors.required && f[deptKeys['name']].errors.whitespace" class="form-text text-red">{{f[deptKeys['name']].errors.whitespace}}</span>
+
+        </div>
+      </div>
+
+      <div class="form-group form-group-default">
+        <label for="email" class="placeholder">{{deptKeys['label_Email']}}<span class="required-label">*</span></label>
+        <input name ="department-data-eneter" [autocomplete]="autoCompleteField"  id="email"  type="email"  class="form-control" [formControlName]="[deptKeys['email']]"
+          [ngClass]="{ 'is-invalid': submitted && f[deptKeys['email']].errors }" appTrimValues required />
+          <span *ngIf="f[deptKeys['email']].dirty && f[deptKeys['email']].invalid && f[deptKeys['email']].value.length>0" class="emailText">{{deptKeys['validation_Email']}}</span>
+          <span *ngIf="f[deptKeys['email']].dirty && f[deptKeys['email']].value.length==0 && !submitted" class="emailText">{{deptKeys['required_Email']}}</span>
+          <div *ngIf="submitted && f[deptKeys['email']].errors " class="invalid-feedback">
+              <span *ngIf="f[deptKeys['email']].errors.invalid" class="emailText">{{deptKeys['validation_Email']}}</span>
+              <span *ngIf="f[deptKeys['email']].errors.required" class="emailText">{{deptKeys['required_Email']}}</span>  
+            </div>
+      </div>
+
+
+      <div class="form-group form-group-default">
+        <label for="description" class="placeholder">{{deptKeys['label_Description']}}</label>
+        <textarea id="description" class="form-control" [formControlName]="[deptKeys['description']]"  rows="3"></textarea>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-6 offset-md-5">
+          <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3">{{deptKeys['label_Create']}}</button>
+          <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+            [routerLink]="['/mainLayout','accounts']">{{deptKeys['label_Cancel']}}</button>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</div>

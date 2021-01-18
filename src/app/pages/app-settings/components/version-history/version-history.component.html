@@ -1,0 +1,206 @@
+<div>
+    <div class="card" *ngFor="let version of versionList; let i = index" id="version-card">
+        <div class="card-header">
+            <div class="row version-row">
+                <div class="col-md-1">
+                    <button class="btn btn-primary" style="padding: 10px;">
+                        {{version.versionCode}}
+                    </button>
+
+                </div>
+
+                <div class="col-md-8  version-info" >
+                    <span class="version-info-code text-primary">Version {{version.versionCode}}</span>
+                    <span class=" version-info-id">
+                        <small style="color:gray">{{version.updatedOn | date: 'MMM d, y'}}</small>
+                    </span>
+
+                </div>
+                <ng-container *ngIf="!isVersionToolEnable">
+                    <div class="col-sm-3">
+                        <a (click)="addVersion(i)" *ngIf="addVersionIndex !== i " class="btn  btn-sm btn-outline-primary" style="float:left"> 
+                            <span *ngIf="version.functionalList">Update</span>
+                            <span *ngIf="!version.functionalList">Add</span>
+                        </a>
+                        <a *ngIf="addVersionIndex !== i " (click)="viewVersion(i)"  class="btn  btn-sm btn-outline-primary view-button"> 
+                            View
+                        </a>
+                    </div>
+               </ng-container>
+               
+
+                <!-- cancel or submit buttons -->
+                <div style="float: rigth;">
+                    <a *ngIf="viewVersionIndex == i " (click)="cancelViewVersion()"   class="btn btn-sm btn-outline-danger " > 
+                            Cancel
+                        </a>
+                    <a *ngIf="addVersionIndex == i " (click)="addVersionHistory(version.versionCode)"   class="btn  btn-sm btn-outline-primary update-btn"> 
+                        Submit
+                    </a>
+                    <a *ngIf="addVersionIndex == i " (click)="cancelAddVersion()"   class="btn  btn-sm btn-outline-danger "> 
+                        Cancel
+                    </a>
+                  
+                </div>
+             
+            </div>
+        </div>
+
+        <!-- version features add  -->
+        <div class="card-body" *ngIf="addVersionIndex === i">
+            <div class="add-features">
+                <div class=" version-info">
+                    <span class="version-info-code text-primary version-sub-header-label"> New Features</span>
+                    <span class=" version-info-id">
+                        <small class="version-label-subtext">What's new</small>
+                    </span>
+                </div>
+                <div class="row">
+                    <ul class="list-group" class="col-md-12">
+                        <li class="list-group-item version-li" *ngFor="let versionItem of versionFeatureList; let itemIndex= index" (click)="editRecord(itemIndex, 'functional')">
+                            <span *ngIf="!(itemIndex === editIndex && editMode == 'functional')">{{itemIndex+1}}  {{versionItem}}</span>
+                           
+                            <div class="row" *ngIf="itemIndex === editIndex && editMode === 'functional'">
+                                    <div class="col-md-12">
+                                        <div class="form-group form-group-default">
+                                            <textarea autofocus placeholder="Press the 'Enter' key to add" rows="2" class="version-feature-add form-control input-border-bottom" (keydown)="updateItem($event,versionItem,itemIndex, 'functional')"
+                                            (ngModel)="versionItem"></textarea>
+                                        </div>
+                                        
+                                    </div>
+                            </div>
+                            <span style="float: right;" (click)="deleteFeatureItem(itemIndex)" *ngIf="!(itemIndex === editIndex && editMode == 'functional')">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </span>
+
+
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group form-group-default">
+                            <textarea placeholder="Add item and click enter to add list " rows="2" class="version-feature-add form-control input-border-bottom" (keydown)="onKeydown($event,featureText)"
+                            [(ngModel)]="featureText"></textarea>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- // bugs relaetd one -->
+
+            <div class="add-bugs">
+
+                <div class=" version-info">
+                    <span class="version-info-code text-primary version-sub-header-label"> Bug Fixes</span>
+                    <span class=" version-info-id">
+                        <small class="version-label-subtext">Details</small>
+                    </span>
+
+                </div>
+                <div class="row">
+                    <ul class="list-group" class="col-md-12">
+                        <li class="list-group-item" *ngFor="let bugItem of bugsList; let bugIndex= index">
+                            <span>{{bugIndex+1}}</span>
+                            {{bugItem}}
+                            <span style="float: right;"  (click)="deleteBugItem(bugIndex)">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group form-group-default">
+                        <textarea rows="2" class="version-feature-add form-control input-border-bottom" (keydown)="addBugInList($event,bugText)" [(ngModel)]="bugText" placeholder="Add item and click enter to add list "></textarea>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="add-store-url">
+                <div class=" version-info">
+                    <span class="version-info-code text-primary version-sub-header-label"> {{osType==='android'?'Play Store':'App Store'}} Link </span>
+                    <span class=" version-info-id">
+                        <small class="version-label-subtext">{{osType==='android'?'Play store':'App store'}} link of app </small>
+                    </span>
+
+                </div>
+
+                <div class="row play-store-link" >
+                    <div class="col-md-12">
+                        <div class="form-group form-group-default">
+                            <textarea *ngIf="osType==='android'" rows="2" class="version-feature-add form-control input-border-bottom" [(ngModel)]="storeURL" placeholder="Enter your playstore link"></textarea>
+                            <textarea *ngIf="osType==='iOS'" rows="2" class="version-feature-add form-control input-border-bottom" [(ngModel)]="storeURL" placeholder="Enter your appstore link"></textarea>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- version features view  -->
+        <div class="card-body" *ngIf="viewVersionIndex === i">
+                <span class="add-features">
+                    <div class=" version-info">
+                        <span class="version-info-code text-primary version-sub-header-label"> New Features</span>
+                    </div>
+                    <div class="row">
+                        <ul class="list-group" class="col-md-12">
+                            <li class="list-group-item" *ngFor="let versionItem of versionFeatureList; let itemIndex= index">
+                                <span>{{itemIndex+1}}</span>
+                                {{versionItem}}
+                               
+                            </li>
+                        </ul>
+                    </div>
+                   
+                </span>
+    
+                <!-- // bugs relaetd one -->
+    
+                <span class="add-bugs">
+    
+                    <div class=" version-info">
+                        <span class="version-info-code text-primary version-sub-header-label"> Bug Fixes</span>
+                        <span class=" version-info-id">
+                            <small class="version-label-subtext">Details </small>
+                        </span>
+    
+                    </div>
+                    <div class="row">
+                        <ul class="list-group" class="col-md-12">
+                            <li class="list-group-item" *ngFor="let bugItem of bugsList; let bugIndex= index">
+                                <span>{{bugIndex+1}}</span>
+                                {{bugItem}}
+                              
+                            </li>
+                        </ul>
+                    </div>
+                </span>
+    
+                <span class="add-store-url">
+                    <div class=" version-info">
+                        <span class="version-info-code text-primary version-sub-header-label"> {{osType==='android'?'Play Store':'App Store'}} Link</span>
+                        <span class=" version-info-id">
+                            <small class="version-label-subtext">{{osType==='android'?'Play store':'App store'}} link of app </small>
+                        </span>
+    
+                    </div>
+    
+                    <div class="row">
+                        <div class="col-md-12">
+                            {{storeURL}}
+                            <!-- <textarea rows="2" class="version-feature-add" [(ngModel)]="storeURL" placeholder="Enter your playstore link"></textarea> -->
+                        </div>
+                    </div>
+                </span>
+    
+    
+        </div>
+
+    </div>
+</div>

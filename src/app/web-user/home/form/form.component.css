@@ -1,0 +1,90 @@
+/*bread crumb csss start*/
+.custom-page-title{
+    font-size: 18px;
+    font-weight: 400;
+    color: #6e5ad4;
+    line-height: 30px;
+}
+.custom-bread-crumbs{
+    list-style: none;
+    display: inline;
+    border-left: 2px solid #efefef;
+    margin-left: 25px;
+    padding-left: 25px;
+    padding-top: 11px;
+    /* padding-top: 8px;
+    padding-bottom: 8px; */
+   
+}
+.custom-bread-crumbs li {
+    display: inline-block;
+}
+
+.breadcrumbs li.separator {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 12px;
+}
+.custom-row{
+    padding-left: 12px;
+    padding-bottom: -2px;
+    margin-bottom: -17px;
+    margin-top: 9px;
+   
+}
+/*bread crumb csss end*/
+
+
+.custom-card-assignment-list{
+    margin-left: 9px;
+    margin-right: 9px;
+}
+
+
+.web-user-form-submit-button {
+    margin-right: 17px;
+    cursor: pointer;
+    color: blue;
+    font-size: 17px;
+}
+
+.web-user-form-submit-button:hover{
+    /* font-size: 25px; */
+    cursor: pointer;
+}
+
+.fab{
+    position: fixed;
+    bottom: 20px;
+    right: 14px;
+    width: 60px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #1673ed;
+    border-radius: 50%;
+    padding: 17px;
+    text-align: center;
+    border: 2px solid #d4cdcf;
+
+}
+.fab:hover{
+    cursor: pointer;
+}
+
+.attachmnets-card {
+    margin-right: 10px;
+}
+
+.centered {
+    position: absolute;
+    top: -17%;
+    left: 45%;
+    opacity: 0.8;
+  }
+/* .sub-block{
+    max-height: 150px;
+    overflow-y: scroll;
+} */

@@ -1,0 +1,14 @@
+<div class="row p-5 animated fadeIn">
+  <div class="kanban-board bg-info col-md-12" [ngStyle]="{'background-color':getColor()}">
+    <header class="kanban-board-header success" >
+      <div class="kanban-title-board clickedHeader mr-2 Lable-color" *ngIf="ispreview!='preview' &&  ispreview != 'Edit'"
+      title="{{constants['headerMsg']}}"> {{config[widgetKey.label] || displayLabel }} </div>
+      <div class="kanban-title-board clickedHeader mr-2 Lable-color" *ngIf="ispreview=='preview' ||  ispreview == 'Edit'"
+      > {{config[widgetKey.label] || displayLabel }} </div>
+      <app-common-formaction-view [config]="config" *ngIf="ispreview!='preview' &&  ispreview != 'Edit'"></app-common-formaction-view>
+      <!-- <span class="badge badge-success">{{text}}</span> -->
+    </header>
+  </div>
+</div>
+
+

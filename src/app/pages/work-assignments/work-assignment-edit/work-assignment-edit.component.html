@@ -1,0 +1,110 @@
+<div class="card full-height">
+  <div class="card-header">
+    <div class="card-head-row">
+      <div class="card-title">{{assignKeys['editWorkAssignMent']}}</div>
+      <div class="card-tools">
+          <!-- <div class="float-right" *ngIf="!enableUsers">
+              <span>Records:&nbsp;</span>
+              <span class="badge badge-primary">{{recordsCount}}</span>
+          </div> -->
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <form [formGroup]="editWorkAssignmentForm" (ngSubmit)="updateWorkAssignment()">
+
+      <div class="row m-l-0 m-r-0">
+        <div class="form-group form-group-default">
+          <label for="name" class="placeholder"> {{assignKeys['AssignmentName']}}<span class="required-label">*</span></label>
+          <input type="text" id="name" class="form-control" [formControlName]="assignKeys['name']"
+            [ngClass]="{ 'is-invalid': submitted && f[assignKeys['name']].errors }" required />
+          <div *ngIf="submitted && f[assignKeys['name']].errors" class="invalid-feedback">
+            <span *ngIf="f[assignKeys['name']].errors.required" class="form-text text-red">{{assignKeys['reqAssignName']}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row m-l-0 m-r-0 mt-3">
+        <div class="col-md-6 p-l-0">
+          <div class="form-group form-group-default">
+            <label>{{assignKeys['Form_Label']}}<span class="required-label">*</span></label>
+            <input type="text" id="form" class="form-control" [ngClass]="{'disabledList':true }" [value]="editWorkAssignmentForm.get(assignKeys['form'])?.value.name"
+            [ngClass]="{ 'is-invalid': submitted && f[assignKeys['form']].errors }" required />
+            <!-- <select id="form" class="form-control" [formControlName]="assignKeys['form']" [compareWith]="compare">
+              <option *ngFor="let form of formsList" [ngValue]="form">{{ form.name }}</option>
+            </select> -->
+          </div>
+        </div>
+
+        <div class="col-md-6 p-r-0">
+          <div class="form-group form-group-default">
+            <label>{{assignKeys['Frequency_Label']}}<span class="required-label">*</span></label>
+            <select id="formFrequency" class="form-control" [formControlName]="assignKeys['formFrequency']">
+              <option *ngFor="let frequency of frequencies" [ngValue]="frequency">{{ frequency }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row m-l-0 m-r-0" *ngIf="enableUsers">
+        <div class="form-group form-group-default">
+          <label for="users" class="placeholder">{{assignKeys['Users_Label']}}<span class="required-label">*</span></label>
+          <!-- <ng-multiselect-dropdown [data]="usersList" [formControl]="editWorkAssignmentForm.controls['users']"
+            [disabled]="disableUsers" name="users" [settings]="userdropdownSettings" (onSelect)="onItemSelect($event)"
+            (onDeSelect)="onItemDeSelect($event)" (onSelectAll)="onSelectAll($event)">
+          </ng-multiselect-dropdown> -->
+          <ng-select [items]="usersList" [addTag]="addTag"  multiple="true" bindLabel="username"
+          [formControl]="editWorkAssignmentForm.controls['users']"
+                        >
+        </ng-select>
+        </div>
+      </div>
+
+      <!-- <div class="row m-l-0 m-r-0" *ngIf="!enableUsers">
+          <div class="form-group form-group-default">
+            <label for="records" class="placeholder">Records</label>
+            <input type="text" id="records" class="form-control"
+              [formControl]="editWorkAssignmentForm.controls['records']" />
+          </div>
+      </div> -->
+
+      <div class="row  m-l-0 m-r-0">
+        <div class="col-md-6 p-l-0">
+          <div class="form-group form-group-default">
+            <label for="startDate" class="placeholder"><i class="fas fa-calendar-check"></i> {{assignKeys['StartDate']}}<span
+                class="required-label">*</span></label>
+            <input type="text" (bsValueChange)="bsValueChange($event)" class="form-control mb-3" bsDatepicker
+              formControlName="startDate" [minDate]="startMinDate" appCalendar
+              [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }" [maxDate]="startMaxDate"
+              [ngClass]="{ 'is-invalid': submitted && f[assignKeys['startDate']].errors }" placement="top" required />
+            <div *ngIf="submitted && f[assignKeys['startDate']].errors" class="invalid-feedback">
+              <span *ngIf="f[assignKeys['startDate']].errors.required" class="form-text text-red">{{assignKeys['startdateRequired']}}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 p-r-0">
+          <div class="form-group form-group-default">
+            <label for="endDate" class="placeholder"><i class="fas fa-calendar-times"></i> {{assignKeys['EndDate']}}<span
+                class="required-label">*</span></label>
+            <input type="text" class="form-control mb-3" appCalendar bsDatepicker [formControlName]="assignKeys['endDate']" [minDate]="endMinDate"
+              [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }" [maxDate]="endMaxDate"
+              [ngClass]="{ 'is-invalid': submitted && f[assignKeys['endDate']].errors }" placement="top" required />
+            <div *ngIf="submitted && f[assignKeys['endDate']].errors" class="invalid-feedback">
+              <span *ngIf="f[assignKeys['endDate']].errors.required" class="form-text text-red">{{assignKeys['enddateRequired']}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <div class="col-md-6 offset-md-4">
+          <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3">{{assignKeys['label_Update']}}</button>
+          <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+            (click)="closeSideBarfn()">{{assignKeys['label_Cancel']}}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

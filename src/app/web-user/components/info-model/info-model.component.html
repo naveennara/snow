@@ -1,0 +1,31 @@
+<div class="modal-content">
+    <div class="modal-header bg-primary">
+      <h5 class="modal-title text-white">Info</h5>
+      <button type="button"  (click)="modalRef.hide()" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+       <dl class="row" *ngIf="actionPage === 'assignments'">
+            <dt class="col-sm-4"> Created by</dt>
+            <dd class="col-sm-6 webuser-wrap-content">{{data.createdBy }} </dd>
+            <dt class="col-sm-4"> Start date</dt>
+            <dd class="col-sm-6">{{data.startDate | date:'dd-MM-yy'}}</dd>
+            <dt class="col-sm-4">End date</dt>
+            <dd class="col-sm-6">{{data.endDate | date:'dd-MM-yy'}}</dd>
+            <dt class="col-sm-4">Staus</dt>
+            <dd class="col-sm-6">{{data.status}}</dd>
+        </dl>
+        <dl class="row" *ngIf="actionPage === 'forms'">
+          <dt class="col-sm-5"> Form Name</dt>
+          <dd class="col-sm-6 webuser-wrap-content">{{data[formInfoKeys.formName] }} </dd>
+          <dt class="col-sm-5"> Created by</dt>
+          <dd class="col-sm-6 webuser-wrap-content">{{data[formInfoKeys.createdBy] }} </dd>
+          <dt class="col-sm-5"> Description </dt>
+          <dd class="col-sm-6 webuser-wrap-content">{{data[formInfoKeys.description] || "NA" }} </dd>
+
+        </dl>
+
+    </div>
+
+  </div>

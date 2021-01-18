@@ -1,0 +1,29 @@
+<span *ngIf="derivedFields.indexOf(config[widgetKey._id]) > -1 ? false : isTable ? true : config[widgetKey.isUnderHeading].length==0?true:config[widgetKey.isUnderHeading]== expendedHeaderId?true:false">
+    <div  [formGroup]="group" class="form-group web-user-select" >
+        <label  [for]="config[widgetKey._id]" class="web-user-widget-label">{{config[widgetKey.label]}}</label> <span *ngIf="config[widgetKey.isRequired] == true" class="webuser-mandatory-indicator-color"> *</span>
+
+        <ng-select [items]="config[widgetKey.options]"
+        bindLabel="{{widgetKey.optionDisplayName}}"
+        bindValue="value"
+        dropdownPosition='auto'
+        loadingText="Loading..."
+        [multiple]="config.isAllowMultiselection"
+        [formControlName]="config[widgetKey._id]" (change)="selectValueChanged($event,config)">
+       </ng-select>
+    </div>
+    <div class="row" *ngIf="isDynamicDropDownCallFail && config[widgetKey.dropdownType] === 'dynamic'">
+        
+        <div class="col-md-8 drop-down-dynamic-api-fail-text" >
+            Problem ocurred while fetching the data,
+            <span>
+                <a (click)="dynamicDropDownOptionSetter()" class="try-again">Try again</a>
+                
+            </span>
+        </div>
+
+    </div>
+    <app-validation [dynamicFormControlRef]="group.get(config[widgetKey._id])" >
+
+    </app-validation>
+
+</span>

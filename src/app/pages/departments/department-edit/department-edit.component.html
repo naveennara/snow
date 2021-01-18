@@ -1,0 +1,52 @@
+<div class="card shadow mb-4">
+  <div class="card-header">
+    <div class="card-head-row">
+      <div class="card-tools">
+        <div class="btn-group">
+          <div class="float-right padding">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+            (click)="back()" title="{{deptKeys['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+             </button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <h6 class="m-0 font-weight-bold text-primary" *ngIf ='editDepart'>Edit : {{editDepart['name']}}</h6> -->
+   
+  </div>
+  <div class="card-body mx-4">
+    <form [formGroup]="updateDepart" (ngSubmit)="updateDepartment()" autocomplete="off">
+
+      <div class="form-group form-group-default">
+        <label for="name" class="placeholder">{{deptKeys['label_Name']}}<span class="required-label">*</span></label>
+        <input type="text" id="name" class="form-control" [formControlName]="[deptKeys['name']]" [readonly]="true" required />
+
+      </div>
+
+      <div class="form-group form-group-default">
+        <label for="name" class="placeholder">{{deptKeys['label_Email']}}<span class="required-label">*</span></label>
+        <input name="department-email" autocomplete="no-auto" type="email" id="email" class="form-control" [formControlName]="[deptKeys['email']]" [ngClass]="{ 'is-invalid': submitted && f[deptKeys['email']].errors }"
+         required />
+        <span *ngIf="f[deptKeys['email']].dirty && f[deptKeys['email']].invalid && f[deptKeys['email']].value.length>0 " class="emailText">{{deptKeys['validation_Email']}}</span>
+        <span *ngIf="f[deptKeys['email']].dirty && f[deptKeys['email']].value.length==0 && !submitted" class="emailText">{{deptKeys['required_Email']}}</span>
+        <div *ngIf="submitted && f[deptKeys['email']].errors" class="invalid-feedback">
+            <span *ngIf="f[deptKeys['email']].errors.invalid" class="emailText">{{deptKeys['validation_Email']}}</span>
+            <span *ngIf="f[deptKeys['email']].errors.required" class="emailText">{{deptKeys['required_Email']}}</span>  
+          </div>
+      </div>
+      <div class="form-group form-group-default">
+        <label for="name" class="placeholder">{{deptKeys['label_Description']}}</label>
+        <textarea class="form-control" [formControlName]="[deptKeys['description']]" rows="3"></textarea>
+      </div>
+      <div class="button-group">
+        <div class="btn-group d-flex justify-content-center">
+          <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3" [disabled]="!updateDepart.dirty">{{deptKeys['label_Update']}}</button>
+          <button type="button" class="btn btn-outline-danger btn-rounded btn-sm" [routerLink]="['/mainLayout','accounts']">{{deptKeys['label_Cancel']}}</button>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</div>

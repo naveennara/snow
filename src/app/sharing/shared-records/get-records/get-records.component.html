@@ -1,0 +1,141 @@
+<div class="card mainBlock">
+  
+  <div class="card-header">
+    <div class="card-head-row card-tools-still-right">
+      <h4 class="card-title">Records of {{taskName || formName}}</h4>
+      <div class="card-tools" >
+          <button type="button" *ngIf="showFilter" class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic" title="Filter records"
+          title="Filter records">
+          <i class="fas fa-filter icon-color"></i>
+        </button>
+       
+       <button class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2" (click)="refresh()"><span
+        class="fa fa-sync-alt icon-color" title="{{formkeys['label_Refresh']}}"></span></button>
+        <button type="button"  class="btn btn-icon btn-border btn-round mr-2 btn-sm btn-transparent"
+        (click)="cancel()" title="{{formkeys['label_Back']}}">
+             <i class="fas fa-arrow-left icon-color"></i>
+       </button>
+        <!-- <a href="javascript:;" class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2" (click)="isCollapsed = !isCollapsed" 
+        [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic" title="Filter records">
+          <span class="btn-label">
+            <i class="fas fa-filter icon-color"></i>
+          </span>
+        </a> -->
+      </div>
+      <!-- <div class="card-tools">
+      
+       </div>
+      <div class="card-tools" >
+     
+     </div> -->
+      <!-- POP up CODE -->
+    </div>
+  </div>
+
+  <div class="card-body">
+    <app-shared-records [url]="url" [requestData]="requestData"></app-shared-records>
+  </div>
+
+  <div class="filterBlock animated fadeIn" id="collapseBasic" [collapse]="isCollapsed">
+    <div class="card">
+      <div class="card-body">
+        <label class="mb-3"><b> <i class="fas fa-filter"></i> Filter Records</b></label>
+        <span class="float-right text-muted my-2 fa fa-times closeFilter" (click)="isCollapsed = !isCollapsed"
+          title="{{formkeys['label_Close']}}"></span>
+        <div class="separator-dashed m-0"></div>
+        <form [formGroup]="getData" (ngSubmit)="getRecords()">
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <div class="form-group form-group-default">
+                <label for="name" class="placeholder">{{formkeys['FromDate']}}<span class="required-label">*</span></label>
+                <input type="text" placeholder="Select Date" class="form-control" bsDatepicker
+                  [formControlName]="formkeys['fromDate']" appCalendar (bsValueChange)="bsValueChange($event)"
+                  [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }"
+                  [minDate]="startMinDate" [maxDate]="startMaxDate"
+                  [ngClass]="{ 'is-invalid': submitted && f[formkeys['fromDate']].errors }" required>
+                <div *ngIf="submitted && f[formkeys['fromDate']].errors" class="invalid-feedback">
+                  <span *ngIf="f[formkeys['fromDate']].errors.required"
+                    class="form-text text-red">{{formkeys['fromdateRequired']}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group form-group-default">
+                <label for="name" class="placeholder">{{formkeys['ToDate']}}<span class="required-label">*</span></label>
+                <input type="text" placeholder="Select Date" class="form-control" bsDatepicker
+                  [formControlName]="formkeys['toDate']"  appCalendar (bsValueChange)="endValueChange($event)"
+                  [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }"
+                  [minDate]="endMinDate" [maxDate]="endMaxDate"
+                  [ngClass]="{ 'is-invalid': submitted && f[formkeys['toDate']].errors }" required>
+                <div *ngIf="submitted && f[formkeys['toDate']].errors" class="invalid-feedback">
+                  <span *ngIf="f[formkeys['toDate']].errors.required"
+                    class="form-text text-red">{{formkeys['todateRequired']}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row m-l-0 m-r-0 mt-3" *ngIf="loginDetails['type']== 1 || loginDetails['type']== 3">
+            <div class="form-group form-group-default">
+              <label for="Users" class="placeholder">{{formkeys['label_Users']}}<span class="required-label">*</span></label>
+              <div class="row" class="department">
+                <ng-multiselect-dropdown class="form-control w-100" [placeholder]="'Select Users'" [settings]="dropdownSettings"
+                [data]="usersList"
+                  [formControlName]="formkeys['user']" name="user" >
+                </ng-multiselect-dropdown>
+                <div *ngIf="submitted && f.user.errors">
+                  <span *ngIf="submitted && f.user.errors.required"
+                    class="errorText">{{formkeys['users_validation']}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="row m-l-0 m-r-0 mt-3" >
+            <div class="form-group form-group-default">
+              <label for="status" class="placeholder">{{formkeys['status']}}</label>
+              <div class="row" class="status">
+                <ng-multiselect-dropdown class="form-control w-100" [placeholder]="'Select Status'"
+                  [data]="statusFilters" [formControlName]="formkeys['status']" name="status"
+                  [settings]="dropdownSettings1">
+                </ng-multiselect-dropdown>
+              
+                <div *ngIf="submitted && f.status.errors">
+                  <span *ngIf="submitted && f.status.errors.required"
+                    class="errorText">{{formkeys['status']}}</span>
+                </div>
+              </div>
+            </div>
+          </div> -->
+          <div class="row m-l-0 m-r-0 mt-3" *ngIf="this.taskId">
+            <div class="form-group form-group-default">
+              <label for="form" class="placeholder">{{formkeys['form']}}</label>
+              <div class="row" class="status">
+                <ng-multiselect-dropdown class="form-control w-100" [placeholder]="'Select Form'"
+                [settings]="dropdownSettings2"
+                  [data]="formsList" [formControlName]="formkeys['form']" name="status"
+                 >
+                </ng-multiselect-dropdown>
+              
+                <div *ngIf="submitted && f.form.errors">
+                  <span *ngIf="submitted && f.form.errors.required"
+                    class="errorText">{{formkeys['form']}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="separator-dashed my-2"></div>
+          <div class="form-group float-right">
+            <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3"  [disabled]="!getData.dirty">Get Data</button>
+            <button type="button" class="btn btn-outline-danger btn-rounded btn-sm" (click)="isCollapsed = !isCollapsed" title="{{formkeys['label_Cancel']}}">
+               Cancel
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>

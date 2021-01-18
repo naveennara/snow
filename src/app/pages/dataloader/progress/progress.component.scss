@@ -1,0 +1,24 @@
+.progress-cont {
+  
+
+  border-radius: 4px;
+  background-color: #d0d0d0;
+  position: relative;
+  background: linear-gradient(87.19deg, #36E848 0%, #E0E0E0 3.26%);
+  border: 2px solid #F2F2F2;
+  border-radius: 50px;
+  height: 15px;
+  width: 90%;
+
+  .progress {
+    width: 0;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    border-radius: 4px;
+    background-color: #36E848;
+    transition: 0.5s all;
+  }
+}

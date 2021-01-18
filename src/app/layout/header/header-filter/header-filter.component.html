@@ -1,0 +1,36 @@
+<li class="nav-item dropdown hidden-caret" *ngIf="checkPreviliege()">
+  <a class="nav-link dropdown-toggle" title="Filter Accounts" id="departmentSearch" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i class="fas fa-filter"></i>
+    <!-- <span class="notification" *ngIf="FiltersList!=undefined">{{FiltersList.length || 0}}</span> -->
+  </a>
+  <ul class="dropdown-menu messages-notif-box animated fadeIn scrollable-menu" aria-labelledby="departmentSearch">
+    <div class="searchBar">
+      <li>
+        <form class="navbar-left navbar-form nav-search mx-2 my-2">
+          <div class="input-group" style="background: #eee !important;">
+            <div class="input-group-prepend">
+              <button type="button" class="btn btn-search pr-1">
+                <i class="fa fa-search search-icon"></i>
+              </button>
+            </div>
+            <input type="text" placeholder="Search account" class="form-control" (keyup)="onKey($event)">
+          </div>
+        </form>
+      </li>
+    </div>
+
+    <div class="scrollContent">
+      <li *ngFor="let list of FiltersList | filter:searchDept:'name'; let i = index">
+        <div class="message-notif-scroll scrollbar-outer">
+          <div class="notif-center" style="border-bottom: 1px dashed #ebecec;">
+            <a href="javascript:;" (click)="filterForms(list,i)" [class.active]="i == selectedRow">
+              <div class="notif-content">
+                <span class="subject mx-2">{{list.name}}</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </li>
+    </div>
+  </ul>
+</li>

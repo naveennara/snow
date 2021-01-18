@@ -1,0 +1,187 @@
+<div class="main-header">
+  <!-- Logo Header -->
+  <div class="logo-header p-0" data-background-color="white">
+    <a class="logo">
+      <img [src]="orgImage" alt="Spatial Now" class="navbar-brand" draggable="false" style="width: 70px;"
+        *ngIf="(!configDetails) ||(configDetails && configDetails.logo == null)">
+      <img *ngIf="configDetails && configDetails.logo != null" draggable="false" src="{{imgUrldataAdmin+configDetails.logo}}"
+        alt="Spatial Now" class="navbar-brand" style="width: 60px;">
+
+    </a>
+    <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse"
+      aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon">
+        <i class="icon-menu"></i>
+      </span>
+    </button>
+    <button class="topbar-toggler more">
+      <i class="icon-options-vertical"></i>
+    </button>
+  </div>
+  <!-- End Logo Header -->
+
+  <!-- Navbar Header -->
+  <nav class="navbar navbar-header navbar-expand-lg" data-background-color="white">
+    <div class="container-fluid p-r-0">
+      <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+        <app-header-filter class="mr-2" *ngIf="loginDetails['type']==0 || loginDetails['type']==3"
+          [FiltersList]="filtersList" (optionSelected)="filterOptionSelected($event)"></app-header-filter>
+          <!-- <li class="nav-item dropdown hidden-caret">
+            <a class="nav-link" data-toggle="dropdown" href="javascript:;" aria-expanded="false">
+              <i class="fas fa-palette"></i>
+            </a>
+            <div class="dropdown-menu quick-actions quick-actions-info animated fadeIn">
+              <div class="quick-actions-header">
+                <span class="title mb-1">Theme Palette</span>
+                <span class="subtitle op-8">Customize</span>
+              </div>
+              <div class="quick-actions-scroll scrollbar-outer">
+                  <div class="custom-content">
+                    <div class="switcher">
+                      <div class="switch-block">
+                        <h4>Navbar Header</h4>
+                        <div class="btnSwitch">
+                          <button type="button" class="changeTopBarColor" data-color="dark"></button>
+                          <button type="button" class="changeTopBarColor" data-color="blue"></button>
+                          <button type="button" class="changeTopBarColor" data-color="purple"></button>
+                          <button type="button" class="changeTopBarColor" data-color="light-blue"></button>
+                          <button type="button" class="changeTopBarColor" data-color="green"></button>
+                          <button type="button" class="changeTopBarColor" data-color="orange"></button>
+                          <button type="button" class="changeTopBarColor" data-color="red"></button>
+                          <button type="button" class="changeTopBarColor" data-color="white"></button>
+                          <br/>
+                          <button type="button" class="changeTopBarColor" data-color="dark2"></button>
+                          <button type="button" class="selected changeTopBarColor" data-color="blue2"></button>
+                          <button type="button" class="changeTopBarColor" data-color="purple2"></button>
+                          <button type="button" class="changeTopBarColor" data-color="light-blue2"></button>
+                          <button type="button" class="changeTopBarColor" data-color="green2"></button>
+                          <button type="button" class="changeTopBarColor" data-color="orange2"></button>
+                          <button type="button" class="changeTopBarColor" data-color="red2"></button>
+                        </div>
+                      </div>
+                      <div class="switch-block">
+                        <h4>Sidebar</h4>
+                        <div class="btnSwitch">
+                          <button type="button" class="selected changeSideBarColor" data-color="white"></button>
+                          <button type="button" class="changeSideBarColor" data-color="dark"></button>
+                          <button type="button" class="changeSideBarColor" data-color="dark2"></button>
+                        </div>
+                      </div>
+                      <div class="switch-block">
+                        <h4>Background</h4>
+                        <div class="btnSwitch">
+                          <button type="button" class="changeBackgroundColor" data-color="bg2"></button>
+                          <button type="button" class="changeBackgroundColor selected" data-color="bg1"></button>
+                          <button type="button" class="changeBackgroundColor" data-color="bg3"></button>
+                          <button type="button" class="changeBackgroundColor" data-color="dark"></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </li> -->
+          <li class="nav-item dropdown hidden-caret">
+            <a class="nav-link" target="_blank" href="https://help.fieldon.com" title="{{constants['helpDesk']}}">
+              <i class="fas fa-question"></i>
+            </a>
+            <a  *ngIf="loginDetails['type'] == 6" class="nav-link" target="_blank" href="https://cloud.mongodb.com/freemonitoring/cluster/LFP2SM3PRUUIZ6VHRWRUQLY737S5XVH6" title="{{constants['dbStatistics']}}">
+              <i class="fas fa-database"></i>
+            </a>
+            
+            <a class="nav-link btn btn-xs btn-transparent" *ngIf="showOrHide('devices')" href="javascript:;"
+              title="{{constants['deviceApproval']}}" style="border: none;" (click)="redirect(0)">
+              <img class="customSvg" [src]='imageIcons.deviceApproval' alt="Device Approval"
+                style="width: 28px;height: 28px;">
+              <span class="notification"
+                *ngIf="approvalsCount.pendingDevicesCount > 0">{{approvalsCount.pendingDevicesCount}}</span>
+            </a>
+            
+            <a class="nav-link mr-3 btn btn-xs btn-transparent"
+              *ngIf="loginDetails['type']!=1 && (showOrHide('tasks') || showOrHide('projects'))" href="javascript:;"
+              (click)="redirect(1)" title="{{constants['workflowApproval']}}" style="border:none;">
+              <img class="customSvg" [src]='imageIcons.workflowApproval' alt="Device Approval"
+                style="width: 28px;height: 28px;">
+              <span class="notification"
+                *ngIf="approvalsCount.pendingTasksCount > 0">{{approvalsCount.pendingTasksCount}}</span>
+            </a>
+            
+            <a class="dropdown-toggle profile-pic mr-2 m-l-5" data-toggle="dropdown" href="javascript:;" aria-expanded="false">
+              <div class="avatar-sm avatar avatar-online">
+                <img [src]="imagePath" (error)="errorHandler($event)" alt="..." class="avatar-img rounded-circle">
+              </div>
+            </a>
+
+            <ul class="dropdown-menu dropdown-user animated fadeIn">
+              <div class="dropdown-user-scroll scrollbar-outer">
+                <li>
+                  <div class="user-box">
+                    <div class="avatar-lg">
+                      <img [src]="imagePath" (error)="errorHandler($event)" alt="" class="avatar-img rounded"></div>
+                    <div class="u-text">
+                      <h4 class="text-uppercase" title="{{headerInfo.name+' '+headerInfo.lastname}}">{{headerInfo.name | shortText :15}} {{headerInfo.lastname}}
+                      </h4>
+                      <p class="text-muted m-b-0" title="{{headerInfo.email}}">{{headerInfo.email | shortText :18}}</p>
+                      <p class="text-muted" title="{{headerInfo.loginType}}">{{headerInfo.loginType | shortText :18}}</p>
+                    </div>
+                  </div>
+                  <div>
+                    <span class="text-muted m-b-0 lastlogin-text" >Last login on:</span>
+                    <p class="text-muted m-b-0" >{{headerInfo.lastLoggedInTime | date: 'MM/dd/yyyy HH:MM:SS'}} </p>
+                  </div>
+                </li>
+                <li>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" (click)="profileInfo(headerInfo)">{{constants['myProfile']}}</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" (click)="changePassword(headerInfo)">{{constants['changePwd']}}</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" (click)="logOut(headerInfo)">{{constants['logOut']}}</a>
+                </li>
+              </div>
+            </ul>
+
+            <!-- <a class="mr-2" aria-controls="collapseBasic" href="javascript:;" title="Previleges" (click)="openPrevilieges()">
+                <i class="fa fa-th icon-color"></i>
+              </a> -->
+
+          </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- End Navbar -->
+</div>
+<ngx-smart-modal #newModal [identifier]="'newModal'" [closable]="false">
+  <div class="modal-header" *ngIf="newModal.getData()">
+    <h4 class="modal-title">Profile Info - {{profileData.name}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="newModal.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="newModal.getData()">
+    <table class="table table-bordered">
+      <tr>
+        <td>{{constants['Name']}} :</td>
+        <td>{{profileData.name || 'NA'}}</td>
+      </tr>
+      <tr>
+        <td>{{constants['label_Email']}} :</td>
+        <td>{{profileData.email || 'NA'}}</td>
+      </tr>
+      <tr>
+        <td>{{constants['label_Contact']}} :</td>
+        <td>{{profileData.phone || 'NA'}}</td>
+      </tr>
+      <!-- <tr>
+                <td>Privilege :</td>
+                <td>{{data.privilege[0] || 'NA'}}</td>
+            </tr> -->
+    </table>
+
+  </div>
+  <div class="modal-footer">
+    <!-- <button type="button" class="btn btn-secondary" (click)="onConfirm()">Yes</button>
+        <button type="button" class="btn btn-secondary" (click)="onCancel()">No</button>         -->
+  </div>
+</ngx-smart-modal>
+

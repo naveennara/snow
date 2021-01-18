@@ -1,0 +1,11 @@
+
+<app-page-header [pageDetails]="pageDetails" 
+ [createEllipseRouting]="['/mainLayout','dataLoader']"  
+ [ellipseList]="ellipseList" [headerInputs]="headerInputs"></app-page-header> 
+
+ <script>
+      $(window).on('popstate', function (e) {
+  window.history.forward(1);
+});
+ 
+ </script>

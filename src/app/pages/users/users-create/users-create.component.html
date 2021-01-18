@@ -1,0 +1,89 @@
+<div class="card shadow mb-4">
+  <div class="card-header">
+    <div class="card-head-row">
+      <div class="card-tools">
+        <div class="btn-group">
+          <div class="float-right padding">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+            [routerLink]="['/mainLayout','users']" title="{{userkeys['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <h6 class="m-0 font-weight-bold text-primary">{{userkeys['CreateUser']}}</h6> -->
+  </div>
+  <div class="card-body mx-4">
+      <form [formGroup]="createuser" (ngSubmit)="createUser(createuser.valid)" [autocomplete]="autoCompleteForm" >
+
+          <!-- <div class="form-group form-group-default">
+            <label for="username" class="placeholder">{{userkeys['LoginId']}}<span class="required-label">*</span></label>
+            <input [autocomplete]="autoCompleteField"  type="text" id="username" name="user-create-loginId" class="form-control" [formControlName]="userkeys['username']" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" appSpecialCharacter myNoSpaces />
+            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                <span *ngIf="f.username.errors.required" class="form-text text-red">{{userkeys['loginidRequired']}}</span>
+                <span *ngIf="!f.username.errors.required && f.username.errors.whitespace" class="form-text text-red">{{f.username.errors.whitespace}}</span>
+            </div>
+          </div> -->
+
+          <div class="form-group form-group-default">
+              <label for="data2" class="placeholder">{{userkeys['label_FirstName']}}<span class="required-label">*</span></label>
+              <input  [autocomplete]="autoCompleteField" name="user-create-loginId1"  type="search" id="data2" appTrimValues class="form-control" [formControlName]="userkeys['name']" [ngClass]="{ 'is-invalid': submitted && f[userkeys['name']].errors }" required />
+              <div *ngIf="submitted && f[userkeys['name']].errors" class="invalid-feedback">
+                  <span *ngIf="f[userkeys['name']].errors.required" class="form-text text-red">{{userkeys['required_Name']}}</span>
+              </div>
+          </div>
+          <div class="form-group form-group-default">
+            <label for="data2" class="placeholder">{{userkeys['label_LastName']}}<span class="required-label">*</span></label>
+            <input  [autocomplete]="autoCompleteField" name="user-create-loginId2"  type="search" id="data3" appTrimValues class="form-control" [formControlName]="userkeys['lastname']" [ngClass]="{ 'is-invalid': submitted && f[userkeys['lastname']].errors }"  />
+            <div *ngIf="submitted && f[userkeys['lastname']].errors" class="invalid-feedback">
+                <span *ngIf="f[userkeys['lastname']].errors.required" class="form-text text-red">{{userkeys['required_LastName']}}</span>
+            </div>
+        </div>
+    
+      
+          <div class="form-group form-group-default">
+              <label for="phone" class="placeholder">{{userkeys['label_Contact']}}<span class="required-label">*</span></label>
+              <input name="user-create-loginId-3" [autocomplete]="autoCompleteField" appTrimValues type="search" id="phone" class="form-control" [formControlName]="userkeys['phone']" [ngClass]="{ 'is-invalid': submitted && f[userkeys['phone']].errors }" minlength='10' maxlength='12' numbersOnly/>
+              <div *ngIf="submitted && f[userkeys['phone']].errors " class="invalid-feedback">
+                  <span *ngIf="f[userkeys['phone']].errors.required" class="form-text text-red">{{userkeys['required_Phone']}}</span>
+                  <span *ngIf="f[userkeys['phone']].errors.minlength" class="form-text text-red">{{userkeys['validation_Phone_MinL']}}</span>
+                    <span *ngIf="f[userkeys['phone']].errors.maxlength" class="form-text text-red">{{userkeys['validation_Phone_MaxL']}}</span>
+                    <span *ngIf="f[userkeys['phone']].errors.pattern" class="form-text text-red">{{userkeys['onlyNumbers']}}</span>
+              </div>
+          </div>
+              <div class="form-group form-group-default">
+            <label for="email" class="placeholder">{{userkeys['label_Email']}}<span class="required-label">*</span></label>
+            <input [autocomplete]="autoCompleteField" name="user-create-loginId2" appTrimValues  type="email" id="email" class="form-control"  myNoSpaces [formControlName]="userkeys['email']" [ngClass]="{ 'is-invalid': submitted && f[userkeys['email']].errors }"  required />
+            <span *ngIf="f[userkeys['email']].dirty && f[userkeys['email']].invalid && f[userkeys['email']].value.length>0 && !submitted" class="emailText">{{userkeys['validation_Email']}}</span>
+            <span *ngIf="f[userkeys['email']].dirty && f[userkeys['email']].value.length==0 && !submitted" class="emailText">{{userkeys['required_Email']}}</span>
+            <div *ngIf="submitted && f[userkeys['email']].errors" class="invalid-feedback">
+                <span *ngIf="f[userkeys['email']].errors.required" class="form-text text-red">{{userkeys['required_Email']}}</span>
+                <span *ngIf="f[userkeys['email']].errors.email">{{userkeys['validation_Email']}}</span>
+            </div>
+          </div>
+
+
+            <div class="form-group">
+                <label class="fon-label">{{userkeys['label_Image']}}</label>
+                <div class="input-file input-file-image">
+                  <img class="img-upload-preview img-circle" width="100" height="100" *ngIf="imgURL" [src]="imgURL"
+                    alt="preview">
+                  <input type="file" (change)="onFileChange($event)" class="form-control form-control-file"
+                    id="uploadImg" name="uploadImg" accept="image/x-png,image/jpeg" #myInput>
+                  <label for="uploadImg" class=" label-input-file btn btn-primary fon-label">{{userkeys['ChooseAvatar']}}</label>
+                  <button  class="btn  btn-s waves-effect m-t-10" type="button" (click)="clearImg($event,myInput)" [ngClass]="{
+                    'disabledList':!imgURL}"><i class="fas fa-times"></i>{{userkeys['clearAvatar']}}</button>
+                </div>
+              </div>
+
+          <div class="form-group">
+            <div class="col-md-3 offset-md-5">
+              <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3">{{userkeys['label_Create']}}</button>
+              <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+                [routerLink]="['/mainLayout','users']">{{userkeys['label_Cancel']}}</button>
+            </div>
+          </div>
+    
+        </form>
+  </div>
+</div>

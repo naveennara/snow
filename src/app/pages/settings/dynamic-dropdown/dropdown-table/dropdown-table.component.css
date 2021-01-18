@@ -1,0 +1,17 @@
+.colorWhite{
+    color:white;
+}
+.float-right button.active {
+    background-color:grey !important;
+    color: white;
+  }
+  .diasbleButton {
+    /* cursor: no-drop; */
+    color: white;
+    pointer-events: none;
+    opacity: .4;
+  }
+  .btnCell{
+    display: block;
+    margin: auto;
+  }

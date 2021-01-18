@@ -1,0 +1,38 @@
+.tips-card{
+    width: 350px;
+    height: 350px;
+    float: right;
+    top: 120px;
+    right: 20px;
+    position: fixed;
+    z-index:2000;
+}
+
+.help-overlay{
+position: fixed;
+z-index: 1100;
+width: 100%;
+height: 100%;
+left: 0;
+top: 0;
+right: 0;
+bottom: 0;
+background: rgba(0, 0, 0, 0.2);
+overflow: hidden;
+}
+
+.help-link, .help-close{
+    color: #fff !important;
+}
+
+.helpStatus {
+content: "";
+display: inline-block;
+margin-right:2px;
+top: 0;
+left: -5px;
+width: 8px;
+height: 8px;
+border-radius: 50%;
+background: #e9ecef;
+}

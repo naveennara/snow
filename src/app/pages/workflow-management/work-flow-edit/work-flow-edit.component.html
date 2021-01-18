@@ -1,0 +1,39 @@
+<div class="card">
+    <div class="card-header">
+      <div class="card-head-row">
+        <div class="card-tools">
+          <div class="btn-group">
+            <div class="float-right padding">
+              <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              routerLink="/mainLayout/workFlowManagement" title="{{workflowKeys['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+               </button>
+            </div>
+          </div>
+        </div>
+      </div>
+        <!-- <div class="card-title">{{workflowKeys['updateTitle']}}</div> -->
+    </div>
+    <div class="card-body">
+      <form [formGroup]="workflowForm" >
+
+        <div class="form-group">
+          <label for="workflowname">{{workflowKeys['wfNameLabel']}}</label>
+          <input type="text" class="form-control borderBlack" id="workflowname" [readonly]="true" [formControlName]="workflowKeys['wfNameCtrl']" placeholder="Enter Workflow Name">
+        </div>
+        <div [formArrayName]="workflowKeys['wfListLabel']">
+          <div *ngFor="let workflowLevel of workflowList?.controls; let i = index" [formGroupName]="i">
+            <app-work-flow-level [index]="i" [workflowLevelForm]="workflowLevel" [usersList]="usersList" [viewType]="viewType" (deleteWorkflowLevel)="deleteWorkflowLevel($event)" (saveWorkflowLevel)="saveWorkflowLevel($event)" [isWorkflowEditAllowed]='isWorkflowEditAllowed'></app-work-flow-level>
+          </div>
+        </div>
+        <div class="button-group">
+          <div class="btn-group d-flex justify-content-center">
+            <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3" (click)="updateWorkflow()" [disabled]="workflowForm.invalid">Update</button>
+            <button type="button" class="btn btn-outline-danger btn-rounded btn-sm" routerLink="/mainLayout/workFlowManagement">Cancel</button>
+          </div>
+        </div>
+          
+      </form>
+      <app-delete-template (deleteOrCancel)="confirmDelete($event)"></app-delete-template>
+
+    </div>
+  </div>

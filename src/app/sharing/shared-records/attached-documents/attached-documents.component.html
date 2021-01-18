@@ -1,0 +1,32 @@
+<div class="container" *ngIf="responseRef.length">
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>{{constants['refTableAttachment']}}</th>
+            <th>{{constants['Size']}}</th>
+            <th>{{constants['label_Download']}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let file of responseRef">
+            <td><strong><a href="javascript:;" (click)="getReferredFile(file,'view')">{{file.filename}}</a></strong></td>
+            <td>{{file.chunkSize/1024/1024 | number:'2.2-2'}} MB</td>
+            <td>
+              <button type="button" class="btn btn-icon btn-xs" title="{{constants['label_Download']}}" (click)="getReferredFile(file,'download')">
+                <i class="fa fa-download icon-color"></i>
+            </button>
+            </td>
+          </tr>
+          <!-- <tr>
+              <td></td>
+              <td>{{fileSize/1024/1024|number:'2.2-2'}}MB</td>
+              <td></td>
+            </tr> -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-body" *ngIf="responseRef && !responseRef.length" align="center">
+    <img [src]="noDataImg" class="img-responsive">
+  </div>

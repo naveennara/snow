@@ -1,0 +1,87 @@
+<div class="card shadow mb-4 wizard-container wizard-round col-md-12">
+  <div class="card-header">
+    <div class="card-head-row">
+      <div class="card-tools">
+        <div class="btn-group">
+          <div class="float-right padding">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+            [routerLink]="['/mainLayout','projectsTab','projects']" title="{{projectKeys['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <h6 class="m-0 font-weight-bold text-primary">{{projectKeys['CreateProject']}}</h6> -->
+  </div>
+  <div class="card-body">
+    <form class="user" [formGroup]="createproject" (ngSubmit)="createProject()" [autocomplete]="autoCompleteForm">
+        <div class="form-group form-group-default">
+            <label for="name" class="placeholder">{{projectKeys['Name']}}<span class="required-label">*</span></label>
+            <input [autocomplete]="autoCompleteField" name="create-project-name" type="text" id="name" class="form-control" appSpecialCharacter myNoSpaces appTrimValues [formControlName]="projectKeys['name']" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" required />
+            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                <span *ngIf="f.name.errors.required" class="form-text text-red">{{projectKeys['nameRequired']}}</span>
+                <span *ngIf="!f.name.errors.required && f.name.errors.whitespace" class="form-text text-red">{{f.name.errors.whitespace}}</span>
+            </div>
+          </div>
+          <div class="form-group form-group-default">
+              <label for="description" class="placeholder">{{projectKeys['Description']}}</label>
+              <textarea id="description" class="form-control input-border-bottom" [formControlName]="projectKeys['description']"
+                rows="3"></textarea>
+          </div>
+          <div>
+              <label for="Categories" class="placeholder fon-label" >{{projectKeys['Category']}}<span class="required-label">*</span></label>
+                  <ng-multiselect-dropdown  [placeholder]="'Select Categories'" [settings]="dropdownSettings" [data]="categoriesList" [formControlName]="projectKeys['category']" 
+                    name="category"  [ngClass]="{ 'is-invalid': submitted && f[projectKeys['category']].errors }"> 
+                  </ng-multiselect-dropdown>
+                  <div *ngIf="submitted && f.category.errors" class="invalid-feedback">
+                      <span *ngIf="f.category.errors.required" class="form-text text-red">{{projectKeys['categoryRequired']}}</span>
+                  </div>
+          </div>
+          <div class="form-group group-admin-div">
+                <label class="fon-label">{{projectKeys['GroupAdmin']}}<span class="required-label">*</span></label>
+                <ng-select [items]="groupAdminsList"
+                            placeholder="Select Group Admin"
+                            bindLabel="username" [formControlName]="projectKeys['groupAdmins']" [ngClass]="{ 'is-invalid': submitted && f[projectKeys['groupAdmins']].errors }">
+                </ng-select>
+                <div *ngIf="submitted && f.groupAdmins.errors" class="invalid-feedback">
+                    <span *ngIf="f.groupAdmins.errors.required" class="form-text text-red">{{projectKeys['groupadminRequired']}}</span>
+                </div>
+            </div>
+          <!-- <div class="separator-dashed"></div> -->
+          <div>
+                <label class="fon-label">{{projectKeys['SetProjectDates']}}</label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group form-group-default">
+                            <label for="startDate" class="placeholder fon-label"><i class="fas fa-calendar-check"></i> {{projectKeys['StartDate']}}<span class="required-label">*</span></label>
+                            <input [autocomplete]="autoCompleteField" appCalendar name="create-project-startdate" type="text"  class="form-control mb-3" (bsValueChange)="bsValueChange($event)" bsDatepicker [formControlName]="projectKeys['startDate']"
+                            [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }" [minDate]="startMinDate" [maxDate]="startMaxDate"
+                             [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }" required />
+                             <div *ngIf="submitted && f.startDate.errors" class="invalid-feedback">
+                                <span *ngIf="f.startDate.errors.required" class="form-text text-red">{{projectKeys['startdateRequired']}}</span>
+                             </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group form-group-default">
+                            <label for="startDate" class="placeholder fon-label"><i class="fas fa-calendar-check"></i> {{projectKeys['EndDate']}}<span class="required-label">*</span></label>
+                            <input [autocomplete]="autoCompleteField" appCalendar name="create-project-endDate"  type="text" class="form-control mb-3" (bsValueChange)="endValueChange($event)" bsDatepicker [formControlName]="projectKeys['endDate']"
+                            [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }" [minDate]="endMinDate" [maxDate]="endMaxDate" [ngClass]="{ 'is-invalid': submitted && f.endDate.errors }" required />
+                            <div *ngIf="submitted && f.endDate.errors" class="invalid-feedback">
+                                  <span *ngIf="f.endDate.errors.required" class="form-text text-red">{{projectKeys['enddateRequired']}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+          </div>
+          
+          <div class="form-group">
+              <div class="col-md-3 offset-md-5">
+                <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3">{{projectKeys['label_Create']}}</button>
+                <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+                  [routerLink]="['/mainLayout','projectsTab','projects']">{{projectKeys['label_Cancel']}}</button>
+              </div>
+          </div>
+    </form>
+  </div>
+</div>

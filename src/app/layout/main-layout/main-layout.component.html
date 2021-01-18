@@ -1,0 +1,30 @@
+<div class="wrapper compact-wrapper">
+  <app-header></app-header>
+  <app-sidebar></app-sidebar>
+
+  <div class="main-panel">
+    <div class="content content-full">
+      <router-outlet>
+      </router-outlet>
+      <app-quick-sidebar></app-quick-sidebar>
+      <app-help-tips></app-help-tips>
+      <div class="custom-template">
+        <div class="title">Settings</div>
+        <div class="custom-content">
+         
+        </div>
+        <div class="custom-toggle" *ngIf="loginDetails.type != 4" (click)="openDashboard()">
+            <img [src]='sidebarIcons.dashboard' alt="Dashboard" class="sidebarImg">
+          <!-- <i class="flaticon-settings"></i> -->
+        </div>
+      </div>
+    
+      <div class="scroll-to-top" [ngClass]="{'show-scrollTop': windowScrolled}">
+        <button (click)="scrollToTop()" class="btn btn-icon btn-round btn-info">
+          <i class="fa fa-chevron-up"></i>
+        </button>
+      </div>
+    </div>
+    <!-- <app-footer></app-footer> -->
+  </div>
+</div>

@@ -1,0 +1,84 @@
+
+<div class="page-inner">
+    <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pb-3">
+      <div>
+        <h2 class="pageTitle">Forms</h2>
+      </div>
+      <div class="ml-md-auto py-2 py-md-0 mr-2">
+        <app-search (searchEvent)="search($event)"></app-search>
+      </div>
+    </div>
+</div>
+
+<!-- Body -->
+<div class="card full-height mx-4">
+
+    <div class="card-header">
+        <div class="card-head-row">
+          <p class="card-category wu-header-text" *ngIf="formsList && formsList.length>0">
+            Showing ({{formsList.length}}) out of {{totalCount}} All - Forms
+           &nbsp;
+          </p>
+        </div>
+    </div>
+  <!-- CardBody -->
+  <div class="card-body">
+    <ng-container  *ngIf="formsList.length > 0">
+        <div  class="task-list" infinite-scroll [infiniteScrollDistance]="scrollDistance"
+        [infiniteScrollUpDistance]="scrollUpDistance" [infiniteScrollThrottle]="throttle"
+        (scrolled)="getAssignmentListOnScrolldown()" *ngFor="let formRef of formsList">
+        <div class="d-flex">
+          <div class="flex-1 ml-2 pt-1">
+            <h6 class="text-uppercase fw-bold mb-1">
+              <a href="javascript:;" (click)="gotoFormFill(formRef)"
+                title="{{constants['gotoWorkOrders']}}">{{formRef[formsListKeys.formName]}}</a>
+            </h6>
+          </div>
+          <!-- Task Action Bar -->
+          <div class="float-right task-ActionBar pt-3">
+            <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              (click)="showInfo(formRef,infoModel)" title="{{constants['showInfo']}}">
+              <i class="fas fa-info icon-color"></i>
+            </button>
+            <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="gotoFormFill(formRef)"
+              title="{{constants['fillForm']}}">
+              <i class="far fa-edit icon-color"></i>
+            </button>
+            <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              (click)="gotoHistoryView(formRef)" title="{{constants['History']}}">
+              <i class="fas fa-history icon-color"></i>
+            </button>
+            <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+            (click)="gotoWorkOrders(formRef)" title="{{constants['Reassigned']}}">
+            <i class="fa fa-retweet icon-color" aria-hidden="true"></i>
+
+          </button>
+          </div>
+          <!-- End Task Action Bar -->
+        </div>
+        <div class="separator-dashed"></div>
+      </div>
+    </ng-container>
+
+    
+    <div class="wu-no-data-found" *ngIf="formsList.length == 0 && !isIntialRequestInProcess && intialRequestStatus === 3">
+        <app-no-data-found></app-no-data-found>
+    </div>
+  </div>
+  <!-- END CardBody -->
+</div>
+
+
+
+<app-page-loader *ngIf="isIntialRequestInProcess"></app-page-loader>
+
+
+
+<!-- rest API success template start -->
+<app-api-call-res (tryAgin)="tryAginForGetForms()"
+  *ngIf="(intialRequestStatus === 2 || intialRequestStatus === 1) && !isIntialRequestInProcess"></app-api-call-res>
+<!-- rest API success template start end -->
+
+<ng-template #infoModel class="table-widget-add-row">
+  <app-info-model [data]="selectedForm" [modalRef]="modalRef" actionPage="forms"></app-info-model>
+</ng-template>

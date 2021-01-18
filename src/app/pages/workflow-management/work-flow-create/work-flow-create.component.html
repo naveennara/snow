@@ -1,0 +1,46 @@
+<div class="card">
+  <div class="card-header">
+    <div class="card-head-row">
+      <div class="card-tools">
+        <div class="btn-group">
+          <div class="float-right padding">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+            routerLink="/mainLayout/workFlowManagement" title="{{workflowKeys['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!-- <div class="card-title">{{workflowKeys.createTitle}}</div> -->
+  </div>
+  <div class="card-body">
+    <form [formGroup]="workflowForm"  [autocomplete]="autoCompleteForm">
+      <button type="button" *ngIf="enableAddNew" class="btn btn-icon btn-round btn-primary plushover" (click)="addWorkflowLevel()">
+        <i class="fa fa-plus"></i>
+      </button>
+      
+
+      <div class="form-group form-group-default">
+        <label for="workflowname" class="placeholder">{{workflowKeys.wfNameLabel}}<span class="required-label">*</span></label>
+        <input [autocomplete]="autoCompleteField"  name="create-work-flow-name" type="text" id="workflowname" class="form-control" [formControlName]="workflowKeys['wfNameCtrl']" placeholder="Enter Workflow Name" appSpecialCharacter myNoSpaces appTrimValues>
+        <!-- <div *ngIf="submitted && f.workflowname.errors" class="invalid-feedback">
+          <span *ngIf="f.workflowname.errors.required" class="form-text text-red">{{workflowKeys.nameReqErrMsg}}</span>
+        </div> -->
+      </div>
+
+      <div [formArrayName]="workflowKeys['wfListLabel']">
+        <div *ngFor="let workflowLevel of workflowList?.controls; let i = index" [formGroupName]="i">
+          <app-work-flow-level [index]="i" [workflowLevelForm]="workflowLevel" [viewType]="viewType" [usersList]="usersList" (deleteWorkflowLevel)="deleteWorkflowLevel($event)" (saveWorkflowLevel)="saveWorkflowLevel($event)" [isWorkflowEditAllowed]='true'></app-work-flow-level>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <div class="btn-group d-flex justify-content-center">
+          <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3" (click)="createWorkflow()" [disabled]="workflowForm.invalid || !enableAddNew">Submit</button>
+          <button type="button" class="btn btn-outline-danger btn-rounded btn-sm" routerLink="/mainLayout/workFlowManagement">Cancel</button>
+        </div>
+      </div>
+        
+    </form>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+/* New UI Styles */
+/* Author: PK */
+.taskWA-ActionBar {
+    opacity: 0;
+    width: auto;
+    transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+  }
+  
+  .taskWA-list:hover {
+    background-color: #E9ECEF;
+  }
+  
+  .taskWA-list:hover .taskWA-ActionBar {
+    opacity: 1;
+    transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+  }
+  
+  /* for back arrow */
+.padding {
+  padding-top: 10%;
+}

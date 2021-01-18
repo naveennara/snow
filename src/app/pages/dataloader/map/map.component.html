@@ -1,0 +1,132 @@
+<!-- <div id="mapbody" > -->
+ 
+ <div class="card">
+    <div class="card-header">
+      <div class="card-head-row card-tools-still-right">
+      <h4 class="card-title"> Source Data Preview <span 
+        tooltip="Preview of Uploaded data" placement="bottom">
+          <i class="fa fa-info-circle"></i></span> </h4>
+          <div class="card-tools">
+
+            <a (click)="navigateToAddLayers()" class="btn btn-info btn-border btn-round btn-sm mr-2">
+              <span class="btn-label">
+                  <i class="fa fa-plus"></i>
+              </span>
+              Upload More
+          </a>
+             </div>
+             </div>
+    </div><!--
+    <div class="card-body"> -->
+
+    
+  <div class="row py-3 m-0">
+    <div class="col-4 col-md-4">
+      <div class="card p-5">
+        <div class="table-responsive table-hover table-sales">
+          <table class="table">
+            <thead class="coverage-header">
+              <tr>
+                  <th>Layer Name</th>
+                  <th class="text-right">Feature Size</th>
+                
+              </tr>
+          </thead>
+            <tbody>
+              <tr *ngFor="let layer of layerNames; index as i">
+                <td>{{ layer.name }}</td>
+                <td class="text-right">
+                  {{ layer.count }}
+                  
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-8 col-md-8">
+      <div class="card p-5">
+        <div id="map" style="width:100%;height:450px;overflow-y: hidden;overflow-x: hidden;"
+          leaflet
+          [leafletLayersControl]="layersControl"
+          [leafletFitBounds]="mapFitToBounds"
+          [leafletOptions]="mapOptions"
+          (leafletMapReady)="onMapReady($event)"
+        >
+      </div>
+      
+      
+    </div>
+  </div>
+
+<!-- </div> -->
+</div>
+
+
+</div>
+<!-- </div> -->
+
+
+<!-- MMPK63 New Map Preview -->
+<!-- <div class="row mapbG ml-0 mr-0" >
+  <div class="resizeE ml-0 mr-0 p-5">
+    <div class="card fullHeight activityBar">
+        <div class="table-responsive table-hover table-sales">
+          <table class="table">
+            <tbody>
+              <tr *ngFor="let layer of layerNames; index as i">
+                <td>{{ layer.name }}</td>
+                <td class="text-right">
+                  {{ layer.count }}
+                  
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </div>
+
+  <div class="col mapBlock">
+ 
+    <div class="card" 
+    mwlResizable [enableGhostResize]="true" [ngClass]="isFullscreen?'mapRetained':'mapExpanded'"
+    [resizeSnapGrid]="{right: 20}" 
+    [resizeEdges]="{ bottom: false, right: false, top: false, left: true }"
+    (resizeEnd)="onResizeEnd($event)">
+        <div id="map"
+          leaflet
+          [leafletLayersControl]="layersControl"
+          [leafletFitBounds]="mapFitToBounds"
+          [leafletOptions]="mapOptions"
+          (leafletMapReady)="onMapReady($event)">
+
+          <button class="btn btn-sm btn-outline-default btn-icon maximizeMap" 
+            (click)="call_FSEvnt($event)"
+            title="{​​​​{​​​​isFullscreen? 'Collapse View':'Expand View'}​​​​}​​​​">
+            <i [ngClass]="isFullscreen?'fa fa-compress':'fa fa-expand'" aria-hidden="true"></i>
+          </button>
+
+        </div>
+    </div>
+  </div>
+</div> -->
+<!-- END -->
+
+<script>
+  $(".leaflet-control-layers-selector").each(function(i) {
+  layerControlElement.getElementsByTagName('input')[i].click();
+
+});
+
+
+$(window).on('popstate', function (e) {
+  window.history.forward(1);
+});
+ 
+
+
+
+</script>

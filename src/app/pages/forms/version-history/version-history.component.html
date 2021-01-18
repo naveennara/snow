@@ -1,0 +1,124 @@
+<div class="card full-height">
+    <div class="card-header">
+      <div class="card-head-row">
+        <h4 class="card-title">{{constants['versionHeader']}}</h4>
+        <div class="ml-md-auto py-2 py-md-0 float-right">
+          <div>
+            <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" title="{{constants['label_Back']}}" (click)="goBackToForms()">
+              <i class="fas fa-arrow-left icon-color"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="card-body card-padding mt-7 bodyBg">
+      <!-- List View -->
+      <div *ngIf="versionsList && versionsList.length >0">
+        <div class="formsz-list"
+          *ngFor="let versionObj of versionsList">
+          <div class="d-flex">
+            <!-- <div class="avatar mx-2 my-2">
+              <span class="avatar-title rounded-circle border border-white">
+                <ngx-avatar name="{{versionObj.version}}" initialsSize="2"></ngx-avatar>
+              </span>
+            </div> -->
+            <div class="flex-1 ml-2 pt-2">
+              <h6 class="text-uppercase fw-bold mb-1">{{constants['Version']}} {{versionObj.version}}</h6>
+              <small class="text-muted" title="{{constants['label_Created']}}"><i class="far fa-calendar icon-color"></i>
+                {{constants['label_Created']}}: {{versionObj.createdTime | date:'mediumDate'}}</small>
+            </div>
+            <!-- Version Action Bar -->
+            <div class="float-right formsz-ActionBar pt-3">
+              
+              <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+                (click)="versionDetails(versionObj)" title="{{constants['label_Details']}}">
+                <i class="fas fa-info-circle icon-color"></i>
+              </button>
+              
+            </div>
+            <!-- End Version Action Bar -->
+          </div>
+          <div class="separator-dashed"></div>
+        </div>
+  
+      </div>
+      <!-- End List View -->
+  
+      <div *ngIf="versionsList && !versionsList.length" align="center">
+        <img [src]="Imgsrc" class="img-responsive">
+      </div>
+    </div>
+  
+  </div>
+  <ngx-smart-modal #versionInfo identifier="versionInfo" [closable]="false">
+    <div class="modal-header ">
+        <h4 class="modal-title">{{constants['versionHistory']}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="versionInfo.close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div *ngFor="let action of actions">
+      <accordion>
+        <accordion-group heading="{{action}}">
+          
+          <div *ngIf = "versionBasicInfo">
+          <div [ngSwitch] = "action">
+              <div *ngSwitchCase="'Added'">
+                <ul *ngFor="let widget of versionBasicInfo[action]">
+                    <li>New {{widget.label}} field has been added.</li>
+                </ul>
+                  
+                  
+              </div>
+              <div *ngSwitchCase="'Updated'">
+                  <!-- <ul *ngFor="let widget of versionBasicInfo[action]">
+                      {{widget}}
+                  </ul> -->
+
+            <!-- <div *ngFor="let key of Object.keys(objs)">
+              my key: {{key}}
+              my object {{objs[key] | json}}
+            </div> -->
+
+            <div *ngFor="let widget of versionBasicInfo[action]">
+               <ul *ngFor="let key of Object.keys(widget)">
+                  <b style="color: #719A31">{{key}}</b>
+                  
+                  <li *ngFor="let value of Object.keys(widget[key])">
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{value}} is {{widget[key][value]}}
+                  </li>
+               </ul>
+            </div>
+            <!-- <br>
+            <uib-accordion-content>
+               <ul ng-repeat="(key,basic) in basicLevelVersion[0]">
+                  <b style="color: #719A31">{{key}}</b>
+                  <li ng-if="key !=='selectedUsers'">
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{key}} has been updated to
+                     {{basic}}
+                  </li>
+                  <li ng-if="key =='selectedUsers'">
+                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{key}} has been updated to
+                     <span ng-repeat="val in basic">{{val.name}} &nbsp;</span>
+                  </li>
+               </ul>
+            </uib-accordion-content> -->
+                  
+              </div>
+              <div *ngSwitchCase="'Deleted'">
+                  <ul *ngFor="let widget of versionBasicInfo[action]">
+                    <li>{{widget.label}} field has been deleted.</li>
+                  </ul>
+                  
+              </div>
+              <div *ngSwitchDefault>
+                  Default
+                  
+              </div>
+          </div>
+          </div>
+        </accordion-group>
+      </accordion>
+    </div>
+  </ngx-smart-modal>

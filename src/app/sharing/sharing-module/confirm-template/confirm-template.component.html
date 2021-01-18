@@ -1,0 +1,63 @@
+<ngx-smart-modal #confirmModel [closable]="false" [identifier]="'confirmModel'">
+
+    <div class="modal-header">
+        <h5 class="modal-title">Confirm Action</h5>
+        <button aria-label="Close" class="close btn-lg" data-dismiss="modal" type="button" (click)="confirmModel.close()">
+            <span aria-hidden="true"><i class="fas fa-times icon-color"></i></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p class="m-b-5">Are you sure you want to proceed?</p>
+    </div>
+    <div class="modal-footer p-10">
+        <button type="button" 
+            class="btn btn-outline-primary btn-rounded btn-sm mr-2" 
+            (click)="confirmDelete()">Yes
+        </button>
+    
+        <button type="button" class="btn btn-outline-danger btn-rounded btn-sm" (click)="confirmModel.close()">
+            No
+        </button>
+    </div>
+
+    <!-- ------------ -->
+    <!-- <div class="row headerConfirmation">
+        <h4 class="col-md-11 confirmaction">Confirm Action</h4>
+        <span class="col-md-1">
+            <button type="button" class="close" aria-label="Close" (click)="deleteModel.close()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </span>
+    </div>
+    <p class="headerTitle">Are you sure you want to delete ?</p>
+    <div class="btn-group d-flex justify-content-center">
+        <button type="button" class="btn btn-primary btn-rounded btn-xs mr-3" (click)="confirmDelete()">
+            Yes
+        </button>
+
+        <button type="button" class="btn btn-danger btn-rounded btn-xs" (click)="deleteModel.close()">
+            No
+        </button>
+    </div> -->
+
+</ngx-smart-modal>
+<!-- <div class="container-fluid bodyBg">
+        <span class="row">
+            <span class="col-md-10 c-black"><p>Are you sure you want to delete  ?</p></span>
+            <span class="modelclosebutton">
+                <button type="button" class="close" aria-label="Close" (click)="deleteModel.close()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </span>
+        </span>
+        <div class="separator-dashed"></div>
+        <div class="btn-group d-flex justify-content-center">
+            <button type="button" class="btn btn-sm btn-primary mr-2 buttonBorder" (click)="confirmDelete()">
+                Yes
+            </button>
+    
+            <button type="button" class="btn btn-sm btn-danger buttonBorder" (click)="deleteModel.close()">
+                No
+            </button>
+        </div>
+    </div> -->

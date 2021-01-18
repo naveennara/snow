@@ -1,0 +1,146 @@
+
+
+<div class="page-inner">
+  <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pb-3">
+    <div>
+      <h2 class="pageTitle">Assignments</h2>
+    </div>
+    <div class="ml-md-auto py-2 py-md-0 mr-2">
+      <app-search (searchEvent)="search($event)"></app-search>
+    </div>
+
+    
+  </div>
+</div>
+
+
+<div class="card full-height mx-4">
+
+    <div class="card-header">
+        <div class="card-head-row">
+          <p class="card-category wu-header-text" *ngIf="assignmentList && assignmentList.length>0">
+            Showing ({{assignmentList.length}}) out of
+            {{totalRecords}}&nbsp;
+            <span *ngIf="fillterBy == null">All -&nbsp;</span>
+            <span *ngIf="fillterBy == 'Assigned'">New -&nbsp;</span>
+            <span *ngIf="fillterBy == 'Reassigned'">Re-assigned -&nbsp;</span>
+            Assignments
+          </p>
+    
+          <div class="card-tools">
+            <div class="btn-group">
+              <button type="button" class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2" data-toggle="dropdown"
+                aria-expanded="false" title="{{constants['label_Filter']}}">
+                <i class="fas fa-filter icon-color"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right animated fadeIn" x-placement="bottom-end">
+                  <li *ngFor="let filterItem of filtersList;let i = index" >
+                    <a href="javascript:;" class="dropdown-item p-l-10" [class.active]='filterItem.value == fillterBy' (click)="getAssignmentsFillter(filterItem.value)"
+                     >
+                      <ul class="wu-list-item-ul">
+                          <li class="wu-list-item" >
+                              {{filterItem.name}}
+                          </li>
+            
+                      </ul>
+                    </a>
+                  </li>
+                 
+                </ul>
+              <!-- <button *ngIf="!showme" [ngClass]="{'disabledList': formsList && !formsList.length }" class="btn btn-icon btn-rounded btn-transparent btn-sm" title="GroupBy Category"
+                (click)="sort()">
+                <i class="fas fa-bars icon-color"></i>
+              </button>
+    
+              <button *ngIf="showme" class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2" title="Back"
+                (click)="showAllForms()">
+                <i class="fas fa-arrow-left icon-color"></i>
+              </button> -->
+            </div>
+          </div>
+    
+        </div>
+    </div>
+    
+  <!-- CardBody -->
+  <div class="card-body">
+    <ng-container *ngIf="assignmentList.length > 0">
+        <div   class="task-list" infinite-scroll [infiniteScrollDistance]="scrollDistance"
+      [infiniteScrollUpDistance]="scrollUpDistance" [infiniteScrollThrottle]="throttle"
+      (scrolled)="getAssignmentListOnScrolldown()" *ngFor="let assiggnment of assignmentList"
+      [ngStyle]="{'border-left':getType(assiggnment[taskListKeys.status].toLowerCase())}">
+      <div class="d-flex">
+        <div class="flex-1 ml-2 pt-1">
+          <h6 class="text-uppercase fw-bold mb-1">
+            <a href="javascript:;" (click)="gotoWorkOrders(assiggnment)"
+              title="{{constants['workAssignments']}}">{{assiggnment[taskListKeys.assignmentName]}}</a>
+            <span class="text pl-3"
+              [class.text-danger]="assiggnment[taskListKeys.status].toLowerCase() === 'reassigned'"
+              [class.text-success]="assiggnment[taskListKeys.status].toLowerCase() === 'assigned'">
+              {{assiggnment[taskListKeys.status].toLowerCase() === 'assigned'?'New' : assiggnment[taskListKeys.status].toLowerCase() }} 
+            </span>
+          </h6>
+          <small class="text-muted">
+            <span title="{{constants['assignedBy']}}">
+              <i class="fas fa-user-plus icon-color"></i> {{assiggnment[taskListKeys.assignedBy]}}
+            </span>|
+            <span title="{{constants['dueDate']}}">
+              <i class="fas fa-calendar-times icon-color"></i> {{assiggnment[taskListKeys.dueDate] | date : "MM-dd-yy"}}
+            </span>
+          </small>
+        </div>
+        <div class="float-right task-ActionBar pt-3">
+          <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+          (click)="showInfo(assiggnment,infoModel)" title="{{constants['showInfo']}}">
+            <i class="fas fa-info icon-color"></i>
+          </button>
+          <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+          (click)="gotoFormFill(assiggnment)" title="{{constants['Fill']}}">
+            <i class="far fa-edit icon-color"></i>
+          </button>
+          <!-- <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+          (click)="gotoRejectedWorkorders(assiggnment)" title="Reassigned">
+            <i class="fas fa-exchange-alt icon-color"></i>
+          </button> -->
+          <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+          (click)="gotoHistoryView(assiggnment)" title="{{constants['History']}}">
+            <i class="fas fa-history icon-color"></i>
+          </button>
+        </div>
+      </div>
+      <div class="separator-dashed"></div>
+    </div>
+    </ng-container>
+    
+
+    <!-- no data found start -->
+  <div class="wu-no-data-found" *ngIf="assignmentList.length === 0 && !isIntialRequestInProcess && intialRequestStatus === 3" >
+    <app-no-data-found></app-no-data-found>
+  </div>
+  <!-- no data found end -->
+  </div>
+  <!-- END CardBody -->
+
+  
+</div>
+
+
+
+
+<!-- page loadre start: it will visbible while page getting ready -->
+<app-page-loader *ngIf="isIntialRequestInProcess"></app-page-loader>
+<!-- page loadre end -->
+
+
+
+<!-- rest API success template start -->
+<app-api-call-res (tryAgin)="tryAginForGetResssign()"
+  *ngIf="(intialRequestStatus === 2 || intialRequestStatus === 1) && !isIntialRequestInProcess"></app-api-call-res>
+<!-- rest API success template start end -->
+
+
+<!-- info template start -->
+<ng-template #infoModel class="table-widget-add-row">
+  <app-info-model [data]="slectedAssigmnet" [modalRef]="modalRef" actionPage="assignments"></app-info-model>
+</ng-template>
+<!-- info template end -->

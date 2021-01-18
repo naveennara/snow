@@ -1,0 +1,147 @@
+<div class="card shadow mb-4">
+  <div class="card-header">
+    <div class="card-head-row">
+      <!-- <div class="card-title" *ngIf="loginDetails['type']==3">Preview</div> -->
+      <!-- <div class="card-title" *ngIf="loginDetails['type']!=3">Edit</div> -->
+      <div class="card-tools">
+        <div class="btn-group">
+          <div class="float-right padding">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              [routerLink]="['/mainLayout','administrators']" title="{{adminKeys['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+            </button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body mx-4">
+    <form   [autocomplete]="autoCompleteForm" class="user" [formGroup]="createAdmin" (ngSubmit)="createAdministrator()" >
+
+      <!-- <div class="form-group form-group-default">
+        <label for="username" class="placeholder">{{adminKeys['label_Username']}}<span
+            class="required-label">*</span></label>
+       <input  [autocomplete]="autoCompleteField" name="username-ref" type="text" [formControlName]="adminKeys['username']" id="username" class="form-control input-border-bottom"
+                    [ngClass]="{ 'is-invalid': submitted && f.username.errors }" appSpecialCharacter myNoSpaces/>
+                  
+           <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <span *ngIf="f.username.errors.required" class="form-text text-red">{{adminKeys['required_Username']}}</span>
+                    <span *ngIf="!f.username.errors.required && f.username.errors.whitespace" class="form-text text-red">{{f.username.errors.whitespace}}</span>
+                  </div>
+      </div> -->
+
+      <div class="form-group form-group-default">
+        <label for="name" class="placeholder">{{adminKeys['label_FirstName']}}<span
+            class="required-label">*</span></label>
+        <input [autocomplete]="autoCompleteField" type="text" [formControlName]="adminKeys['name']" id="name"
+          class="form-control" appTrimValues
+          [ngClass]="{ 'is-invalid': submitted && f[adminKeys['name']].errors}" />
+        <div *ngIf="submitted && f[adminKeys['name']].errors" class="invalid-feedback">
+          <span *ngIf="f[adminKeys['name']].errors.required"
+            class="form-text text-red">{{adminKeys['required_Name']}}</span>
+        </div>
+      </div>
+      <div class="form-group form-group-default">
+        <label for="name" class="placeholder">{{adminKeys['label_LastName']}}<span
+            class="required-label">*</span></label>
+        <input [autocomplete]="autoCompleteField" name="lastname-ref" type="text" class="form-control" appTrimValues [ngClass]="{'is-invalid': submitted && f[adminKeys['lastname']].errors }" [formControlName]="adminKeys['lastname']">
+        <div *ngIf="submitted && f[adminKeys['lastname']].errors" class="invalid-feedback">
+          <span *ngIf="f[adminKeys['lastname']].errors.required"
+            class="form-text text-red">{{adminKeys['required_LastName']}}</span>
+        </div>
+      </div>
+
+      <div class="form-group form-group-default">
+        <label for="email" class="placeholder">{{adminKeys['label_Email']}}<span class="required-label">*</span></label>
+        <input [autocomplete]="autoCompleteField" name="email-ref" type="email" [formControlName]="adminKeys['email']"
+          class="form-control" id="email" appTrimValues
+          [ngClass]="{ 'is-invalid': submitted && f[adminKeys['email']].errors }" myNoSpaces
+          required />
+        <span
+          *ngIf="f[adminKeys['email']].dirty && f[adminKeys['email']].invalid && f[adminKeys['email']].value.length>0 && !submitted"
+          class="emailText">{{adminKeys['validation_Email']}}</span>
+        <span *ngIf="f[adminKeys['email']].dirty && f[adminKeys['email']].value.length==0 && !submitted"
+          class="emailText">{{adminKeys['required_Email']}}</span>
+        <div *ngIf="submitted && f[adminKeys['email']].errors" class="invalid-feedback">
+          <span *ngIf="f[adminKeys['email']].errors.required"
+            class="form-text text-red">{{adminKeys['required_Email']}}</span>
+          <span *ngIf="f[adminKeys['email']].errors.email">{{adminKeys['validation_Email']}}</span>
+        </div>
+      </div>
+
+      <div class="form-group form-group-default">
+        <label for="phone" class="placeholder">{{adminKeys['label_Contact']}}<span
+            class="required-label">*</span></label>
+        <input [autocomplete]="autoCompleteField" type="text" [formControlName]="adminKeys['phone']" appTrimValues
+          (keypress)="keyPress($event)" minlength='10' maxlength='12' id="phone" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f[adminKeys['phone']].errors}"
+          numbersOnly />
+        <div *ngIf="submitted && f[adminKeys['phone']].errors" class="invalid-feedback">
+          <span *ngIf="f[adminKeys['phone']].errors.required"
+            class="form-text text-red">{{adminKeys['required_Phone']}}</span>
+          <span *ngIf="f[adminKeys['phone']].errors.minlength"
+            class="form-text text-red">{{adminKeys['validation_Phone_MinL']}}</span>
+          <span *ngIf="f[adminKeys['phone']].errors.maxlength"
+            class="form-text text-red">{{adminKeys['validation_Phone_MaxL']}}</span>
+          <span *ngIf="f[adminKeys['phone']].errors.pattern"
+            class="form-text text-red">{{adminKeys['onlyNumbers']}}</span>
+        </div>
+      </div>
+       <div class="form-check form-check-inline" id="role-div">
+        <label class="fon-label">{{adminKeys['label_Role']}} :</label> <br>
+        <div class="custom-control custom-checkbox" *ngIf='loginDetails.type==0'>
+          <input type="checkbox" class="custom-control-input" id="customCheck1" [formControlName]="adminKeys['type']" 
+            value="1" (change)="roleType(1, $event)">
+          <label class="custom-control-label fon-label" for="customCheck1">{{adminKeys['label_DA']}} </label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="customCheck2" [formControlName]="adminKeys['type']"
+            value="3" (change)="roleType(3, $event)">
+          <label class="custom-control-label fon-label" for="customCheck2">{{adminKeys['label_GA']}}</label>
+        </div>
+      </div>
+      <div class="form-group" *ngIf='singleSelection && loginDetails.type==0'>
+        <label class="fon-label">{{adminKeys['label_Department']}}<span *ngIf="deptErrMsg" class="required-label ml-1">*</span>
+        </label>
+        <ng-multiselect-dropdown [placeholder]="'Select Account'" [settings]="dropdownSettings" [data]="deptList"
+        [formControlName]="adminKeys['accounts']" name="department" >
+        </ng-multiselect-dropdown>
+        <span *ngIf="submitted && deptErrMsg && createAdmin.value[adminKeys['accounts']].length==0" class="errorText">{{adminKeys['required_Account']}}</span>
+      </div>
+      <div class="form-group" *ngIf='!singleSelection && loginDetails.type==0'>
+          <label class="fon-label">{{adminKeys['label_Department']}}<span *ngIf="deptErrMsg" class="required-label ml-1">*</span>
+          </label>
+          <ng-multiselect-dropdown [placeholder]="'Select Account'" [settings]="dropdownSettings1" [data]="deptList"
+          [formControlName]="adminKeys['accounts']" name="department" >
+          </ng-multiselect-dropdown>
+          <span *ngIf="submitted && deptErrMsg && createAdmin.value[adminKeys['accounts']].length==0" class="errorText">{{adminKeys['required_Account']}}</span>
+        </div>
+     
+      <div class="form-group">
+        <label class="fon-label">{{adminKeys['label_Image']}} :</label>
+        <div class="input-file input-file-image">
+          <img class="img-upload-preview img-circle" width="100" height="100" *ngIf="imgURL" [src]="imgURL"
+            alt="preview" (error)="errorHandler($event)">
+          <input type="file" (change)="onFileChange($event)" class="form-control form-control-file" #myInput
+            id="uploadImg" name="uploadImg" accept="image/x-png,image/jpeg" required>
+          <label for="uploadImg" class=" label-input-file btn btn-primary fon-label">{{adminKeys['ChooseAvatar']}}</label>
+          <button  class="btn  btn-s waves-effect m-t-10" type="button" (click)="clearImg($event,myInput)" [ngClass]="{
+            'disabledList':!imgURL}"><i class="fas fa-times"></i> <span class="fon-label">{{adminKeys['clearAvatar']}} </span></button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-3 offset-md-5">
+          <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3" [disabled]="deptErrMsg && createAdmin.value['accounts'].length==0">{{adminKeys['label_Create']}}</button> 
+          <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+            [routerLink]="['/mainLayout','administrators']">{{adminKeys['label_Cancel']}}</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,48 @@
+<span *ngIf="derivedFields.indexOf(config[widgetKey._id]) > -1 ? false : isTable ? true : config[widgetKey.isUnderHeading].length==0?true:config[widgetKey.isUnderHeading]== expendedHeaderId?true:false">
+  <div  [formGroup]="group" class="form-group " >
+        <label  [for]="config[widgetKey._id]" class="web-user-widget-label">{{config[widgetKey.label]}} </label><span *ngIf="config[widgetKey.isRequired] == true" class="webuser-mandatory-indicator-color pl-5"> *</span>
+        <div class="input-group mb-3 ">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <button [hidden]="historyView" class="btn btn-primary time-btn-overt btn-sm" (click)="decrementTimeRange()" >
+                    <i class="fa fa-minus" aria-hidden="true" *ngIf="!config[widgetKey.disabled]"></i>
+                    <i class="fa fa-ban" aria-hidden="true"  style="color:red" *ngIf=" config[widgetKey.disabled]"> </i>
+                </button>
+              </span>
+            </div>
+
+
+            <input  [disabled]="historyView" appOnlynumbersallow (keypress)="isNumberKey($event)" [ngClass]="{'webuseer-formcontroll-error':group.get(config[widgetKey._id]).invalid === true && group.get(config[widgetKey._id]).dirty === true,
+            'webuser-formcontroll-sucess':group.get(config[widgetKey._id]).valid === true &&  group.get(config[widgetKey._id]).dirty === true
+           }"
+           value=" {{group.get(config[widgetKey._id]).value.split(':')[0]}}" placeholder="Enter hours" type="text" class="form-control web-user-widget text-colors" id="hours" [required]="config[this.widgetKey.isRequired]">
+
+           <input disabled="true" (keypress)="isNumberKey($event)" [ngClass]="{'webuseer-formcontroll-error':group.get(config[widgetKey._id]).invalid === true && group.get(config[widgetKey._id]).dirty === true,
+           'webuser-formcontroll-sucess':group.get(config[widgetKey._id]).valid === true &&  group.get(config[widgetKey._id]).dirty === true
+          }"
+          value=" {{group.get(config[widgetKey._id]).value.split(':')[1]}}"  placeholder="Enter Minutes" type="text" class="form-control web-user-widget text-colors" id="mnts" [required]="config[this.widgetKey.isRequired]">
+
+            <!-- <input (keypress)="isNumberKey($event)" [ngClass]="{'webuseer-formcontroll-error':group.get(config[widgetKey._id]).invalid === true && group.get(config[widgetKey._id]).dirty === true,
+            'webuser-formcontroll-sucess':group.get(config[widgetKey._id]).valid === true &&  group.get(config[widgetKey._id]).dirty === true
+           }"
+            [formControlName]="config[widgetKey._id]" [placeholder]="config[widgetKey.placeholder]" type="text" class="form-control web-user-widget" [id]="config[widgetKey._id]" [required]="config[this.widgetKey.isRequired]"> -->
+            <div class="input-group-append">
+              <span class="input-group-text">
+                <button [hidden]="historyView" class="btn btn-primary time-btn-overt btn-sm" (click)="incrementTimeRange()">
+                    <i class="fa fa-plus" aria-hidden="true" *ngIf=" !config[widgetKey.disabled]"></i>
+                    <i class="fa fa-ban" aria-hidden="true"  style="color:red" *ngIf=" config[widgetKey.disabled]"> </i>
+                </button>
+              </span>
+            </div>
+        </div>
+
+     </div>
+
+    <app-validation [dynamicFormControlRef]="group.get(config[widgetKey._id])" >
+
+    </app-validation>
+    <div *ngIf="group.get(config[widgetKey._id])?.dirty && group.get(config[widgetKey._id])?.errors" class="validation-message" style="color:red; margin-left: 36px;">
+        <div *ngIf="group.get(config[widgetKey._id]).errors?.minHour" class="alertColor">Minimum Hours are {{config[widgetKey.minTime]}}</div>
+        <div *ngIf="group.get(config[widgetKey._id]).errors?.maxHour" class="alertColor">Maximum Hours are {{config[widgetKey.maxTime]}}</div>
+    </div>
+</span>

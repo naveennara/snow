@@ -1,0 +1,38 @@
+<div class="row animated fadeIn p-5">
+  <div class="kanban-board col-md-12" [ngStyle]="{'background-color':setColor()}">
+    <header class="kanban-board-header success">
+      <div class="kanban-title-board">
+        <app-common-form-labels [widget]="config"></app-common-form-labels>
+
+      </div>
+      <app-common-formaction-view [config]="config" *ngIf="ispreview!='preview' &&  ispreview != 'Edit'"></app-common-formaction-view>
+    </header>
+    <form>
+      <div class="form-group form-group-default" *ngIf="ispreview == 'preview' || ispreview == 'Edit'">
+        <!-- <label for="form-input" class="p-5">{{config[widgetKey.label] || "Time"}}
+          <span class="required-label" *ngIf="config[widgetKey.isRequired]">*</span>
+        </label> -->
+        <span >
+          <div class="row m-l-10">
+           
+                <button class="btn btn-icon btn-round btn-xs btn-transparent m-t-5" (click)="sub()" [ngClass]="{'disabledEvent':ispreview == 'preview' }">-</button>
+                <div class="input-group mb-3 col-md-3 p-0">
+              <input type="text"  class="form-control" numbersOnly [value]="group.get([config[widgetKey._id]]).value | timeHrs" [(ngModel)]="hours"  name="hours" (keyup)="hrsChanged()" maxlength="2"  [readonly]="ispreview == 'preview'" [ngClass]="{'disabledEvent':ispreview == 'preview' }">
+
+              <div class="input-group-append m-r-10">
+                <span class="input-group-text">:</span>
+              </div>
+              <input type="text"  class="form-control" [value]="mins || '00'" [readonly]="true">
+            </div>
+                <button (click)="add()" class="btn btn-icon btn-round btn-xs btn-transparent m-t-5" [ngClass]="{'disabledEvent':ispreview == 'preview' }">+</button>
+           
+          </div>
+          <span *ngIf="group.get(config[widgetKey._id]).errors" class="alertColor">Time limit should be between  {{this.config['minTime']}} & {{this.config['maxTime']}}</span>
+          <app-validation [dynamicFormControlRef]="group.get(config[widgetKey._id])">
+          </app-validation>
+          <!-- [ngClass]="{'disabledEvent':ispreview == 'preview' }" -->
+        </span>
+      </div>
+    </form>
+  </div>
+</div>

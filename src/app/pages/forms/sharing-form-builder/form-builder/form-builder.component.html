@@ -1,0 +1,262 @@
+  <div class="card card-space formCard">
+    <div class="card-header">
+      <div class="card-head-row">
+        <div class="card-title" *ngIf="loginDetails['type']!=0">{{formName}}</div>
+        <div class="card-title" *ngIf="loginDetails['type']==0">{{formName}}</div>
+        <div class="card-tools">
+          <app-save-form [formData]="formData" [requiredFields]="requiredFields" [updateType]="updateType"
+            [isDerivedFieldPresent]="isDerivedFieldPresent" [dependentFields]="dependentFields"></app-save-form>
+          <button type="button" [hidden]="showWidgets"
+            class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="saveForm()" title="{{formKeys['label_form_create']}}">
+            <i class="fa fa-check icon-color"></i>
+          </button>
+          <button type="button" [hidden]="!showWidgets"
+            class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" 
+            (click)="updateForm()" title="{{formKeys['label_form_update']}}">
+            <i class="fa fa-check icon-color"></i>
+          </button>
+
+          <button type="button" *ngIf="loginDetails['type']!=0"
+            class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" aria-controls="collapseBasic"
+            (click)="enableSidebar()" title="{{formKeys['saveandContinue']}}">
+            <i class="far fa-save icon-color"></i>
+          </button>
+
+          <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="Back()"
+            title="{{formKeys['label_Back']}}">
+            <i class="fas fa-arrow-left icon-color"></i>
+          </button>
+
+        </div>
+      </div>
+    </div>
+    <!-- <div class="card-header bg-secondary">
+      <div class="card-head-row card-tools-still-right">
+          <h4 class="text-white fw-bold">Form Builder</h4>
+          <div class="card-tools">
+            <app-save-form [formData]="formData" [requiredFields]="requiredFields"></app-save-form>
+            <button type="button" 
+              class="btn  btn-xs btn-icon btn-round btn-default mr-2"
+              tooltip="toogle Widget Block" 
+              placement="bottom"
+              (click)="action.isPresentA = !action.isPresentA">
+              <i class="fas fa-th-large"></i>
+            </button>
+
+            <button type="button" 
+              class="btn btn-xs btn-icon btn-round btn-default mr-2"
+              tooltip="toogle Form Block"
+              placement="bottom"
+              (click)="action.isPresentB = !action.isPresentB">
+              <i class="far fa-edit"></i>
+            </button>
+
+            <button type="button" 
+              class="btn btn-xs btn-icon btn-round btn-default mr-2" 
+              tooltip="toogle settings Block"
+              placement="bottom"
+              (click)="action.isPresentC = !action.isPresentC">
+              <i class="fas fa-wrench"></i>
+            </button>
+
+            <button 
+              class="btn btn-xs btn-icon btn-round btn-success"
+              tooltip="save"
+              placement="bottom"  
+              (click)="saveForm()">
+              <span class="fa fa-check"></span>
+            </button>
+        </div>
+      </div>
+    </div> -->
+    <div class="card-body p-10 formBuilderArea">
+      <as-split [gutterSize]="8" [style.height.px]="myInnerHeight" unit="percent" restrictMove="true"
+        direction="horizontal"  [useTransition]="action.useTransition" cdkDropListGroup>
+
+        <as-split-area *ngIf="action.isPresentA" [visible]="action.isVisibleA" [order]="0"
+          [style.height.px]="myInnerComponentHeight" [size]="action.a1s">
+          <div class="row m-0">
+            <div class="card col-md-12 p-0 bgTransparent">
+              <div class="card-body p-5 bgTransparent demo-scrollbar scrollbar-inner">
+                <app-elements></app-elements>
+              </div>
+            </div>
+          </div>
+        </as-split-area>
+
+        <!-- BLOCK-B [Dragged Items are shown here] -->
+        <as-split-area class="hideScroll" *ngIf="action.isPresentB" [visible]="action.isVisibleB" [order]="1" [size]="action.a2s">
+            <dynamic-form [config]="droppedItems" (updateDroppedItem)='updateDroppedItem($event)' [ispreview]="''">
+            </dynamic-form>
+        </as-split-area>
+        <!-- End BLOCK-B -->
+
+        <!-- BLOCK-C Properties Area -->
+        <as-split-area *ngIf="action.isPresentC" [visible]="action.isVisibleC" [order]="2" [size]="action.a3s"
+          [style.height.px]="myInnerComponentHeight">
+          <div class="row my-2 m-l-5 m-r-5" *ngIf="config.id">
+            <div class="col-md-12">
+              <app-properties [config]="config" [widgetsList]="droppedItems" (notifyParentOnUpdate)='onclick($event)'>
+              </app-properties>
+            </div>
+          </div>
+        </as-split-area>
+        <!-- END BLOCK-C -->
+
+      </as-split>
+
+    </div>
+    <!-- sidebar for save and continue -->
+    <div id="collapseBasic" *ngIf="isTrue">
+        <div class="quick-sidebar">
+          <div style="float:right;">
+              <a href="javascript:;" class="mr-3" title="{{formKeys['label_Update']}}" (click)="updateDervied()">
+                <i class="fa fa-check icon-color"></i>
+              </a>
+              <a href="javascript:;" class="mr-3" title="{{formKeys['label_Add']}}" (click)="addDerivedCondition()">
+                  <i class="fas fa-plus icon-color"></i>
+              </a>
+              <a href="javascript:;" title="{{formKeys['label_Back']}}" (click)="closeSidebar()">
+                  <i class="fas fa-arrow-left icon-color"></i>
+              </a>
+          </div>
+          <div class="quick-sidebar-wrapper">
+            <h4>Derived Conditions</h4><br>
+            <div class="container" *ngIf="derivedConditions && derivedConditions.length==0 && !selectDerivedCondition" align="center">
+                <img [src]="noDataImg" class="img-responsive">
+            </div>
+            <div class="row m-l-0 m-r-0 p-15" [style.height.px]="myInnerComponentHeight" style="overflow:auto;" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+              <div class="container" *ngIf="derivedConditions && derivedConditions.length>0">
+                  <div class="row">
+                  <!-- <div class="col-md-1"><b>#</b></div> -->
+                  <div class="col-md-10" style="text-align:center"><b>Condition</b></div>
+                  <div class="col-md-2" style="text-align:center"><b>Delete</b></div>
+                </div><br>
+                <div>
+                    <ol type="1">
+                        <div *ngFor="let widget of derivedConditions; let i = index">
+                            <div *ngFor="let option of widget.options; let j = index">
+                                <div *ngIf="(option.dependFields != undefined)">
+                                      <li>
+                                          <div class="row">
+                                              <!-- <div class="col-md-1">{{i+1}}</div> -->
+                                              <div class="col-md-10">
+                                                  <span>if&nbsp;</span>
+                                                  <span>{{widget.label}}&nbsp;</span>
+                                                  <span>is&nbsp;</span>
+                                                  <span *ngFor="let condition of option.dependFields | keyvalue; let k=index">
+                                                      <span *ngIf="k==0">{{option.displayValue}} then {{condition.key}}&nbsp;</span>
+                                                      <span *ngIf="k>0">{{condition.key}}&nbsp;</span>
+                                                  <span *ngFor="let fields of option.dependFields[condition.key]">{{fields.label}}&nbsp;</span>
+                                                  </span>
+                                              </div>
+                                              <div class="col-md-2">
+                                                  <!-- <button type="button" class="btn btn-danger btn-sm" title="Delete" (click)="deleteDerivedCondition(widget,option)">Delete
+                                                  </button> -->
+                                                  <button type="button" class="btn btn-icon btn-round btn-xs btn-transparent mr-2" (click)="deleteDerivedCondition(widget,option)" title="{{formKeys['label_Delete']}}">
+                                                    <i class="far fa-trash-alt icon-color"></i> </button>
+                                              </div>
+                                          </div><br>
+                                      </li>
+                                </div>
+                              </div>
+                        </div>
+                    </ol>
+                </div>
+              </div>
+              <div class="container">
+                <!-- <div class="row m-l-0 m-r-0 p-15" [style.height.px]="myInnerComponentHeight" style="overflow:auto;height:250px;" #scrollMe [scrollTop]="scrollMe.scrollHeight"> -->
+                  <form name="derivedForm" [formGroup]="derivedForm" class="form-horizontal" *ngIf="selectDerivedCondition">
+                      <div class="row m-l-0 m-r-0">
+                          <div class="col-md-3">
+                              <!-- <label for="derivedLabels"></label> -->
+                              <ng-select [items]="derivedLabels"
+                                          [addTag]="addTag"
+                                          [hideSelected]="true"
+                                          [multiple]="false"
+                                          bindLabel="label"
+                                          formControlName="dependField"
+                                          (change)="onSelectField($event)" [ngClass]="{
+                                            'disabledList':!show}">
+                                            <ng-template ng-option-tmp let-item="item">
+                                              <div title="{{item.label}}">{{item.label}}</div>
+                                              </ng-template>
+                              </ng-select>
+                          </div>
+                          <!-- <div class="col-md-4">
+                                  <ng-select [items]="target" placeholder="Select a target"
+                                  [addTag]="addTag"
+                                  [hideSelected]="true"
+                                  [multiple]="false"
+                                  formControlName="condition"
+                                  (change)="onSelectTarget($event)" [ngClass]="{
+                                    'disabledList':!show1}">
+                                  </ng-select>
+                          </div> -->
+                          <div class="col-md-3">
+                              <!-- <label for="options">Select a field state</label> -->
+                              <input class="form-control" *ngIf= "dynamicDropdown" (change)="onSelectFieldState($event)" formControlName="fieldOption"> 
+                                  <ng-select [items]="options" placeholder="Select a value" *ngIf= "!dynamicDropdown" 
+                                  [addTag]="addTag"
+                                  [hideSelected]="true"
+                                  [multiple]="false"
+                                  bindLabel="displayValue"
+                                  formControlName="fieldOption"
+                                  (change)="onSelectFieldState($event)" [ngClass]="{
+                                    'disabledList':!show2}">
+                                    <ng-template ng-option-tmp let-item="item">
+                                      <div title="{{item.displayValue}}">{{item.displayValue}}</div>
+                                      </ng-template>
+                                  </ng-select>
+                          </div>
+                      <!-- </div><br> -->
+                      <!-- <div class="row m-l-0 m-r-0"> -->
+                          <div class="col-md-3">
+                              <!-- <label for="conditionLogicArray">Select a condition logic</label> -->
+                                  <ng-select [items]="conditionLogicArray"  placeholder="Select a condition logic"
+                                  [addTag]="addTag"
+                                  [hideSelected]="true"
+                                  [multiple]="false"
+                                  formControlName="conditionLogic"
+                                  (change)="onSelectCondition($event)" [ngClass]="{
+                                    'disabledList':!show3}">
+                                    
+                                  </ng-select>
+                          </div>
+                          <div class="col-md-3">
+                              <!-- <label for="allFields">Select fields</label> -->
+                                  <ng-select [items]="allFields" placeholder="Select fields"
+                                  [addTag]="addTag"
+                                  [hideSelected]="true"
+                                  [multiple]="true"
+                                  bindLabel="label"
+                                  formControlName="selectedDependentFields" [ngClass]="{
+                                    'disabledList':!show4}">
+                                    <ng-template ng-option-tmp let-item="item">
+                                      <div title="{{item.label}}">{{item.label}}</div>
+                                      </ng-template>
+                                  </ng-select>
+                          </div>
+                      </div><br>
+                      <div class="row m-l-0 m-r-0">
+                        <div class="col-md-6 offset-md-3">
+                            <button type="button" class="btn btn-outline-primary btn-rounded btn-sm mr-2" aria-label="set" [disabled]="!derivedForm.valid" (click)="setDerivedField(this.derivedForm.value)">
+                                Set
+                            </button>
+                            <button type="button" class="btn btn-outline-primary btn-rounded btn-sm mr-2" aria-label="save" [disabled]="!enableApply" (click)="applyDerivedField(this.derivedForm.value)">
+                              Apply
+                            </button>
+                            <button  type="button" class="btn btn-outline-primary btn-rounded btn-sm mr-2" aria-label="close" (click)="terminateDerivedFieldCondition()" [disabled]="!enableCancel">
+                              Cancel
+                            </button>
+                        </div>
+                      </div>
+                  </form>
+               <!-- </div> -->
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="overRideopacity"></div>
+      </div>
+  </div>

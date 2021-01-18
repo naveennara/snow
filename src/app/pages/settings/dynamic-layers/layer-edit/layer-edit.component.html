@@ -1,0 +1,84 @@
+<!-- <div class="card shadow mb-4">
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary"></h6>
+    <div class="card-tools">
+      <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="cancel()"
+        title="{{constants['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+      </button>
+    </div>
+  </div>
+  <div class="card-body mx-4">
+    <form [formGroup]="layerUpdate" (ngSubmit)="layerUpdatee(layerUpdate.valid)">
+      <div class="form-group form-group-default">
+        <label class="placeholder">External Name<span class="required-label">*</span></label>
+        <input type="text" class="form-control" formControlName="externalName" placeholder="External Name"
+          [(ngModel)]="layerData.externalName" required />
+        <div class="invalid-feedback">
+          <span class="form-text text-red"></span>
+        </div>
+      </div>
+      <div class="form-group form-group-default">
+        <label class="placeholder">Internal Name<span class="required-label">*</span></label>
+        <input type="text" class="form-control" formControlName="internalName" placeholder="Internal Name"
+          [(ngModel)]="layerData.internalName" required />
+        <div class="invalid-feedback">
+          <span class="form-text text-red"></span>
+        </div>
+      </div>
+      <div class="form-group form-group-default">
+        <label class="placeholder">Layer Url<span class="required-label">*</span></label>
+        <input type="text" class="form-control" formControlName="layerUrl" name="layerUrl" placeholder="Layer Url"
+          [(ngModel)]="layerData.layerUrl" required />
+        <div class="invalid-feedback">
+          <span class="form-text text-red">{{layerData.internalName}}</span>
+        </div>
+      </div>
+      <div class="form-group form-group-default button-center">
+        <button type="submit"
+          class="btn btn-outline-primary btn-rounded btn-sm mr-3">{{constants['label_Update']}}</button>
+        <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+          [routerLink]="['/mainLayout/settings','layerConf']">{{constants['label_Cancel']}}</button>
+      </div>
+    </form>
+  </div>
+  <div class="card-footer">
+  </div>
+</div> -->
+
+<div class="card shadow mb-4">
+  <div class="card-header">
+    <div class="card-head-row">
+      <div class="card-tools">
+        <div class="btn-group">
+          <div class="float-right padding">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              (click)="cancel()" title="{{constants['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body mx-4">
+    <form [formGroup]="layerEditForm" (ngSubmit)="onSubmit()">
+      <div class="form-group form-group-default">
+        <label for="constantKeys['externalNameCtrl']" class="placeholder">{{constantKeys['layerExternalName']}}<span class="required-label">*</span></label>
+        <input type="text" class="form-control" name="constantKeys['externalNameCtrl']" [formControlName]="constantKeys['externalNameCtrl']" [readonly]="true">
+      </div>
+      <div class="form-group form-group-default">
+        <label for="constantKeys['internalNameCtrl']" class="placeholder">{{constantKeys['layerInternalName']}}<span class="required-label">*</span></label>
+        <input type="text" class="form-control" name="constantKeys['internalNameCtrl']" [formControlName]="constantKeys['internalNameCtrl']" [readonly]="true">
+      </div>
+      <div class="form-group form-group-default">
+        <label for="constantKeys['urlCtrl']" class="placeholder">{{constantKeys['layerUrl']}}<span class="required-label">*</span></label>
+        <input type="text" class="form-control" name="constantKeys['urlCtrl']" [formControlName]="constantKeys['urlCtrl']">
+      </div>
+      <div class="form-group">
+        <div class="col-md-6 offset-md-4">
+            <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3" [disabled]="!layerEditForm.dirty">{{constantKeys['label_Update']}}</button>
+            <button type="button" class="btn btn-outline-danger btn-rounded btn-sm" [routerLink]="['/mainLayout/settings','layerConf']">{{constantKeys['label_Cancel']}}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

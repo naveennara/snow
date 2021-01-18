@@ -1,0 +1,25 @@
+  <div class="card">
+      <div class="card-header">
+          <div class="card-head-row card-tools-still-right">
+              <h4 class="card-title">Settings</h4>
+          </div>
+      </div>
+      <div class="card-body">
+          <div class="element-actions">
+              <div class="element-actions-items">
+                  <div class="row m-0">
+                      <span  *ngFor="let item of settingsList">
+                            <a class="col-2 col-md-1 p-0" href="javascript:;" (click)="navigate(item)" *ngIf = "item.loginType.includes(loginDetails)">
+                                    <div class="element-actions-item" >
+                                        <!-- <i class="{{item.displayIcon}}"></i> -->
+                                        <img class="setSize" [src]='item.displayIcon' alt="{{item.displayText}}">
+                                        <span class="text">{{item.displayText}}</span>
+                                    </div>
+                                </a>
+                      </span>
+                      
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>

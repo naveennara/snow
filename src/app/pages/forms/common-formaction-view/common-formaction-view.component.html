@@ -1,0 +1,23 @@
+<div class="kanban-title-button d-inline-flex">
+  <div class="btn-group btn-xs p-0 draggedWidget_Actions" role="group" aria-label="Widget Actions">
+     
+    <button type="button"  title="Widget edit"
+      class="btn btn-icon btn-xs btn-dark btn-round" 
+      (click)="editProperties()">
+      <i class="fas fa-wrench"></i>
+    </button>
+    <button type="button" title="Widget delete"
+      class="btn btn-icon btn-xs btn-dark btn-round" 
+      (click)="deleteWidget()">
+      <i class="far fa-trash-alt"></i>
+    </button>
+    <button type="button" 
+    class="btn btn-icon btn-xs btn-dark btn-round" 
+    (click)="editPropertiesWithChangeType()" *ngIf="changewidgetsList.includes(config.type)">
+    <i class="fas fa-exchange-alt" aria-hidden="true" title="Widget exchange"></i>
+
+  </button>
+  </div>
+</div>
+
+

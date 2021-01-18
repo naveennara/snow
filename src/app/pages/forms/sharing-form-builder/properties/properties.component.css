@@ -1,0 +1,100 @@
+.calcBG {
+    width: 280px;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .3);
+    margin: 25vh auto;
+  }
+
+  .btn-group {
+    font-family: monospace;   
+  }
+
+  .calculation {
+    /* width: 400px; */
+    background-color: #F5F5F5;
+    height: 450px;
+    font-family: "Lucida Grande", Verdana;
+    font-size: 16px;
+    padding: 8px;
+    outline: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-box-shadow: inset 0px 0px 10px 1px #aaa;
+    box-shadow: inset 0px 0px 10px 1px #aaa;
+    -webkit-border-radius: 6px 6px 6px 6px;
+    border-radius: 6px 6px 6px 6px;
+}
+
+.form-group-defaultCal {
+  background-color: #ffffff;
+  border: 1px solid #6C757D;
+  padding-top: 7px;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-bottom: 4px;
+  overflow: hidden;
+  width: 100%;
+  transition: background-color .2s ease;
+  margin-bottom: 15px;
+}
+
+.media-length {
+  float: right;
+  position: relative;
+  top: -28px;
+}
+
+.numericField {
+  border: 1px dashed #ebecec;
+}
+
+.media-length{
+  top: -31px;
+} 
+
+.selectgroup-button {
+  height: 24px;
+}
+.option-dropdown-div{
+  margin-left: 6px;
+  margin-bottom: 12px;
+}
+.option-dropdown-list{
+  margin-right: 10px;
+}
+.set-rules-div{
+  margin-left: 2px;
+
+}
+.calculator{
+  margin-left: 4px;
+  border: 1px solid #e6dbdb;
+  border-radius: 5px;
+  padding: 9px;
+  
+}
+.formula-help-text{
+  font-size: 9px;
+    line-height: 0.9;
+    color: gray;
+}
+.label-uppercase{
+  text-transform: uppercase;
+}
+.referencelist-div{
+  padding-left: 4px;
+}
+.add-new-value-btn{
+  position: relative;
+    top: -7px;
+}
+.change-type-help-text{
+  font-size: 8px;
+  color: gray;
+  margin-bottom: 7px;
+}
+/* .form-group-default.active {
+  background-color: red;
+} */

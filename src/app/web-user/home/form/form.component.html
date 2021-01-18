@@ -1,0 +1,136 @@
+<!-- header start -->
+<div class="page-inner">
+  <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pb-3">
+    <div>
+      <h2 class="pageTitle" [hidden]="actionPage !== constants.actionPageForAssignmnets" (click)="gotoAssignmnets()">
+        Assignments</h2>
+      <h2 class="pageTitle" [hidden]="actionPage !== constants.actionPageForForms" (click)="gotoForms()">Forms</h2>
+      <h2 class="pageTitle" [hidden]="loginDetails">{{formInfo?.name | uppercase}}</h2>
+      <!-- this breacrum for form from tasks (history and prepop) -->
+      <ul class="breadcrumbs" *ngIf="actionPage == 'tasks'">
+
+        <!-- this for new workorder -->
+        <!-- <ul class="breadcrumbs" [hidden]="actionType !== 'fill'"> -->
+        <li class="nav-home">
+          <a href="javascript:" (click)="gotoAssignmnets()">
+            <i class="flaticon-home"></i>
+          </a>
+        </li>
+        <li class="separator">
+          <i class="flaticon-right-arrow"></i>
+        </li>
+        <li class="nav-item">
+          <a href="javascript:" (click)="gotoWorkOrders()" *ngIf="actionType == 'fill'|| actionType=='prepop'">Work
+            Orders</a>
+          <a href="javascript:" (click)="gotoHistory()" *ngIf="actionType == 'view'">History</a>
+
+        </li>
+        <li class="separator">
+          <i class="flaticon-right-arrow"></i>
+        </li>
+        <li class="nav-item">
+          <a href="javascript:">{{formInfo?.name}}</a>
+        </li>
+      </ul>
+      <!-- this breacrum for form from tasks (history and prepop) -->
+      <ul class="breadcrumbs" *ngIf="actionPage == 'forms'">
+        <li class="nav-home" (click)="gotoForms()">
+          <a href="javascript:">
+            <i class="flaticon-home"></i>
+          </a>
+        </li>
+        <li class="separator">
+          <i class="flaticon-right-arrow"></i>
+        </li>
+        <li class="nav-item" (click)="gotoForms()">
+          <a href="javascript:">Forms</a>
+        </li>
+        <li class="separator">
+          <i class="flaticon-right-arrow"></i>
+        </li>
+        <li class="nav-item">
+          <a href="javascript:">{{formInfo?.name}}</a>
+        </li>
+      </ul>
+
+    </div>
+
+
+    <div class="ml-md-auto py-2 py-md-0 mr-2" [hidden]="isHistoryView"
+      *ngIf="!isIntialRequestInProcess && intialRequestStatus == 3">
+      <div class=" web-user-form-submit-button" (click)="formSubmit(template)">
+        <!-- <span
+      class="spinner-border text-primary" role="status" *ngIf="isRecordSubmitInProcess">
+      <span class="sr-only">Loading...</span> -->
+        Submit</div>
+    </div>
+  </div>
+</div>
+<!-- header end -->
+
+<app-page-loader *ngIf="isIntialRequestInProcess"></app-page-loader>
+
+<!-- rest API success template start -->
+<app-api-call-res (tryAgin)="tryAginForGetForm()"
+  *ngIf="(intialRequestStatus === 2 || intialRequestStatus === 1) && !isIntialRequestInProcess"></app-api-call-res>
+<!-- rest API success template start end -->
+<div class="row">
+  <div [ngClass]="{'col-md-12': isFullLayout === true , 'col-md-6': isFullLayout === false}">
+    <div class="card  webuser-assignment-card border border-primary"
+      [ngClass]="loginDetails?'custom-card-assignment-list' :'col-md-8 offset-md-2' ">
+      <div class="card-body">
+        <dynamic-form [config]="config" [recordData]="recordData" [recordStatus]="recordStatus"
+          [isHistoryView]="isHistoryView" [derivedFields]="derivedFields" #form="dynamicForm">
+        </dynamic-form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 sub-block" *ngIf="!isFullLayout">
+    <div class="card attachmnets-card border border-primary">
+      <div class="card-body">
+        <app-attachment [isHistoryView]="isHistoryView"></app-attachment>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="fab" (click)="gotoAttachments()" *ngIf="isFullLayout">
+    <img [src]="constants.attachmnet" />
+    <div class="centered">
+      <span class="badge badge-danger">{{totalAttachedFiles}}</span>
+    </div>
+  </div>
+  <ng-template #template>
+    <div class="modal-body text-center" *ngIf="isRecordSbmittedsuccessfully===1">
+      <dl>
+        <dt>
+          <h1>Congratulations</h1>
+        </dt>
+        <dd>Your work submitted successfully</dd>
+      </dl>
+      <img [src]="constants.successClapIcon" />
+      <div class="btn btn-primary " (click)="modalRef.hide()"> Thank You </div>
+    </div>
+
+    <div class="modal-body text-center" *ngIf="isRecordSbmittedsuccessfully===2">
+      <dl>
+        <dt>
+          <h1>Applogies</h1>
+        </dt>
+        <dd>Somthing went wrong </dd>
+        <dt>
+          <span class="row">
+            <span class="col-md-3 offset-md-3">
+              <div (click)="modalRef.hide();formSubmit(template)"> <a>Try Again</a> </div>
+            </span>
+            <span class="col-md-3">
+              <div (click)="modalRef.hide()"> <a>No Thanks</a> </div>
+            </span>
+          </span>
+        </dt>
+      </dl>
+      <img [src]="constants.somethingWrong" />
+    </div>
+  </ng-template>

@@ -1,0 +1,25 @@
+<!-- <ion-toolbar class="filter-toolbar">
+    <ion-row class="filter-toolbar-row">
+      <ion-col (click)="getFormFilledData()" float-right>
+        <span float-right>Done</span>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar> -->
+  <div class="row animated fadeIn p-5">
+  <div class="col-md-12">
+    <form class="dynamic-form" [formGroup]="form">
+      <ng-container *ngFor="let field of config;" dynamicField [config]="field" [group]="form" [data]="recordData"
+        [ispreview]="ispreview" [isTable]=true>
+      </ng-container>
+      <div class="separator-dashed"></div>
+      <div class="form-group float-right" *ngIf="ispreview=='Edit'">
+        <button type="button" class="btn btn-icon btn-xs btn-round btn-success mr-2" title="{{constants['label_Save']}}" (click)="getFormFilledData()">
+          <i class="fa fa-check"></i>
+        </button>
+        <button type="button" class="btn btn-icon btn-xs btn-round btn-danger" (click)="cancel()" title="{{constants['label_Cancel']}}">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,102 @@
+/* .tasks-list  {
+    list-style-type: none;
+    padding-left: 20px !important;
+} */
+.actions{
+    list-style-type: none;
+  
+}
+.ag-theme-balham .rag-red {
+    background-color: lightcoral !important;
+}
+.text-color{
+  color:red;
+}
+.emailText {
+  color:red;
+  font-size:80%;
+}
+/* .custom-control.custom-checkbox {
+    margin-bottom: 0;
+    padding-left: 2em;
+    cursor: pointer;
+    line-height: 24px;
+    margin-right: 25px;
+    display: block;
+} */
+.custom-control-label::before {
+  position: absolute;
+  /* top: -1px !important; */
+}
+.custom-control.custom-checkbox{
+display:block !important;
+padding-left: 15px !important;
+}
+.quick-sidebar1 {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 400px;
+    overflow-x: hidden;
+    height: 100vh;
+    display: block;
+    z-index: 1;
+    background: #f5f5f5;
+    background-size: cover;
+    background-position: center center;
+    box-shadow: 2px 0 20px rgba(69,65,78,.07);
+    transition: all .3s;
+    z-index: 1101;
+    padding: 20px 20px;
+  }
+  .position-right{
+    float: right;  
+  }
+  .position-left{
+    float: left;  
+  }
+  .taskGrid-ActionBar {
+    opacity: 0;
+    width: auto;
+    transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+  }
+  
+.taskGrid:hover .taskGrid-ActionBar {
+    opacity: 1;
+    transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+  }
+  /* *{padding:0;margin:0;} */
+
+  
+  
+  .float{
+    position: fixed;
+    right: 15px;
+    /* opacity: 0; */
+    transition: all .2s ease-in-out;
+    width:40px;
+    height:40px;
+    bottom:68px;
+    background-color:#0C9;
+    color:#FFF;
+    border-radius:50px;
+    text-align:center;
+    /* box-shadow: 2px 2px 3px #999; */
+  }
+  
+  .float-right button.active {
+    background-color:grey !important;
+    color: white;
+  }
+  .hover-image-div{
+    position: absolute; top: 28px; color: white;width: 95%; font-weight: bold; margin-left: 16px;
+  }

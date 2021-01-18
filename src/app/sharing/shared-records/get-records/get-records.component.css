@@ -1,0 +1,24 @@
+.closeFilter {
+  cursor: pointer;
+}
+
+.mainBlock {
+  position: relative;
+}
+
+.mainBlock .card .card-body {
+  padding: 15px;
+  height: auto !important;
+  overflow: auto;
+}
+
+.filterBlock {
+  position: absolute;
+  right: 0;
+  top: 0;
+  opacity: 0.5;
+}
+.card-tools button.active {
+  background-color:#1572E8 !important;
+  color: white;
+}

@@ -1,0 +1,17 @@
+<span *ngIf="derivedFields.indexOf(config[widgetKey._id]) > -1 ? false : isTable ? true : config[widgetKey.isUnderHeading].length==0?true:config[widgetKey.isUnderHeading]== expendedHeaderId?true:false">
+    <div  [formGroup]="group" class="form-group" >
+        <label  [for]="config[widgetKey._id]" class="web-user-widget-label">{{config[widgetKey.label]}} </label><span *ngIf="config[widgetKey.isRequired] == true" class="webuser-mandatory-indicator-color"> *</span>
+        <input  [ngClass]="{'webuseer-formcontroll-error':group.get(config[widgetKey._id]).invalid === true && group.get(config[widgetKey._id]).dirty === true,
+                            'webuser-formcontroll-sucess':group.get(config[widgetKey._id]).valid === true &&  group.get(config[widgetKey._id]).dirty === true
+                           }"
+         [formControlName]="config[widgetKey._id]" [placeholder]="config[widgetKey.placeholder]" type="text" class="form-control web-user-widget" [id]="config[widgetKey._id]">
+    </div>
+
+    <app-validation [dynamicFormControlRef]="group.get(config[widgetKey._id])" >
+
+    </app-validation>
+</span>
+
+
+
+

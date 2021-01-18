@@ -1,0 +1,529 @@
+<!-- <div class="row">
+  <div class="col-md-8"> -->
+<h5 class="op-7 mb-2"><span *ngIf="deptName.length">Filtered results of Account: {{deptName}}</span></h5>
+<div class="card full-height">
+  <div class="card-header">
+    <div class="card-head-row">
+      <p class="card-category" *ngIf="formsList && formsList.length && !showme">
+        Showing ({{(pageNumber -1) * limit + 1}} to {{limit * (pageNumber-1) + formsList.length }}) out of
+        {{total_count}}&nbsp;
+        <span *ngIf="formType == 'Private'">{{formType}} -&nbsp;</span>
+        <span *ngIf="formType == 'Public'">{{formType}} -&nbsp;</span> Forms
+      </p>
+      <p class="card-category" *ngIf="showme">
+        {{formKeys['label_Categories']}}
+      </p>
+
+      <div class="card-tools">
+        <div class="btn-group">
+          <button type="button" *ngIf="!showme" class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2"
+            data-toggle="dropdown" aria-expanded="false" title="{{formKeys['label_Filter']}}">
+            <i class="fas fa-filter icon-color"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right animated fadeIn" 
+          *ngIf="!showme" x-placement="bottom-end">
+            <li *ngFor="let list of filtersList; let i = index" class="FormszLi">
+              <a href="javascript:;" class="dropdown-item p-l-10" 
+              (click)="filterForms(list,i)"
+              [class.active]='i == selectedRow'>
+                <ul class="html-legend">
+                  <li *ngIf="list=='Public'">
+                    <span class="publicLegend"></span>
+                    {{list}}
+                  </li>
+                  <li *ngIf="list=='Private'">
+                    <span class="privateLegend"></span>
+                    {{list}}
+                  </li>
+                  <li *ngIf="list=='All'">
+                    <span class="allLegend"></span>
+                    {{list}}
+                  </li>
+                </ul>
+              </a>
+            </li>
+          </ul>
+          <button *ngIf="!showme" [ngClass]="{'disabledList': formsList && !formsList.length }" class="btn btn-icon btn-rounded btn-transparent btn-sm" title="GroupBy Category"
+            (click)="sort()">
+            <i class="fas fa-bars icon-color"></i>
+          </button>
+
+          <button *ngIf="showme" class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2" title="{{formKeys['label_Back']}}"
+            (click)="showAllForms()">
+            <i class="fas fa-arrow-left icon-color"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card-body card-padding mt-7 bodyBg" *ngIf="!showme">
+    <!-- Formsz List View -->
+    <div *ngIf="formsList && formsList.length >0">
+      <div class="formsz-list"
+        *ngFor="let form of formsList | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: total_count,id:'first'}"
+        [ngStyle]="{'border-left':getFormType(form.category)}">
+        <div class="d-flex">
+
+          <div class="flex-1 ml-2 pt-2">
+            <!-- <h6 class="text-uppercase mb-1" *ngIf="loginDetails['type']==1">
+              <a href="javascript:;" (click)="editForm(form)">{{form.name}}</a>
+            </h6> -->
+            <h6 class="text-uppercase mb-1">
+              {{form.name}}
+            </h6>
+            <!-- Form info showing -->
+            <small class="text-muted">
+              <span title="{{formKeys['label_Created']}}">
+                <i class="fas fa-calendar-alt icon-color"></i> {{form.createdTime | date:'mediumDate'}}
+              </span>|
+              <span class="text-muted" title="{{formKeys['Category']}}">
+                <img [src]='headerIcons.categoriesGrey' class="catImg">
+                <!-- <i class="fa fa-tags icon-color"></i>&nbsp; -->
+                <span *ngFor="let category of form.formzCategory; let i=index">
+                  <span *ngIf="i<form.formzCategory.length-1">{{category.name}},</span>
+                  <span *ngIf="i==form.formzCategory.length-1"> {{category.name}}</span>
+                </span>
+              </span>
+            </small>
+
+          </div>
+          <!-- Formsz Action Bar -->
+          <div class="float-right formsz-ActionBar pt-3">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              (click)="previewForm(form)" title="{{formKeys['label_Preview']}}">
+              <i class="fas fa-eye icon-color"></i>
+            </button>
+            <button type="button" *ngIf="loginDetails['type']==1 && showButtons"
+              class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="editForm(form)"
+              title="{{formKeys['label_Edit']}}">
+              <i class="far fa-edit icon-color"></i>
+            </button>
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              (click)="exportAsexcel(form)" title="{{formKeys['label_ExportExcel']}}" *ngIf="loginDetails['type'] !==0">
+              <i class="fas fa-file-excel icon-color"></i>
+            </button>
+
+            <button class="btn btn-icon btn-border btn-round btn-xs mr-2 btn-transparent"
+              (click)="getSubmittedRecords(form)" title="{{formKeys['label_Submitted']}}">
+              <img class="customSvg" [src]='recordsIcons.getRecords' alt="Submitted Records">
+            </button>
+
+            <button *ngIf="loginDetails['type']==0"
+              class="btn btn-icon btn-border btn-round btn-xs mr-2 btn-transparent" (click)="shareForm(form)"
+              title="{{formKeys['label_Share']}}">
+              <i class="fas fa-share-alt icon-color"></i>
+            </button>
+            <button *ngIf="loginDetails['type']==1"
+            class="btn btn-icon btn-border btn-round btn-xs mr-2 btn-transparent" (click)="shareLink(form)"
+            title="{{formKeys['label_ShareLink']}}">
+            <i class="fas fa-share icon-color"></i>
+          </button>
+            <button class="btn btn-icon btn-border btn-round btn-xs mr-2 btn-transparent" (click)="showInfo(form)"
+              title="{{formKeys['label_Info']}}">
+              <i class="fas fa-info-circle icon-color"></i>
+            </button>
+
+            <button *ngIf="loginDetails['type']==1"
+              class="btn btn-icon btn-border btn-round btn-xs mr-2 btn-transparent" (click)="getVersions(form)"
+              title="{{formKeys['label_VersionHistory']}}">
+              <img class="customSvg" [src]='recordsIcons.history' alt="Version History">
+            </button>
+
+            <!-- <button *ngIf="loginDetails['type']==1 && showButtons"
+              class="btn btn-icon btn-border btn-round btn-xs mr-2 btn-transparent" (click)="enableSidebar(form)"
+              aria-controls="collapse" title="{{formKeys['label_AttachReferences']}}">
+              <i class="fa fa-upload icon-color" aria-hidden="true"></i>
+            </button> -->
+
+            <app-form-import-as-template [formId]='form._id' *ngIf="loginDetails['type']==0">
+            </app-form-import-as-template>
+
+            <app-form-delete [formId]='form._id' *ngIf="loginDetails['type']==1 && showButtons"
+              (notifyParentOnUpdate)='onDeleteItem($event)'></app-form-delete>
+
+          </div>
+          <!-- End Formsz Action Bar -->
+        </div>
+        <div class="separator-dashed"></div>
+      </div>
+
+    </div>
+    <div class="card-body" *ngIf="formsList && !formsList.length" align="center">
+        <img [src]="Imgsrc" class="img-responsive">
+      </div>
+    <!-- End Formsz List View -->
+    <div class="row m-15" *ngIf="formsList && formsList.length">
+      <pagination-controls (pageChange)="getForms($event);pageNumber = $event" id="first"></pagination-controls>
+    </div>
+  </div>
+
+  <!-- Category Layout -->
+  <div class="card-body card-padding mt-7 bodyBg" *ngIf="showme">
+    <div
+      *ngFor="let category of categories | paginate: { itemsPerPage: categoriesLimit, currentPage: categoryPageNumber,totalItems: totalCategories,id: 'second'};let i = index">
+      <accordion  (click)="toggleAccordion(i)">
+        <accordion-group  #group>
+            <span accordion-heading style="cursor: pointer">
+                <i class="fas fa-chevron-up float-right" *ngIf="clickedItem && i == selectedindex"></i> 
+                <i class="fas fa-chevron-down float-right" [hidden]="clickedItem && i == selectedindex"></i> 
+                {{category}}
+              </span>
+            <div class="formsz-list" *ngFor="let form of finalData[category]"
+              [ngStyle]="{'border-left':getFormType(form.category)}">
+              <div class="d-flex">
+                <div class="flex-1 ml-2 pt-2">
+                  <h6 class="text-uppercase mb-1" *ngIf="loginDetails['type']==1">
+                    <a href="javascript:;" (click)="editForm(form)">{{form.name}}</a>
+                  </h6>
+                  <h6 class="text-uppercase mb-1" *ngIf="loginDetails['type']!=1">
+                    {{form.name}}
+                  </h6>
+                  <!-- Form info showing -->
+                  <small class="text-muted">
+                    <span title="{{formKeys['label_Created']}}">
+                      <i class="fas fa-calendar-alt icon-color"></i> {{form.createdTime | date:'mediumDate'}}
+                    </span>|
+                    <span class="text-muted" title="{{formKeys['Category']}}">
+                      <i class="fa fa-tags icon-color"></i>&nbsp;
+                      <span *ngFor="let category of form.formzCategory; let i=index">
+                        <span *ngIf="i<form.formzCategory.length-1">{{category.name}},</span>
+                        <span *ngIf="i==form.formzCategory.length-1"> {{category.name}}</span>
+                      </span>
+                    </span>
+                  </small>
+                </div>
+                <!-- Formsz Action Bar -->
+                <div class="float-right formsz-ActionBar pt-3">
+                  <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+                    (click)="previewForm(form)" title="{{formKeys['label_Preview']}}">
+                    <i class="fas fa-eye icon-color"></i>
+                    <!-- <img class="customSvg" [src]='recordsIcons.preview' alt="Preview"> -->
+                  </button>
+
+                  <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+                    (click)="exportAsexcel(form)" title="{{formKeys['label_ExportExcel']}}" *ngIf="loginDetails['type'] !==0">
+                    <i class="fas fa-file-excel icon-color"></i>
+                  </button>
+
+                  <button class="btn btn-icon btn-border btn-round btn-xs mr-2 btn-transparent"
+                    (click)="getSubmittedRecords(form)" title="{{formKeys['label_Submitted']}}">
+                    <img class="customSvg" [src]='recordsIcons.getRecords' alt="Submitted Records">
+                  </button>
+
+                  <button *ngIf="loginDetails['type']==0"
+                    class="btn btn-icon btn-border btn-round btn-xs mr-2 btn-transparent" (click)="shareForm(form)"
+                    title="{{formKeys['label_Share']}}">
+                    <i class="fas fa-share-alt icon-color"></i>
+                  </button>
+                  <button *ngIf="loginDetails['type']==1"
+                    class="btn btn-icon btn-border btn-round btn-xs mr-2 btn-transparent" (click)="shareLink(form)"
+                    title="{{formKeys['label_Share']}}">
+                    <i class="fas fa-share icon-color"></i>
+                  </button>
+
+                  <button class="btn btn-icon btn-border btn-round btn-xs mr-2 btn-transparent" (click)="showInfo(form)"
+                    title="{{formKeys['label_Info']}}">
+                    <i class="fas fa-info-circle icon-color"></i>
+                  </button>
+
+                  <button *ngIf="loginDetails['type']==1"
+                    class="btn btn-icon btn-border btn-round btn-xs mr-2 btn-transparent" (click)="getVersions(form)"
+                    title="{{formKeys['label_VersionHistory']}}">
+                    <img class="customSvg" [src]='recordsIcons.history' alt="Version History">
+                  </button>
+
+                  <!-- <button *ngIf="loginDetails['type']==1"
+                    class="btn btn-icon btn-border btn-round btn-xs mr-2 btn-transparent" (click)="enableSidebar(form)"
+                    aria-controls="collapse" title="{{formKeys['label_AttachReferences']}}">
+                    <i class="fa fa-upload icon-color" aria-hidden="true"></i>
+                  </button> -->
+
+                  <app-form-import-as-template [formId]='form._id' *ngIf="loginDetails['type']==0">
+                  </app-form-import-as-template>
+
+                  <app-form-delete [formId]='form._id' *ngIf="loginDetails['type']==1"
+                    (notifyParentOnUpdate)='onDeleteItem($event)'></app-form-delete>
+                </div>
+                <!-- End Formsz Action Bar -->
+              </div>
+              <div class="separator-dashed"></div>
+            </div>
+
+          <div *ngIf="finalData[category] && !finalData[category].length" align="center">
+            <img [src]="Imgsrc" class="img-responsive">
+          </div>
+        </accordion-group>
+      </accordion>
+    </div>
+    <pagination-controls (pageChange)="categoryPageNumber = $event" id="second"></pagination-controls>
+  </div>
+  <!-- End ategory Layout -->
+
+
+</div>
+
+<!-- <div class="mx-auto d-flex justify-content-center flex-wrap" *ngIf="formsList && !formsList.length">
+  <img [src]="Imgsrc" class="img-responsive">
+</div> -->
+
+
+<ngx-smart-modal *ngIf='formBasicInfo' #formInfo [identifier]="'formInfo'" [closable]="false">
+  <div class="modal-header ">
+    <h4 class="modal-title">{{formKeys['formInfo']}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="formInfo.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <table class="table table-bordered table-condensed">
+    <tr>
+      <td><b>{{formKeys['label_FormInfoName']}}</b></td>
+      <td>{{formBasicInfo.name}}</td>
+    </tr>
+    <tr>
+      <td><b>{{formKeys['label_Createdby']}}</b></td>
+      <td>{{formBasicInfo.createdBy || NA}}</td>
+    </tr>
+    <tr>
+      <td><b>{{formKeys['label_Createddate']}}</b></td>
+      <td>{{formBasicInfo.createdTime | date:'short'}}</td>
+    </tr>
+    <tr>
+      <td><b>{{formKeys['noofassignments']}}</b></td>
+      <td>{{formBasicInfo.numberOfAssignments}}</td>
+    </tr>
+    <tr>
+      <td><b>{{formKeys['noofCases']}}</b></td>
+      <td>{{formBasicInfo.numberOfSubmissions}}</td>
+    </tr>
+    <tr>
+      <td><b>{{formKeys['lastModified']}}</b></td>
+      <td>{{formBasicInfo.lastModifiedDate | date : "short"}}</td>
+    </tr>
+    <tr>
+      <td><b>{{formKeys['lastDownload']}}</b></td>
+      <td>{{formBasicInfo.lastDownloadedDate | date : "short"}}</td>
+    </tr>
+
+    <tr>
+      <td><b>{{formKeys['lastDownloadby']}}</b></td>
+      <td>{{formBasicInfo.lastDownloadedBy}}</td>
+    </tr>
+    <tr>
+      <td><b>{{formKeys['usersDownloaded']}}</b></td>
+      <td>{{formBasicInfo.numberOfUsersDownloaded}}</td>
+    </tr>
+  </table>
+</ngx-smart-modal>
+
+<ngx-smart-modal #shareFormPopup [identifier]="'shareFormPopup'" [closable]="false">
+  <!-- <div class="card"> -->
+  <div class="modal-header ">
+    <h4 class="modal-title">{{formKeys['ShareForm']}} - {{formName}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="shareFormPopup.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <!-- <div class="modal-body"> -->
+  <form name="shareFormGroup" [formGroup]="shareFormGroup" class="form-horizontal">
+    <div class="form-group form-group-default">
+      <label>{{formKeys['label_Formname']}}<span class="required-label">*</span></label>
+      <input type="text" id="username" class="form-control" [autocomplete]="autoCompleteField" [formControlName]="formKeys['formcopyname']" />
+      <div *ngIf="submitted && f[formKeys['formcopyname']].errors">
+        <span *ngIf="submitted" class="errorText">{{formKeys['required_FormName']}}</span>
+      </div>
+      <small class ="required-label" *ngIf="submitted && isFormExists">
+        {{formKeys['formnameExists']}} 
+      </small>
+    </div>
+    <div class="form-group form-group-default">
+      <label>{{formKeys['shareToAccount']}}<span class="required-label">*</span></label>
+      <ng-multiselect-dropdown class="form-control w-100" [placeholder]="'Select Account'" [settings]="dropdownSettings"
+      [data]="deptShare"
+      [formControlName]="formKeys['accounts']" name="accounts" >
+      </ng-multiselect-dropdown>
+      <div *ngIf="submitted && f[formKeys['accounts']].errors">
+        <span *ngIf="submitted" class="errorText">{{formKeys['required_Account']}}</span>
+      </div>
+    </div>
+    <!-- <div class="separator-solid"></div> -->
+    <div class="btn-group d-flex justify-content-center">
+      <button type="button" class="btn btn-outline-primary btn-rounded btn-sm mr-2" (click)="formShareSubmit()">
+        {{formKeys['label_Share']}} 
+      </button>
+      <button type="button" class="btn btn-outline-danger btn-rounded btn-sm" (click)="shareFormPopup.close()">
+        {{formKeys['label_Cancel']}}
+      </button>
+    </div>
+  </form>
+  <!-- </div> -->
+  <!-- </div> -->
+</ngx-smart-modal>
+<ngx-smart-modal #shareFormLink [identifier]="'shareFormLink'" [closable]="false">
+  <!-- <div class="card"> -->
+  <div class="modal-header ">
+    <h4 class="text-uppercase modal-title">{{formName}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="shareFormLink.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <!-- <div class="modal-body"> -->
+  <form name="shareLinkGroup" [formGroup]="shareLinkGroup" class="form-horizontal" *ngIf="!formLinkExists">
+   
+    <!-- <div class="form-group form-group-default">
+      <label>Group<span class="required-label">*</span></label>
+      <select id="workflowLevel" class="form-control" formControlName="workflowLevel">
+        <option *ngFor="let level of sharing" [ngValue]="level.id">{{ level.name }}</option>
+      </select>
+      <div *ngIf="submitted && f.accounts.errors">
+        <span *ngIf="submitted" class="errorText">Group Required.</span>
+      </div>
+    </div> -->
+    <div class="form-group form-group-default">
+      <label> {{formKeys['label_Validity']}}<span class="required-label">*</span></label>
+      <input [autocomplete]="autoCompleteField" appCalendar name="validity" type="text"  class="form-control mb-3" bsDatepicker [formControlName]="formKeys['validity']" [minDate]="startMaxDate"
+      [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }"
+      
+      [ngClass]="{ 'is-invalid': submitted && f[formKeys['validity']]?.errors }"  required />
+      <!-- <input type="text" id="username" class="form-control" [autocomplete]="autoCompleteField" [formControlName]="formKeys['validity']" minlength='1' maxlength='5' numbersOnly/> -->
+      <div *ngIf="submitted && f[formKeys['validity']]?.errors">
+        <span *ngIf="submitted" class="errorText">{{formKeys['required_Validity']}}</span>
+      </div>
+    </div>
+    <!-- <div class="separator-solid"></div> -->
+    <div class="btn-group d-flex justify-content-center">
+      <button type="button" class="btn btn-outline-primary btn-rounded btn-sm mr-2" (click)="formLinkShare()">
+        {{formKeys['label_Generate']}}
+      </button>
+      <button type="button" class="btn btn-outline-danger btn-rounded btn-sm" (click)="shareFormLink.close()">
+        {{formKeys['label_Cancel']}}
+      </button>
+    </div>
+  </form>
+  <div class="row px-3" *ngIf="formLinkExists">
+    <div class="float-right bd-clipboard pt-2">
+      <button class="btn-clipboard" title="{{formKeys['copyToClipboard']}}" tooltip="Copied Link"
+      triggers="click"  (click)="copyText(formLinkData.link)">{{formKeys['label_Copy']}}</button>
+    </div>
+    <hr>
+    <p><b>{{formKeys['Link']}} - </b>{{formLinkData.link}}</p>
+    <p><b>{{formKeys['Note']}} - </b>{{formKeys['formValidityMsg']}}  {{formLinkData.validity | date:'mediumDate'}}</p>
+
+  </div>
+
+  <!-- </div> -->
+  <!-- </div> -->
+</ngx-smart-modal>
+<div id="collapse" *ngIf="isTrue">
+  <div class="quick-sidebar">
+    <div class="float-right">
+      <button type="button" class="close" aria-label="Close" (click)="closeSidebar()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="quick-sidebar-wrapper">
+      <h4>{{formName}}-{{formKeys['References']}}</h4><br>
+      <div class="row" style="margin:5%">
+        <label class="col-sm-3">{{formKeys['References']}}
+          <span class="c-red">*</span>
+        </label>
+        <div class="col-sm-9">
+          <input type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)"
+            [uploadInput]="uploadInput" multiple>
+        </div>
+      </div>
+      <!-- Previous reference files -->
+      <div class="container" *ngIf="responseRef.length">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>{{formKeys['refTableAttachment']}}</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let file of responseRef">
+                <td><strong><a href="javascript:;" (click)="getReferredFile(file)">{{file.filename}}</a></strong></td>
+                <td>{{file.chunkSize/1024/1024 | number:'2.2-2'}} MB</td>
+                <td>
+                  <button type="button" class="btn btn-icon btn-xs" title="{{formKeys['label_Delete']}}" (click)="removeFile(file._id)">
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </td>
+              </tr>
+              <!-- <tr>
+                  <td></td>
+                  <td>{{fileSize/1024/1024|number:'2.2-2'}}MB</td>
+                  <td></td>
+                </tr> -->
+            </tbody>
+          </table>
+        </div>
+      </div><br>
+      <!-- For newly added reference files -->
+      <div class="container" *ngIf="files.length">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>{{formKeys['Name']}}</th>
+                <th>{{formKeys['Size']}}</th>
+                <th>{{formKeys['Actions']}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let file of files">
+                <td><strong>{{file.name}}</strong></td>
+                <td>{{file.size/1024/1024|number:'2.2-2'}} MB</td>
+                <td>
+                  <button type="button" class="btn btn-icon btn-xs" title="{{formKeys['label_Delete']}}"
+                    (click)="removeAttachedFile(file.id)">
+                    <i class="far fa-trash-alt"></i>
+                  </button>
+                </td>
+              </tr>
+              <!-- <tr>
+                <td></td>
+                <td>Total:{{fileSize/1024/1024|number:'2.2-2'}} MB</td>
+                <td></td>
+              </tr> -->
+            </tbody>
+          </table>
+        </div>
+
+      </div><br>
+      <div class="btn-group d-flex justify-content-center">
+        <button type="button" class="btn btn-sm btn-round btn-outline-primary mr-2 buttonBorder"
+          (click)="attachReferences(formID)">
+          {{formKeys['label_Submit']}} 
+        </button>
+        <button type="button" class="btn btn-sm btn-round btn-outline-danger mr-2 buttonBorder"
+          (click)="closeSidebar()">
+          {{formKeys['label_Cancel']}}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-smart-modal #previewFormPopup [identifier]="'previewFormPopup'" [closable]="false"
+  [style.height.px]="myInnerComponentHeight">
+  <div class="modal-header">
+    <h5 class="modal-title">{{formKeys['formPreview']}}</h5>
+    <button aria-label="Close" class="close btn-lg" data-dismiss="modal" type="button"
+      (click)="previewFormPopup.close()">
+      <span aria-hidden="true"><i class="fas fa-times icon-color"></i></span>
+    </button>
+  </div>
+  <div [style.height.px]="myInnerComponentHeight-180" style="overflow:auto;" #scrollMe>
+
+    <div *ngIf="formInfo && widgets">
+      <dynamic-form [config]="widgets" [data]="formInfo" [ispreview]="ispreview">
+
+      </dynamic-form>
+    </div>
+  </div>
+</ngx-smart-modal>

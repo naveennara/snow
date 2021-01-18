@@ -1,0 +1,27 @@
+<span *ngIf="derivedFields.indexOf(config[widgetKey._id]) > -1 ? false : isTable ? true : config[widgetKey.isUnderHeading].length==0?true:config[widgetKey.isUnderHeading]== expendedHeaderId?true:false">
+  <div class="card  webuser-form-header webuser-cursor-pointer form-widget-card-margin-left card-border-box"  *ngIf="config[widgetKey._id] !== expendedHeaderId" >
+        <div class="card-body">
+          <span>
+            <b>  {{config[widgetKey.label]}}</b><span *ngIf="config[widgetKey.isRequired] == true" class="webuser-mandatory-indicator-color"> *</span>
+          </span>
+          <span class=" pull-right ">
+            <i class="fas fa-play-circle fa-2x" (click)="viewVideo(imagePreview)" *ngIf="group.get(config[widgetKey._id]).value"></i>
+            <!-- <img *ngIf="group.get(config[widgetKey._id]).value" class="upload-media-file-avatar webuser-cursor-pointer" width="100" height="100"
+              [src]="videoDataValue" alt="preview" (click)="viewVideo(imagePreview)"> -->
+
+              <label class="btn btn-primary btn-sm uplaodBtn fon-label" [hidden]="historyView">
+                <i class="fas fa-video icon-white"><span  class="upload-text">Upload</span></i>
+                <input (change)="openVideoModal($event)" type="file" accept="video/mp4" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;" #uplaodVideoRef>
+              </label>
+
+          </span>
+        </div>
+    </div>
+  <app-validation [dynamicFormControlRef]="group.get(config[widgetKey._id])" >
+
+  </app-validation>
+</span>
+
+<ng-template #imagePreview class="table-widget-add-row " >
+    <app-video-priview [modalRef]="modalRef" [videoSrc]="videoDataValue" (removeVideo)="removeAttachedVideo($event)" [isHistory]="historyView" [actionType]="activatedRoute.snapshot.params.actionType"></app-video-priview>
+  </ng-template>

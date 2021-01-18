@@ -1,0 +1,175 @@
+<div class="card full-height">
+
+  <div class="card-header">
+    <div class="card-head-row">
+      <div class="card-title">{{assignKeys['createWorkAssignMent']}}</div>
+      <div class="card-tools">
+        <div class="btn-group">
+            <a href="javascript:;" *ngIf="prepopPreview" (click)="backToForm()">
+                <i class="fas fa-arrow-left" title="{{assignKeys['label_Back']}}"></i>
+             </a>
+        </div>
+      </div>
+      <!-- <div class="float-right padding" *ngIf="prepopPreview">
+        <a href="javascript:;" (click)="backToForm()">
+          <i class="fas fa-arrow-left" title="Back"></i>
+        </a>
+      </div> -->
+      <!-- <div class="card-tools">
+        <div class="btn-group">
+          <button type="button" class="btn btn-icon btn-sm btn-transparent">
+            <i class="icon-list"></i>
+          </button>
+        </div>
+      </div> -->
+    </div>
+  </div>
+
+  <div class="card-body m-b-10">
+
+
+    <form [formGroup]="createWorkAssignmentForm" (ngSubmit)="createWorkAssignment()" *ngIf="!prepopPreview">
+      <div class="row m-l-16 m-r-15 my-2">
+        <div class="form-group formalignment form-group-default">
+          <label for="name" class="placeholder">
+            {{assignKeys['AssignmentName']}}<span class="required-label">*</span>
+          </label>
+          <input [autocomplete]="autoCompleteForm" name= "create-assignment-name" type="text" id="name" class="form-control" [formControlName]="assignKeys['name']"
+            [ngClass]="{ 'is-invalid': submitted && f[assignKeys['name']].errors }" appTrimValues required />
+          <div *ngIf="submitted && f[assignKeys['name']].errors" class="invalid-feedback">
+            <span *ngIf="f[assignKeys['name']].errors.required" class="form-text text-red">{{assignKeys['reqAssignName']}}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row m-l-15 m-r-15 my-2">
+        <div class="col-md-6">
+          <div class="form-group form-group-default">
+            <label> {{assignKeys['Form_Label']}}<span class="required-label">*</span></label>
+            <select id="form" class="form-control" [formControlName]="assignKeys['form']" [compareWith]="compare">
+              <option value=''>Select Form</option>
+              <option *ngFor="let form of formsList" [ngValue]="form">{{ form.name }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group form-group-default">
+            <label>{{assignKeys['Frequency_Label']}}<span class="required-label">*</span></label>
+            <select id="formFrequency" class="form-control" [formControlName]="assignKeys['formFrequency']">
+              <option *ngFor="let frequency of frequencies" [ngValue]="frequency">{{ frequency }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row m-l-15 m-r-15 my-2">
+        <div class="col-md-12" *ngIf="enableUsers">
+          <div class="form-group form-group-default">
+            <label for="users" class="placeholder">{{assignKeys['Users_Label']}}<span class="required-label">*</span></label>
+            <ng-multiselect-dropdown [settings]="userdropdownSettings" [data]="usersList" [formControl]="createWorkAssignmentForm.controls['users']"
+              name="users"  (onSelect)="onItemSelect($event)"
+              (onDeSelect)="onItemDeSelect($event)" (onSelectAll)="onSelectAll($event)">
+            </ng-multiselect-dropdown>
+          </div>
+        </div>
+      </div>
+
+      <div class="row m-l-15 m-r-15 my-2">
+        <div class="col-md-6">
+          <div class="form-group form-group-default">
+            <label for="startDate" class="placeholder"><i class="fas fa-calendar-check"></i> {{assignKeys['StartDate']}}<span
+                class="required-label">*</span></label>
+            <input type="text" (bsValueChange)="bsValueChange($event)" class="form-control mb-3" bsDatepicker
+              [minDate]="startMinDate" appCalendar [formControlName]="assignKeys['startDate']"
+              [bsConfig]="{ dateInputFormat:dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }" [maxDate]="startMaxDate"
+              [ngClass]="{ 'is-invalid': submitted && f[assignKeys['startDate']].errors }" placement="top" required />
+            <div *ngIf="submitted && f[assignKeys['startDate']].errors" class="invalid-feedback">
+              <span *ngIf="f[assignKeys['startDate']].errors.required" class="form-text text-red">{{assignKeys['startdateRequired']}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group form-group-default">
+            <label for="endDate" class="placeholder"><i class="fas fa-calendar-times"></i> {{assignKeys['EndDate']}}<span
+                class="required-label">*</span></label>
+            <input type="text" (bsValueChange)="endValueChange($event)" appCalendar class="form-control mb-3" bsDatepicker [formControlName]="assignKeys['endDate']" [minDate]="endMinDate"
+              [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }" [maxDate]="endMaxDate"
+              [ngClass]="{ 'is-invalid': submitted && f[assignKeys['endDate']].errors }" placement="top" required />
+            <div *ngIf="submitted && f[assignKeys['endDate']].errors" class="invalid-feedback">
+              <span *ngIf="f[assignKeys['endDate']].errors.required" class="form-text text-red">{{assignKeys['enddateRequired']}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row m-l-15 m-r-15 my-2" *ngIf="fileUploadEnable">
+        <div class="col" >
+          <label class="col-sm-4  fon-label"><i class="fas fa-file-excel"></i> {{assignKeys['UploadSheet']}}<span
+              class="required-label">*</span></label>
+          <input #prepopRecordsFile type="file" id='fileId' (change)="onFileChange($event)" accept=".xlsx">
+          <p class="text-danger" *ngIf="fileUploaded">{{assignKeys['validFileMsg']}}</p>
+        </div><br><br>
+        
+      </div>
+      <!-- <pre>Work Assignment Status: <span class="status">{{createWorkAssignmentForm.status}}</span></pre> -->
+      <!-- <div class="form-group"> -->
+        <div class="btn-group d-flex justify-content-center">
+          <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3">{{submitButton}}</button>
+          <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+            (click)="closeSideBarfn()">{{assignKeys['label_Cancel']}}</button>
+        </div>
+      <!-- </div> -->
+      <p class="text-danger" *ngIf="isErr">{{errMsg}}</p>
+    </form>
+    
+    <div *ngIf="prepopPreview">
+      <!-- <div class="row">
+        <button type="button" class="btn btn-sm" (click)="backToForm()">Back</button>
+      </div> -->
+      <form [formGroup]="prepopDataForm" (ngSubmit)="submitData()">
+        <div class="row">
+          <!-- <div class="col-md-2 offset-md-1">
+            <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+              (click)="deleteSelected()"><i class="far fa-trash-alt"></i> Delete</button>
+          </div> -->
+          <div class="col-md-7"></div>
+          <div class="col-md-4">
+            <label for="user" class="placeholder">Users: &nbsp;</label>
+            <select [formControlName]="assignKeys['user']" name="user" style="width: 95px;
+            height: 33px;
+            text-indent: 20px;">
+              <option *ngFor="let user of usersList" value={{user.username}}>
+                {{user.username}}
+              </option>
+            </select>
+            <button type="button" class="btn btn-outline-success btn-sm " (click)="assignUser()" 
+            style="line-height: 17px;
+            margin-bottom: 4px;">
+              <i class="fas fa-user-plus"></i>
+            </button>
+          </div>
+          <div>
+            <!-- <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+              (click)="deleteSelected()"><i class="far fa-trash-alt"></i> Delete</button> -->
+              <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              (click)="deleteSelected()" title="{{assignKeys['label_Delete']}}">
+              <i class="far fa-trash-alt icon-color"></i>
+              </button>
+          </div>
+        </div>
+      </form>
+      <div class="row">
+        <ag-grid-angular #agGrid style="width: 680px; height: 300px;" class="ag-theme-balham"
+          [rowSelection]="rowSelection" [rowMultiSelectWithClick]="true" [gridOptions]="gridOptions">
+        </ag-grid-angular>
+      </div>
+      <!-- <div class="row"> -->
+        <div class="btn-group d-flex justify-content-center">
+          <button type="button" class="btn btn-outline-primary btn-rounded btn-sm mr-3"
+            (click)="createWorkAssignment()">{{submitButton}}</button>
+          <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+            (click)="closeSideBarfn()">{{assignKeys['label_Cancel']}}</button>
+        </div>
+      <!-- </div> -->
+    </div>
+
+  </div>
+</div>

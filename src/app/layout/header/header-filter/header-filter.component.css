@@ -1,0 +1,37 @@
+.scrollable-menu {
+  height: auto;
+  max-height: 250px;
+  overflow-x: hidden;
+}
+
+.search {
+  box-sizing: border-box;
+  font-size: 14px;
+  border-top: aliceblue;
+  border-left: aliceblue;
+  padding: 0px 7px 7px 19px;
+  border-bottom: 1px solid #ddd;
+}
+
+.searchBar {
+  border-bottom: 1px solid #ebecec;
+  position: fixed;
+  top: 62px;
+  width: 275px;
+  background: #fafaefd6;
+}
+
+.searchBar + div {
+   margin-top: 62px;
+   overflow: hidden;
+}
+
+/* ul> :nth-child(2) {
+  margin-top: 62px;
+} */
+
+/* Highlight selected Account */
+.notif-center a.active {
+  background-color:#1572E8 !important;
+  color: white;
+}

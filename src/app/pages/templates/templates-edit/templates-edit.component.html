@@ -1,0 +1,73 @@
+<div class="card shadow mb-4 wizard-container wizard-round col-md-8">
+  <div class="card-header">
+    <div class="card-head-row">
+      <div class="card-tools">
+        <div class="btn-group">
+          <div class="float-right padding">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+            [routerLink]="['/mainLayout','templates']" title="{{templateKeys['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="card-head-row card-tools-still-right">
+      <h4 class="card-title font-weight-bold text-primary">Update Template</h4>
+      <div class="card-tools">
+      </div>
+    </div> -->
+  </div>
+  <div class="card-body">
+    <form class="m-l-20 m-r-20" [formGroup]="updateTemplate" (ngSubmit)="goToFormBuildArea()">
+
+        <div class="form-group form-group-default">
+          <label>{{templateKeys['label_Templatename']}}<span class="required-label">*</span></label>
+          <input type="text" class="form-control" name="name" placeholder="Enter Template Name" [formControlName]="templateKeys['name']" disabled>
+        </div>
+
+
+
+        <div class="form-group form-group-default" *ngIf="updateTemplate.value.category=='Private'|| updateTemplate.value.category=='Public'">
+          <label>{{templateKeys['selectCat']}}<span class="required-label">*</span></label>
+          <ng-multiselect-dropdown class="form-control" 
+              [placeholder]="'select category'" 
+              [settings]="dropdownSettings" 
+              [data]="categoriesList"
+              [formControlName]="templateKeys['formzCategory']"
+              name="formzCategory"
+              [ngClass]="{ 'is-invalid': submitted && f[templateKeys['formzCategory']].errors }">
+          </ng-multiselect-dropdown>
+          <div *ngIf="submitted && f[templateKeys['formzCategory']].errors" class="invalid-feedback">
+              <span *ngIf="f[templateKeys['formzCategory']].errors.required" class="form-text text-red">{{templateKeys['required_category']}}</span>
+          </div>
+        </div>
+        <div class="form-group form-group-default">
+            <label>{{templateKeys['label_TemplateType']}}<span class="required-label">*</span></label>
+            <select   [formControlName]="templateKeys['category']" class="form-control"  name="category">
+                <option value="Public">{{templateKeys['Public']}}</option> 
+                <option value="Private">{{templateKeys['Private']}}</option>
+            </select>
+        </div>
+          <div class="form-group form-group-default" *ngIf="updateTemplate.value[templateKeys['category']]=='Private'">
+              <label>{{templateKeys['Accounts']}}<span class="required-label">*</span></label>
+                <ng-multiselect-dropdown class="form-control" 
+                    [placeholder]="'Select Accounts'" 
+                    [settings]="dropdownSettings"
+                    [data]="deptsListForMap"
+                    [formControlName]="templateKeys['allocatedDepartments']" 
+                    name="allocatedDepartments" 
+                    >
+                </ng-multiselect-dropdown>
+                <span *ngIf="submitted && isErr && !updateTemplate.value[templateKeys['allocatedDepartments']].length>0" class="errorText">{{templateKeys['departmentRequired']}}</span>
+            </div>
+
+        <div class="form-group">
+            <div class="col-md-3 offset-md-4">
+                <button class="btn btn-outline-primary btn-rounded btn-sm mr-2" type="submit">{{templateKeys['label_Go']}}</button>
+                <button class="btn btn-outline-danger btn-rounded btn-sm" type="button" [routerLink]="['/mainLayout','templates']"> {{templateKeys['label_Cancel']}}</button>
+            </div>
+        </div>
+    </form>
+  </div>
+</div>
+

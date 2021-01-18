@@ -1,0 +1,72 @@
+<div class="card shadow mb-4">
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary"></h6>
+    <div class="card-tools">
+      <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="cancel()"
+        title="{{constants['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+      </button>
+
+    </div>
+  </div>
+  <div class="card-body mx-4">
+    <div class="row">
+      <div class="col-md-6">
+        <form [formGroup]="mapConfig" (ngSubmit)="onUpdate()">
+          <div class="form-group">
+            <label for="constants['account']" class="placeholder">{{constants['accountLabel']}}<span
+                class="required-label">*</span></label>
+            <select class="form-control" [formControlName]="constants['account']"
+              (change)="accountChanged($event.target.value)">
+              <option [ngValue]="null" disabled></option>
+              <option [value]="entry._id" *ngFor="let entry of  departmentList">{{entry.name}}</option>
+            </select>
+            <!-- <ng-select [items]="departmentList" placeholder="Select account" [addTag]="addTag" bindLabel="name"
+              [formControlName]="constants['account']">
+            </ng-select> -->
+            <div *ngIf="submitted && f[constants['account']].errors" class="invalid-feedback">
+              <span *ngIf="f[constants['account']].errors.required"
+                class="form-text text-red">{{constants['accountReqMsg']}}</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description" class="placeholder">{{constants['mapLabel']}} </label><br>
+            <div *ngFor="let item of mapList; let i = index;" class="custom-control custom-radio">
+              <input type="radio" [formControlName]="constants['mapSelect']" id="radio{{i}}"
+                class="custom-control-input" [value]=item.id>
+              <label class="custom-control-label" for="radio{{i}}">
+                {{item.name || '?'}}
+              </label>
+            </div>
+            <!-- <ng-select [items]="mapList" placeholder="Select map" [addTag]="addTag" bindLabel="name"
+                [formControlName]="constants['mapSelect']">
+              </ng-select> -->
+          </div>
+
+          <div class="form-group">
+            <div class="float-right">
+              <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3"
+                [disabled]="!mapConfig.valid">{{constants['label_Update']}}</button>
+              <button type="button" class="btn btn-outline-danger btn-rounded btn-sm" (click)="cancel()">{{constants['label_Cancel']}}</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="col-md-6">
+        
+        <div class="card">
+          <div class="card-body">
+
+            <p>Map Configuration is for configuring the map for Account.So when a user login into the mobile he will get
+              the
+              configured map.<br><span *ngIf="mapConfig.value[constants['account']]"><strong>{{mapConfig.get(constants['mapSelect']).value |json}} </strong>is set for this
+              account.You can update the map.</span></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

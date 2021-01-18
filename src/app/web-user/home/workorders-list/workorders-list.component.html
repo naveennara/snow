@@ -1,0 +1,24 @@
+<div>
+  <!-- <span class="row custom-row" >
+    <span class="col-md-12">
+      <div class="page-header custom-page-header">
+          <div class="custom-page-title webuser-cursor-pointer" (click)="gotoAssignmnets()"> Assignments</div>
+        <ul class="custom-bread-crumbs">
+          <li class="nav-item webuser-bread-crumb-color">
+              <span>Work orders</span>
+          </li>
+        </ul>
+      </div>
+
+    </span>
+  </span> -->
+  <app-breadcumb-layout [isBreadCumItemsShow]="true" [breadCumpList]="breadCumbs"></app-breadcumb-layout>
+  <div class="add-newworkorder-text text-center font-weight-bold ">
+    <h3 (click)="goToForm()">
+      <span class="btn ">
+        <a> <i class="fa fa-plus fa-lg primary-color-icon"></i></a>
+      </span>
+      <a><span class="primary-color-text ">Add new workorder </span></a>
+    </h3>
+  </div>
+</div>

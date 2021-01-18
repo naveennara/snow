@@ -1,0 +1,34 @@
+<div class="card shadow mb-4">
+  <div class="card-header">
+    <!-- <h6 class="m-0 font-weight-bold text-primary" *ngIf ='catObj'>Edit : {{catObj.name}}</h6> -->
+    <div class="card-head-row">
+      <div class="card-tools">
+        <div class="btn-group">
+          <div class="float-right padding">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+            (click)="back()" title="{{categoryKeys['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body mx-4">
+    <form *ngIf="catObj" [formGroup]="categoryEditForm" (ngSubmit)="onSubmit()">
+      <div class="form-group form-group-default">
+        <label for="categoryKeys['catNameCtrl']" class="placeholder">{{categoryKeys['catNameLabel']}}<span class="required-label">*</span></label>
+        <input type="text" class="form-control" name="categoryKeys['catNameCtrl']" placeholder="Name" [formControlName]="categoryKeys['catNameCtrl']" [readonly]="true">
+      </div>
+      <div class="form-group form-group-default">
+        <label for="categoryKeys['catDescCtrl']" class="placeholder">{{categoryKeys['label_Description']}} </label>
+        <textarea class="form-control input-border-bottom" [formControlName]="categoryKeys['catDescCtrl']" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <div class="col-md-6 offset-md-4">
+          <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3" [disabled]="!categoryEditForm.dirty">{{categoryKeys['label_Update']}}</button>
+          <button type="button" class="btn btn-outline-danger btn-rounded btn-sm" [routerLink]="['/mainLayout','categories']">{{categoryKeys['label_Cancel']}}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

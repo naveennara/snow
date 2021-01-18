@@ -1,0 +1,43 @@
+.modal.show .modal-dialog {
+   top :150px !important;
+  }
+  .setWidth {
+   width:100px;
+  }
+
+  /* .deviceManagementFilter a.active {
+   background-color:#1572E8 !important;
+   color: white;
+ } */
+ 
+ .html-legend {
+  list-style: none;
+  cursor: pointer;
+  padding-left: 0;
+  text-align: left;
+  margin-top: 0.5rem;
+}
+
+ /* Highlight selected Form */
+.deviceManagementFilter a.active .html-legend li {
+  display: inline-block;
+   vertical-align: middle;
+   padding: 0 5px;
+   margin-right: 5px;
+   margin-bottom: 6px;
+   color: #8d9498;
+ }
+
+ .dropdown-menu {
+   position: absolute !important;
+ }
+
+ :host >>> .tooltip-inner {
+  background-color: #009688;
+  color: #fff;
+  height: 10px;
+}
+:host >>> .tooltip.top .tooltip-arrow:before,
+:host >>> .tooltip.top .tooltip-arrow {
+  border-top-color: #009688;
+}

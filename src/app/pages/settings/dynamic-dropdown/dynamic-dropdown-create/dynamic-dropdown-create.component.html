@@ -1,0 +1,41 @@
+<div class="card shadow mb-4">
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary"></h6>
+    <div class="card-tools">
+      <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="cancel()"
+        title="{{constants['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+      </button>
+    </div>
+  </div>
+  <div class="card-body mx-4">
+    <div class="container">
+        <form [formGroup]="dropdownCreate" [autocomplete]="autoCompleteForm">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="constants['dropdownName']" class="placeholder">{{constants['dropdownNameLabel']}}<span
+                class="required-label">*</span></label>
+            <input [autocomplete]="autoCompleteField" name="dynamic-dropdown-create-name" type="text" id="collectionName" class="form-control" [formControlName]="constants['collectionName']"
+              [ngClass]="{ 'is-invalid': submitted && f.collectionName.errors }" appSpecialCharacter myNoSpaces />
+              <div *ngIf="submitted && f.collectionName.errors" class="invalid-feedback">
+                <span *ngIf="f.collectionName.errors.required" class="form-text text-red">{{constants['collectionNameRequired']}}</span>
+                <span *ngIf="!f.collectionName.errors.required && f.collectionName.errors.whitespace" class="form-text text-red">{{f.collectionName.errors.whitespace}}</span>
+            </div>
+            </div>
+            <div class="form-group col-md-4 offset-md-3">
+              <label for="constants['uploadSheet']" class="placeholder">{{constants['uploadSheet']}}<span
+                class="required-label">*</span></label>
+              <input #dynamicDropDownFile type="file"  (change)="onFileChange($event)" accept=".xlsx">
+            </div>
+            <!-- <div class="form-group col-md-4">
+                <button type="submit" class="btn btn-primary  mr-3"
+                  [disabled]="!dropdownCreate.valid">Submit</button>
+                  <button type="submit" class="btn btn-primary"
+                  >Cancel</button>
+            </div> -->
+          </div>
+        </form>
+        <app-dropdown-table *ngIf="isUploadFile" [data]="tableData" (updatedData)="submit($event)" [action]="action"></app-dropdown-table>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,155 @@
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+      <div class="card-head-row">
+        <div class="card-tools">
+          <div class="btn-group">
+            <div class="float-right padding">
+              <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              [routerLink]="['/mainLayout','users']" title="{{recordKeys['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+               </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <h6 class="m-0 font-weight-bold text-primary">{{recordKeys['ImportUsers']}}</h6> -->
+    </div>
+    <div class="card-body">
+      <div align="center">
+          <label class="col-sm-2 control-label">{{recordKeys['uploadUserSheet']}}</label>
+          <input type="file" (change)="onFileChange($event)" accept=".xlsx" #usersFile>
+          <label class="col-sm-2 control-label">{{recordKeys['createTemplate']}}</label>
+          <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+        (click)="excelTemplate()" title="{{recordKeys['downloadTemplate']}}">
+        <i class="fa fa-download icon-color"></i>
+      </button>
+      </div>
+      <br>
+      <div align="center" *ngIf="isUploadFile">
+          <button type="button" [hidden]="isShowTable" class="btn btn-outline-primary btn-rounded btn-sm mr-3" (click)="showUsersInTable()" ><i class="fas fa-th"></i>&nbsp;{{recordKeys['ShowTable']}}</button>
+          <button type="button" [hidden]="!isShowTable" class="btn btn-outline-danger btn-rounded btn-sm mr-3" (click)="hideUsersInTable()" ><i class="fas fa-th"></i>&nbsp;{{recordKeys['HideTable']}}</button>
+          <button type="button" [disabled]="disableUpload" class="btn btn-outline-primary btn-rounded btn-sm mr-3" (click)="Upload(uploadUserFileInfo)" ><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;{{recordKeys['Upload']}}</button>
+      </div>
+      <!-- <div align="center" *ngIf="isShowTable && (uploadUserFileInfo && uploadUserFileInfo.length)">
+          <ul class="html-legend">
+              <li><span style="background-color:#ef9e77"></span>Invalid records</li>
+           </ul>
+      </div> -->
+      <!-- Table start -->
+      <div class="table-responsive" *ngIf="isShowTable && (uploadUserFileInfo && uploadUserFileInfo.length)">
+        <table class="table table-bordered table-condensed">
+          <thead>
+            <tr>
+              <th>{{recordKeys['Sno']}}</th>
+              <th>{{recordKeys['Name']}}</th>
+              <th>{{recordKeys['label_LastName']}}</th>
+              <th>{{recordKeys['Email']}}</th>
+              <th>{{recordKeys['Phone']}}</th>
+              <th>{{recordKeys['Action']}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i = index; let user of uploadUserFileInfo | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: total_count }" role="row"  [ngClass]="(user.lastname == ''|| user.name =='' ||user.email =='' || emailPhoneCheck1(user.email,user.phone)== false) ? 'custom-class':'default-color'">
+              <th scope="row">{{ i + 1 + (pageNumber - 1) * limit}}</th>
+              
+              <td [hidden]="isTableColumnEditshow && selectedIndex == i">{{user.name}}</td>
+              <td [hidden]="!(isTableColumnEditshow && selectedIndex == i)">
+                <input class="form-control wpx-150" type="text" [(ngModel)]="user.name" capitalize-first required />
+              </td>
+
+              <td [hidden]="isTableColumnEditshow && selectedIndex == i">{{user.lastname}}</td>
+              <td  [hidden]="!(isTableColumnEditshow && selectedIndex == i)">
+                <input class="form-control wpx-150" type="text" [(ngModel)]="user.lastname">
+              </td>
+
+              <td [hidden]="isTableColumnEditshow && selectedIndex == i">{{user.email }}</td>
+              <td [hidden]="!(isTableColumnEditshow && selectedIndex == i)">
+                <input class="form-control wpx-150" type="text" [(ngModel)]="user.email">
+              </td>
+
+              <td [hidden]="isTableColumnEditshow && selectedIndex == i">{{user.phone }}</td>
+              <td [hidden]="!(isTableColumnEditshow && selectedIndex == i)">
+                <input class="form-control wpx-150" type="text" [(ngModel)]="user.phone"/>
+              </td>
+
+              <td>
+                <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"  
+                  *ngIf="!(isTableColumnEditshow && selectedIndex == i)" 
+                  (click)="editUserRecord(i,user)" title="{{recordKeys['label_Edit']}}">
+                  <i class="far fa-edit"></i>
+                </button>
+
+                <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" 
+                  *ngIf="!(isTableColumnEditshow && selectedIndex == i)" 
+                  (click)="deleteUser(i)" title="{{recordKeys['label_Delete']}}">
+                  <i class="far fa-trash-alt" aria-hidden="true"></i>
+                </button>
+                
+                <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" 
+                [hidden]="!(isTableColumnEditshow && selectedIndex == i)" 
+                (click)="saveEdit(i)" title="{{recordKeys['label_Save']}}">
+                  <i class="fa fa-check" aria-hidden="true"></i>
+                </button>
+
+                <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" 
+                  [hidden]="!(isTableColumnEditshow && selectedIndex == i)" 
+                  (click)="closeEdit(i)" title="{{recordKeys['label_Cancel']}}">
+                  <i class="fas fa-times"></i>
+                </button>
+            </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <span class="col-md-9">
+            <pagination-controls (pageChange)="pageNumber = $event" *ngIf="isShowTable && (uploadUserFileInfo && uploadUserFileInfo.length)"></pagination-controls>
+        </span>
+        <span class="col-md-3" *ngIf="isShowTable">
+            <b>Note:</b>&nbsp;Invalid records are highlighted
+        </span>
+      </div>
+      <!-- End Table -->
+    </div>
+</div>
+<ngx-smart-modal #showUsers [closable]="false" [hidden]="!showUsersOpen" [identifier]="'showUsers'" >
+    <div class="modal-header ">
+      <h4 class="modal-title">Confirm Action</h4>
+        <button type="button" class="close" aria-label="Close" (click)="showUsers.close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p class="m-b-5">Invalid record information! Correct the records which are highlighted.</p>
+    </div>
+    <div class="btn-group d-flex justify-content-center">
+        <button type="button" class="btn btn-danger btn-rounded btn-sm mr-3" (click)="skipInvalidRecords()">
+            Skip invalid records
+        </button>
+
+        <button type="button" class="btn btn-primary btn-rounded btn-sm" (click)="editRecords()">
+            Correct it
+        </button>
+    </div>
+    <!-- <div class="container-fluid">
+        <span class="row">
+            <span class="col-md-10"><p>Invalid record information! Correct the records which are highlighted.</p></span>
+            <span class="modelclosebutton">
+                <button type="button" class="close" aria-label="Close" (click)="showUsers.close()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </span>
+        </span>
+        <div class="separator-dashed"></div>
+        <div class="btn-group float-center">
+            <button type="button" class="btn btn-sm btn-primary mr-2 buttonBorder" (click)="skipInvalidRecords()">
+                Skip Invalid Records
+            </button>
+    
+            <button type="button" class="btn btn-sm btn-danger buttonBorder" (click)="editRecords()">
+                Correct it
+            </button>
+        </div>
+    </div> -->
+
+</ngx-smart-modal>

@@ -1,0 +1,28 @@
+/* .centered {
+  position: fixed;
+  left: 35%;
+  height: 378px;
+ } */
+.internal-server-down-text-centered{
+  position: absolute;
+  left: 39%;
+  height: 378px;
+  top: 55%;
+
+
+}
+.try-again-center:hover{
+  border-bottom: 2px solid blue;
+  cursor: pointer;
+}
+.centered {
+  position: absolute;
+  left: 46%;
+  top: 40%;
+
+ }
+.try-again-center{
+  left: 36%;
+  position: absolute;
+
+}

@@ -1,0 +1,32 @@
+  <!-- <form [formGroup]="dynamicSearch">
+      <div class="searchbar">
+          <input class="search_input" type="search" name="" placeholder="Search..." formControlName="search" (input)="onchangeSearchValue($event)" >
+          <span *ngIf="dynamicSearch.value.search && dynamicSearch.value.search.length>0"><i class="fa fa-times iconcss" (click)="clearSearch()"></i></span>
+          <a href="javascript:;" class="search_icon" (click)="pageSearch()">
+             <span *ngIf ="dynamicSearch.value.search.length==0"><i class="fas fa-search"></i></span> 
+             <span *ngIf ="dynamicSearch.value.search && dynamicSearch.value.search.length>0"><i class="fa fa-arrow-right"></i></span>
+          </a>
+      </div>
+  </form> -->
+
+  <form class="ml-auto" [formGroup]="dynamicSearch">
+    <div class="input-group" style="border: 1px solid #ddd6d6;
+    border-radius: 5px;">
+      <input type="text" placeholder="Search.." class="form-control" formControlName="search"
+        (keyup.enter)="onEnter($event)"  maxlength="20" (input)="onchangeSearchValue($event)" [value]="dynamicSearch.get('search').value" appSpecialCharacter>
+      <span class="searchData" *ngIf="dynamicSearch.value.search && dynamicSearch.value.search.length>0"
+        (click)="clearSearch()" title="cancel">
+        <i class="fa fa-times"></i>
+      </span>
+
+      <div class="input-group-append">
+        <span class="input-group-text"  title="Search">
+          <!-- [ngClass]="!dynamicSearch.value.search.length ? 'disabled' : 'notdisabled'" -->
+          <i class="fa fa-search disabled" *ngIf="dynamicSearch.value.search.length == 0"></i>
+          <i class="fa fa-arrow-right notdisabled"
+            *ngIf="dynamicSearch.value.search && dynamicSearch.value.search.length>0" (click)="pageSearch()"></i>
+        </span>
+
+      </div>
+    </div>
+  </form>

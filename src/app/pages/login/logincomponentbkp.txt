@@ -1,0 +1,84 @@
+<div class="container-fluid">
+
+  <div class="row justify-content-center">
+    <div class="col-xl-10 col-lg-12 col-md-9">
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+
+          <!-- Login Screen -->
+          <div class="row" *ngIf="Login">
+            <div class="col-lg-7 d-none d-lg-block bg-login-image"></div>
+            <div class="col-lg-5 formBlock">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4">Login</h1>
+                </div>
+                <!-- you can pass directly using userlogin.value -->
+                <form class="user" #userlogin = "ngForm" (ngSubmit) = "onLoginSubmit(userlogin.value)">
+                  <div class="form-group">
+                    <input type="text" 
+                    class="form-control form-control-user" 
+                    placeholder="Enter UserName..."
+                    ngModel
+                    name = "username"
+                    required>
+                  </div>
+                  <div class="form-group">
+                    <input type="password" 
+                    class="form-control form-control-user" 
+                    placeholder="Password"
+                    ngModel
+                    name = "password"
+                    required>
+                  </div>
+                  <button type = "submit" class="btn btn-primary btn-user btn-block" [disabled]="!userlogin.valid">Login</button>
+                  <p class="text-danger" *ngIf="isErr">{{errMsg}}</p>
+                </form>
+                <hr>
+                <div class="text-center">
+                  <a class="small" (click)="forgotPwd()">Forgot Password?</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Login -->
+
+          <!-- Forgot Pwd layout -->
+          <div class="row" *ngIf="ForgotPassword">
+            <div class="col-lg-7 d-none d-lg-block bg-login-image"></div>
+            <div class="col-lg-5">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-2">Forgot Your Password?</h1>
+                  <p class="mb-4">Just enter your email address below and we'll send you a link to reset your password!</p>
+                </div>
+                <form class="user" #forgotPWD = "ngForm" (ngSubmit) = "onForgotPWD(forgotPWD.value)">
+                  <div class="form-group">
+                      <input type="text" 
+                      class="form-control form-control-user" 
+                      placeholder="Enter UserName..."
+                      ngModel
+                      name = "username"
+                      required>
+                    </div>
+                    <p class="text-danger" *ngIf="forgotErr">{{forgotPwdMsg}}</p>
+                  <button type = "submit" class="btn btn-primary btn-user btn-block" [disabled]="!forgotPWD.valid">Reset Password</button>
+                </form>
+                <hr>
+                <div class="text-center">
+                  <a class="small" (click)="loginBlock()">Already have an account? Login!</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END Forgot Pwd layout -->
+
+         
+
+        </div>
+        <!-- card-body End -->
+      </div>
+      <!-- Card End -->
+    </div>
+  </div>
+</div>

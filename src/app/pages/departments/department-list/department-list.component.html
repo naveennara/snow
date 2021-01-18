@@ -1,0 +1,63 @@
+<div class="card full-height">
+  <div class="card-header">
+    <div class="card-head-row">
+      <p class="card-category" *ngIf="departmentList && departmentList.length">
+        Showing ({{(pageNumber -1) * limit + 1}} to {{limit * (pageNumber-1) + departmentList.length }}) out of
+        {{total_count}} Accounts
+      </p>
+    </div>
+  </div>
+  <div class="card-body">
+    <div *ngIf="departmentList && departmentList.length">
+      <!-- Account List View -->
+      <div class="account-list"
+        *ngFor="let department of departmentList | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: total_count } ">
+        <div class="d-flex">
+          <div class="flex-1 ml-2 pt-1">
+            <h6 class="text-uppercase fw-bold mb-1">
+              {{department[deptKeys['name']]}}
+            </h6>
+            <small class="text-muted">
+              <span title="{{deptKeys['label_Email']}}">
+                <i class="fas fa-envelope icon-color"></i> {{department[deptKeys['email']] || 'N/A'}}
+              </span>
+             
+            </small>
+          </div>
+          <!-- Task Action Bar -->
+          <div class="float-right account-ActionBar pt-3"> 
+            <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              (click)="editDepartment(department)" title="{{deptKeys['label_Edit']}}">
+              <i class="far fa-edit icon-color"></i>
+            </button>
+
+            <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              (click)="removeAdmins(department)" title="{{deptKeys['label_Disassociate']}}">
+              <i class="fas fa-times icon-color"></i>
+            </button>
+
+
+            <app-department-delete [deparmentId]='department._id' (notifyParentOnUpdate)='onDeleteItem($event)'>
+            </app-department-delete>
+          </div>
+
+          <!-- End Task Action Bar -->
+        </div>
+        <div class="separator-dashed"></div>
+      </div>
+      <!-- End Account List View -->
+    </div>
+
+    <div class="card-body" *ngIf="departmentList && !departmentList.length" align="center">
+      <img [src]="imageSrc" class="img-responsive">
+    </div>
+    <div class="row m-15" *ngIf="departmentList && departmentList.length">
+      <pagination-controls (pageChange)="getDepartments($event);pageNumber = $event"></pagination-controls>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div class="mx-auto d-flex justify-content-center flex-wrap" *ngIf="departmentList && !departmentList.length">
+  <img [src]="imageSrc" class="img-responsive">
+</div> -->

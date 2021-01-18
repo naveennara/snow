@@ -1,0 +1,60 @@
+<div class="card shadow mb-4">
+  <div class="card-header">
+    <div class="card-head-row">
+      <div class="card-tools">
+        <div class="btn-group">
+          <div class="float-right padding">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              (click)="cancel()" title="{{constants['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body mx-4">
+    <form [autocomplete]="autoCompleteForm" [formGroup]="createLayer" (ngSubmit)="onCreate(createLayer.value)"
+      class="user">
+      <div class="form-group form-group-default">
+        <label for="layerkeys['externalNameCtrl']" class="placeholder">{{layerkeys['layerExternalName']}}<span
+            class="required-label">*</span></label>
+        <input [autocomplete]="autoCompleteField" type="text" name="layer-create-name"
+          [formControlName]="layerkeys['externalNameCtrl']" id="username" class="form-control input-border-bottom"
+          [ngClass]="{ 'is-invalid': submitted && f.externalName.errors }" appSpecialCharacter myNoSpaces />
+        <div *ngIf="submitted && f.externalName.errors" class="invalid-feedback">
+          <span *ngIf="f.externalName.errors.required || f.externalName.errors.whitespace"
+            class="form-text text-red">{{layerkeys['externalReqMsg']}}</span>
+        </div>
+      </div>
+      <div class="form-group form-group-default">
+        <label for="layerkeys['internalNameCtrl']" class="placeholder">{{layerkeys['layerInternalName']}}<span
+            class="required-label">*</span></label>
+        <input [autocomplete]="autoCompleteField" type="text" name="layer-create-name"
+          [formControlName]="layerkeys['internalNameCtrl']" id="username" class="form-control input-border-bottom"
+          [ngClass]="{ 'is-invalid': submitted && f.internalName.errors }" appSpecialCharacter myNoSpaces />
+        <div *ngIf="submitted && f.internalName.errors" class="invalid-feedback">
+          <span *ngIf="f.internalName.errors.required || f.internalName.errors.whitespace"
+            class="form-text text-red">{{layerkeys['internalReqMsg']}}</span>
+        </div>
+      </div>
+      <div class="form-group form-group-default">
+        <label for="layerkeys['urlCtrl']" class="placeholder">{{layerkeys['layerUrl']}}<span
+            class="required-label">*</span></label>
+        <input [autocomplete]="autoCompleteField" type="text" name="layer-create-name"
+          [formControlName]="layerkeys['urlCtrl']" id="username" class="form-control input-border-bottom"
+          [ngClass]="{ 'is-invalid': submitted && f.layerUrl.errors }"  />
+        <div *ngIf="submitted && f.layerUrl.errors" class="invalid-feedback">
+          <span *ngIf="f.layerUrl.errors.required || f.layerUrl.errors.whitespace"
+            class="form-text text-red">{{layerkeys['urlReqMsg']}}</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-3 offset-md-5">
+          <button type="submit"
+            class="btn btn-outline-primary btn-rounded btn-sm mr-3">{{layerkeys['label_Create']}}</button>
+          <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+            [routerLink]="['/mainLayout/settings','layerConf']">{{layerkeys['label_Cancel']}}</button> </div>
+      </div>
+    </form>
+  </div>
+</div>

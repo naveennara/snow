@@ -1,0 +1,43 @@
+<div class="row p-5 animated fadeIn">
+  <div class="kanban-board col-md-12" [ngStyle]="{'background-color':setColor()}">
+    <header class="kanban-board-header success">
+      <div class="kanban-title-board">
+          <app-common-form-labels [widget]="config"></app-common-form-labels>
+          <span class="float-right expandImage" 
+          [hidden]="!group.value[config[widgetKey._id]]"
+          (click)="open(i)" title="Expand Image">
+          <i class="fas fa-expand"></i>
+        </span>
+          <button *ngIf="(ispreview == 'preview' || ispreview == 'Edit') && config[widgetKey.isGeotagginEnable] && imagePath && group.value[config[widgetKey._id]]" style="float:right" (click)="gotoMap()" class="btn btn-icon btn-round mr-2 btn-xs btn-transparent" title="{{constants['label_GoToMap']}}" type="button"><i class="fas fa-images icon-color"></i></button>
+          <div *ngIf="(ispreview == 'preview' || ispreview == 'Edit')  && imagePath && group.value[config[widgetKey._id]]" style="float:right" class="btn btn-icon btn-round mr-2 btn-xs btn-transparent">
+              <a download="download.jpg" [href]="imagePath">
+                  <i class="fas fa-download icon-color m-t-5"></i>
+              </a>
+            </div>
+        
+        <!-- <img [src]='WidgetInfo.displayIcon' alt="{{WidgetInfo.displayText}}" class="dragged_Widget_Img">
+        {{WidgetInfo.displayText}}  -->
+      </div>
+      <app-common-formaction-view [config]="config" *ngIf="ispreview!='preview' &&  ispreview != 'Edit'"></app-common-formaction-view>
+    </header>
+    <form [formGroup]="group">
+      <div class="form-group form-group-default" *ngIf="ispreview == 'preview' || ispreview == 'Edit'">
+        <!-- <label for="form-camera" class="p-5">{{config[widgetKey.label] || "Camera" }}
+          <span class="required-label" *ngIf="config[widgetKey.isRequired]">*</span>
+        </label>
+         -->
+         <span *ngIf="ispreview == 'preview'&&!group.value[config[widgetKey._id]]"><i class="fas fa-image fa-4x icon-color" ></i></span>
+         <!-- <div  *ngIf="(ispreview == 'preview' ||ispreview == 'Edit') && group.value[config[widgetKey._id]]">
+          <img crossorigin="anonymous" src="{{imagePath}}"  alt="..." class="img"   (load)="loaded($event)">
+         </div> -->
+         <ng-container *ngIf="group.value[config[widgetKey._id]] !=''">
+          <div *ngFor="let image of albums; let i=index" class="avatar avatar-xxl p-5 " style="display: flex;justify-content: center;">
+           
+            <img src="{{image.thumb}}" crossorigin="anonymous" class="img-thumbnail" *ngIf="(ispreview == 'preview' ||ispreview == 'Edit') && group.value[config[widgetKey._id]]" (load)="loaded($event)"/>
+          </div>
+         </ng-container>
+        
+      </div>
+    </form>
+  </div>
+</div>

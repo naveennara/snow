@@ -1,0 +1,53 @@
+<div class="card shadow mb-4">
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary"></h6>
+    <div class="card-tools">
+      <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="cancel()"
+        title="{{constants['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+      </button>
+    </div>
+  </div>
+  <div class="card-body mx-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <form [formGroup]="dynamicDropdown" >
+            <div class="form-group">
+              <label for="constants['collectionName']" class="placeholder">{{constants['selectDatatable']}}<span
+                  class="required-label">*</span></label>
+                  
+              <select class="form-control" [formControlName]="constants['collectionName']" 
+                (change)="getColumns($event.target.value)">
+                <option [ngValue]="null" disabled>{{placeholder}}</option>
+                <option [value]="entry" *ngFor="let entry of  collectionList">{{entry}}</option>
+              </select>
+            </div>
+           
+          </form>
+        </div>
+        <!-- <div class="col-md-6">
+            <button type="button" class="btn btn-icon btn-border btn-round m-t-10 btn-xs btn-transparent float-right" (click)="cancel()"
+            title="Back"><i class="fas fa-arrow-left icon-color"></i>
+          </button>
+          </div> -->
+        <div class="col-md-6">
+          <div class="dropdown float-right m-t-20">
+            <button class="btn-dropdown btn btn-icon btn-round btn-transparent pulse" data-toggle="dropdown"
+              aria-expanded="false" title="{{constants['Actions']}}">
+              <i class="icon-options-vertical"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right animated fadeIn" x-placement="bottom-end">
+              <li>
+                <a href="javascript:;" class="dropdown-item" (click)="create()">{{constants['createDateTable']}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class='row'>
+        <app-dropdown-table *ngIf="isUploadFile" [style.width.%]="100" [collectionName]='collectionName' [data]="tableData" (updatedData)="submit($event)"
+        [action]="action"></app-dropdown-table>
+      </div>
+    </div>
+  </div>
+</div>

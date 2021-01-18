@@ -1,0 +1,3 @@
+<img [src]='widgets[this.widget.type].displayIcon' alt="{{WidgetInfo.displayText}}" class="dragged_Widget_Img">
+ <label for="form-input" class="p-5">{{widget.label || WidgetInfo.displayText}}<span class="required-label" *ngIf="widget.isRequired">*</span>
+  </label>

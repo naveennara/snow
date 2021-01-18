@@ -1,0 +1,14 @@
+.zoom:hover {
+  position: relative;
+  top: 10px;
+  left: 10px;
+  width: 600px;
+  height: 400px;
+  display: block;
+  overflow-y: auto !important;
+  z-index: 999 !important;
+}
+.zoom {
+  width: 100px;
+  height: 100px;
+}

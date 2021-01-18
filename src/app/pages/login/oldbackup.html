@@ -1,0 +1,193 @@
+<div class="login">
+  
+  <div class="wrapper wrapper-login text-white" *ngIf="!changePwd">
+
+    <!-- CASE:1 [Main-Login] -->
+    <div class="container container-login animated fadeIn bg-info-gradient" *ngIf="Login">
+      <h3 class="text-center text-white">
+        <a class="text-center text-white">
+          <img class="loginImg" [src]="imageSrc" alt="FieldOn">
+        </a>
+      </h3>
+      <div class="login-form">
+        <form #userlogin="ngForm" (ngSubmit)="onLoginSubmit(userlogin.value)">
+
+          <div class="form-group form-floating-label">
+            <input id="username" name="username" type="text" class="form-control input-border-bottom" ngModel required>
+            <label for="username" class="placeholder text-white">User name</label>
+          </div>
+
+          <div class="form-group form-floating-label">
+            <input type="password" id="password" name="password" class="form-control input-border-bottom" ngModel required>
+            <label for="password" class="placeholder text-white">Password</label>
+
+          </div>
+
+          <div class="row form-sub m-0">
+            <div class="custom-control custom-checkbox">
+              <!-- <input type="checkbox" class="custom-control-input" id="rememberme">
+                <label class="custom-control-label text-white" for="rememberme" (click)="dualRole()">Remember Me</label> -->
+            </div>
+
+            <a href="javascript:" class="link float-right text-white" (click)="forgotPwd()">Forgot Password ?</a>
+          </div>
+
+          <div class="form-action mb-3">
+            <button type="submit" class="btn btn-outline-light btn-rounded btn-login" [disabled]="!userlogin.valid">
+              Sign In
+            </button>
+            <p class="text-white" *ngIf="isErr">{{errMsg}}</p>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+    <!-- CASE:2 [Dual Role-Login] -->
+    <div class="container container-login animated fadeIn bg-info-gradient" *ngIf="DualRole">
+      <h3 class="text-center">Sign In as</h3>
+      <div class="login-form">
+        <!-- (ngSubmit)="dualUserlogin(dualUserlogin)" -->
+        <form #dualUserlogin="ngForm">
+
+          <!-- <div class="form-action mb-3">
+              <button type="button" class="btn btn-outline-light btn-round mr-3" >DA</button>
+              <button type="button" class="btn btn-outline-light btn-round">GA</button>
+            </div> -->
+
+          <div class="form-action form-group mb-3">
+            <div class="selectgroup selectgroup-pills">
+              <label class="selectgroup-item mr-3">
+                <input type="radio" name="DARole" value="1" class="selectgroup-input" (click)="setRole('1')" ngModel>
+                <span class="selectgroup-button btn btn-outline-light">DA</span>
+              </label>
+
+              <label class="selectgroup-item">
+                <input type="radio" name="GARole" value="3" class="selectgroup-input" (click)="setRole('3')" ngModel>
+                <span class="selectgroup-button btn btn-outline-light">GA</span>
+              </label>
+            </div>
+          </div>
+
+          <hr>
+          <div class="form-action">
+            <a href="javascript:" id="show-signin" class="btn btn-link w-100 fw-bold text-white"
+              (click)="loginBlock()">Cancel</a>
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+
+    <!-- CASE:3 [Forgot Password] -->
+    <div class="container container-signup animated fadeIn bg-info-gradient" *ngIf="ForgotPassword">
+      <h3 class="text-center">Forgot Passsword</h3>
+      <p class="textP">Just enter your Username / email address below and we'll send password to your mail!</p>
+      <div class="login-form">
+        <form #forgotPWD="ngForm" (ngSubmit)="onForgotPWD(forgotPWD.value)">
+
+          <div class="form-group form-floating-label">
+            <input id="username" name="username" type="text" class="form-control input-border-bottom" ngModel required>
+            <label for="username" class="placeholder text-white">Username / Email</label>
+          </div>
+
+          
+          <div class="form-action">
+            <a href="javascript:" id="show-signin" class="btn btn-outline-light btn-round btn-sm mr-3"
+              (click)="loginBlock()">Cancel</a>
+            <button type="submit" class="btn btn-outline-light btn-border btn-round btn-sm mr-3"
+              [disabled]="!forgotPWD.valid">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  
+  <div class="wrapper wrapper-login wrapper-login-full p-0" *ngIf="changePwd">
+    
+    <div class="login-aside w-50 d-flex flex-column align-items-center justify-content-center text-center bg-info">
+
+      <p class="subtitle text-white op-7 mb-3">The password should meet below criteria</p>
+
+      <p class="subtitle text-white op-7 mb-3">Uppercase characters (A through Z) </p>
+
+      <p class="subtitle text-white op-7 mb-3">Lowercase characters (a through z) </p>
+
+      <p class="subtitle text-white op-7 mb-3">Base 10 digits (0 through 9) </p>
+
+      <p class="subtitle text-white op-7 mb-3">Non-alphabetic characters (for example, !, $, #, %)</p>
+
+      <p class="subtitle text-white op-7 mb-3">Password Length (min 9 characters, Max 20 characters) </p>
+
+    </div>
+    <div class="login-aside w-50 d-flex align-items-center justify-content-center bg-info-gradient">
+      <div class="container container-login container-transparent animated fadeIn">
+        <h3 class="text-center text-white op-7">Change Password</h3>
+        <div class="login-form">
+          <!-- <p *ngIf="isValidFormSubmitted && changePWDForm.pristine" [ngClass]="'success'">
+            Form submitted successfully.
+          </p> -->
+
+          <form [formGroup]="changePWDForm" (ngSubmit)="onChangePWD()">
+
+            <div class="form-group">
+              <label for="oldpassword" class="placeholder text-white op-7"><b>Current Password <span>*</span></b></label>
+              <div class="position-relative">
+                <input type="password" class="form-control" formControlName="oldpassword" appPassword>
+              </div>
+              <div *ngIf="isValidFormSubmitted &&  f.oldpassword.errors" [ngClass]="'error'">
+                <small class="form-text text-white" *ngIf="f.oldpassword.errors.required">Please provide current
+                  password.</small>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="password" class="placeholder text-white op-7"><b>New Password <span>*</span></b></label>
+              <div class="position-relative">
+                <input type="password" class="form-control" name="newpassword" formControlName="newpassword"
+                  appPassword>
+              </div>
+              <div *ngIf="isValidFormSubmitted  && f.newpassword.errors" [ngClass]="'error'">
+                <small class="form-text text-white" *ngIf="f.newpassword.errors.required">Please provide new
+                  password.</small>
+                <small class="form-text text-white" *ngIf="f.newpassword.errors.pattern">pattern not valid.</small>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="password" class="placeholder text-white op-7"><b>Confirm New Password <span>*</span></b></label>
+              <div class="position-relative">
+                <input type="password" class="form-control" name="confirmnewpassword"
+                  formControlName="confirmnewpassword" appPassword>
+              </div>
+              <div *ngIf="isValidFormSubmitted && f.confirmnewpassword.errors" [ngClass]="'error'">
+                <small class="form-text text-white" *ngIf="f.confirmnewpassword.errors.required">Please provide new
+                  password.</small>
+                <small class="form-text text-white" *ngIf="f.confirmnewpassword.errors.pattern">pattern not
+                  valid.</small>
+                <small class="form-text text-white" *ngIf="f.confirmnewpassword.errors?.MatchPassword">password not
+                  Matched.</small>
+              </div>
+            </div>
+
+            <div class="form-group form-action mb-3">
+              <a href="javascript:" id="show-signin" class="btn btn-outline-light btn-round btn-sm mr-3"
+                (click)="loginBlock()">Cancel</a>
+              <button type="submit" class="btn btn-outline-light btn-border btn-round btn-sm mr-3">Change</button>
+            </div>
+
+            <small class="form-text text-white" *ngIf="cPWD_Err">{{cPWD_errMsg}}</small>
+
+          </form>
+
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+</div>

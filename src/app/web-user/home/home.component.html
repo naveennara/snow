@@ -1,0 +1,15 @@
+<div class="wrapper compact-wrapper">
+  <app-webuser-header></app-webuser-header>
+  <app-webuser-side-layout></app-webuser-side-layout>
+  <div class="main-panel">
+    <div class="content content-full">
+      <router-outlet>
+      </router-outlet>
+      <!-- <div class="scroll-to-top" [ngClass]="{'show-scrollTop': windowScrolled}">
+        <button (click)="scrollToTop()" class="btn btn-icon btn-round btn-info">
+          <i class="fa fa-chevron-up"></i>
+        </button>
+      </div> -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,82 @@
+p {
+    font-family: Lato;
+  }
+   .vertical { 
+              border-left: 6px solid black; 
+              height: 50px; 
+              position:absolute; 
+              left: 50%; 
+          }
+           .harizontalG { 
+              border-left: 30px solid green; 
+              height: 5px; 
+              width: 500px;
+              position:absolute; 
+              top:4%;
+              margin-left: -15px;
+              /* left: 15%;  */
+          }
+          .harizontalR { 
+              border-left: 30px solid red; 
+              height: 5px; 
+              width: 500px;
+              position:absolute; 
+              top:4%;
+             margin-left: -15px;
+  
+              /* left: 20%;  */
+          }
+           .harizontalG:nth-child(4n) { 
+              border-left: 6px solid green; 
+              height: 20%; 
+              /* width: 500px; */
+              position:absolute; 
+              /* top:4%; */
+             /* margin-left: -15px; */
+  
+              left: 50%; 
+          }
+          .harizontalR:last-of-type:after { 
+              border-left: 6px solid red; 
+              height: 10%; 
+              /* width: 500px; */
+              position:absolute; 
+              top:6%;
+             /* margin-left: -15px; */
+  
+              left: 50%; 
+          }
+   .cellContainer {
+    width: 15%;
+    float: left;
+    margin: 5px;
+  }
+  /* .WFC > div > span >img {
+    width: 125px;
+  }
+  
+  .WFC .R .RImg img{
+    width: 125px;
+    
+  }
+  
+  .WFC >  span > img{
+    position: absolute;
+    width: 125px;
+    height: 68px;
+    margin-top: 28px;
+    margin-left: -60px;
+  } */
+  .workflow-list{
+    background: #fff;
+  }
+  /* .workflow-list:hover {
+    background-color: #E9ECEF;
+  } */
+  .text-color{
+    color:#61a3d7
+  }
+  .task-list:hover {
+    background-color: #E9ECEF;
+  }
+ 

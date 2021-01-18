@@ -1,0 +1,46 @@
+/* @PK CSS */
+
+.card-detail {
+  z-index: 2;
+  opacity: 0;
+  width: auto;
+  transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+}
+
+
+.card-round:hover .card-detail {
+  opacity: 1;
+  transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+}
+
+ /* Author: PK */
+ .category-ActionBar {
+  opacity: 0;
+  width: auto;
+  transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+}
+
+.category-list:hover {
+  background-color: #E9ECEF;
+}
+
+.category-list:hover .category-ActionBar {
+  opacity: 1;
+  transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+}

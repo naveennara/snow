@@ -1,0 +1,7 @@
+<button type="button" class="btn btn-icon btn-round btn-xs btn-transparent mr-2" (click)="deleteForm()"
+  title="{{formKeys['label_Delete']}}">
+  <i class="far fa-trash-alt icon-color"></i>
+  <!-- <img class="customSvg" [src]='recordsIcons.Delete' alt="Delete"> -->
+
+</button>
+<app-delete-template  (deleteOrCancel)="confirmDelete($event)"></app-delete-template>

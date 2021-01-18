@@ -1,0 +1,25 @@
+
+<p> Choose a format and upload the data </p>
+
+<div>
+  <mat-form-field>
+    <mat-label>Format</mat-label>
+      <mat-select [(ngModel)]="selectedItem">
+        <mat-option *ngFor="let format of formats" [value]="format.name" >{{format.name}}</mat-option>
+      </mat-select>
+  </mat-form-field>
+</div>
+<div>
+  <mat-form-field>
+    <mat-label>Domain</mat-label>
+      <mat-select [(ngModel)]="selectedDomain">
+        <mat-option *ngFor="let Domain of domains" [value]="Domain.name" >{{Domain.name}}</mat-option>
+      </mat-select>
+  </mat-form-field>
+</div>
+
+<button mat-raised-button (click)="openUploadDialog()">Data Loader</button>
+
+ 
+ 
+ 

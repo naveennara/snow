@@ -1,0 +1,78 @@
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary"></h6>
+      <div class="card-tools">
+        <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="cancel()"
+          title="{{constants['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+        </button>
+  
+      </div>
+    </div>
+    <div class="card-body mx-4">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-12 ">
+            <form (ngSubmit)="updateSettings()">
+              <div class="form-group">
+                <label for="constants['accountAdmin']" class="placeholder">{{constants['label_Department']}}<span
+                    class="required-label">*</span></label>
+                <select class="form-control" 
+                  (change)="getSettings($event.target.value)">
+                  <option [ngValue]="null" disabled></option>
+                  <option [value]="entry._id" *ngFor="let entry of  accountsList">{{entry.name}}</option>
+                </select>
+  
+                <!-- <div *ngIf="submitted && f[constants['accountAdmin']].errors" class="invalid-feedback">
+                  <span *ngIf="f[constants['accountAdmin']].errors.required"
+                    class="form-text text-red">{{constants['adminReqMsg']}}</span>
+                </div> -->
+              </div>
+  
+              <div class="quick-wrapper settings-wrapper">
+                <div class="quick-scroll scrollbar-outer">
+                  <div class="quick-content settings-content">
+                    <div class="separator-dashed"></div>
+                    <!-- <span class="category-title mt-0">General Settings</span> -->
+                    <ul class="settings-list">
+                      <li *ngFor="let tabs of settingsList| keyvalue">
+                        <!-- <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input item-label" id="customCheck2"
+                                  >
+                              </div> -->
+                              <span class="m-l-15">{{constants[tabs.key]}}</span>
+                          <div class="custom-control custom-checkbox">
+                            <!-- <input type="checkbox" 
+                            class="custom-control-input" 
+                            id="'check_'+{{tabs.key}}" 
+                            [checked]="privilegeTabs.includes(tabs.key)?true:false"
+                            (change)="getSelectedCheckBoxValue(tabs,$event.target.checked)">
+                            <label class="custom-control-label" for="'check_'+{{tabs.key}}">{{constants.tabs[tabs.key]}}</label> -->
+                          </div>
+  
+                        <div class="item-control">
+                          <app-toogle (changed)="toggleValue($event)" [labels]="labels" [value]="tabs.value" [idfor]="tabs.key" [disableList]="disableList">
+                          </app-toogle>
+                        </div>
+                        <div class="separator-dashed"></div>
+                      </li>
+  
+                    </ul>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="form-group">
+                <div class="col-md-4 offset-md-5" *ngIf="account">
+                  <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3"
+                    >{{constants['label_Update']}}</button>
+                  <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+                    (click)="cancel()">{{constants['label_Cancel']}}</button> </div>
+              </div>
+            </form>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  
+  </div>

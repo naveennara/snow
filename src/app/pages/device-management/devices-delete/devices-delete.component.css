@@ -1,0 +1,8 @@
+.modal.show .modal-dialog {
+    top :150px !important;
+   }
+   
+
+.disabled{
+    cursor: not-allowed;
+}

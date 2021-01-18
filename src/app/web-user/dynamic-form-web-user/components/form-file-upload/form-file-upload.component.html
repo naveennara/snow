@@ -1,0 +1,31 @@
+<span *ngIf="derivedFields.indexOf(config[widgetKey._id]) > -1 ? false : isTable ? true : config[widgetKey.isUnderHeading].length==0?true:config[widgetKey.isUnderHeading]== expendedHeaderId?true:false">
+  <div class="card webuser-form-header webuser-cursor-pointer form-widget-card-margin-left card-border-box"   *ngIf="config[widgetKey._id] !== expendedHeaderId" >
+        <div class="card-body">
+          <span>
+            <b>  {{config[widgetKey.label]}}</b>
+          </span>
+          <span class=" pull-right ">
+            <!-- <img *ngIf="!historyView" class="upload-media-file-avatar webuser-cursor-pointer" width="100" height="100" [hidden]="!signatureDataValue"
+              [src]="signatureDataValue" alt="preview" (click)="viewSiganture(imagePreview)"> -->
+              <span (click)="viewSiganture(imagePreview)">
+                  <img *ngIf="group.get(config[widgetKey._id]).value" class="upload-media-file-avatar webuser-cursor-pointer" width="100" height="100"
+              [src]="signatureDataValue" alt="preview" >
+
+              </span>
+            
+              <label class="btn btn-primary btn-sm uplaodBtn" [hidden]="historyView">
+                <i class="fa fa-file-signature" style="color:white"> Upload</i>
+                <input (change)="openSignatureModal($event)" type="file" value="Upload Photo" style="width: 0px;height: 0px;overflow: hidden;" #uplaodImageRef  accept="image/*">
+              </label>
+
+          </span>
+        </div>
+    </div>
+  <app-validation [dynamicFormControlRef]="group.get(config[widgetKey._id])" >
+
+  </app-validation>
+</span>
+
+<ng-template #imagePreview class="table-widget-add-row " >
+  <app-form-image-preview [modalRef]="modalRef" [imgSrc]="signatureDataValue" (removeImage)="removeattachdeImage($event)" [isHistory]="historyView" [actionType]="activatedRoute.snapshot.params.actionType"></app-form-image-preview>
+</ng-template>

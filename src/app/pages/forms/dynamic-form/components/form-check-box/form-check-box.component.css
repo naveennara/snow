@@ -1,0 +1,13 @@
+.custom-control.custom-checkbox{
+    display:block !important;
+}
+.setHeight {
+    height: 150px;
+    margin-right:0px !important;
+    overflow-y: auto;
+}
+
+.custom-control-label::before {
+    position: absolute;
+    top: -1px !important;
+}

@@ -1,0 +1,84 @@
+<div class="card webuser-form-header form-control form-widget-card-margin-left" >
+    <div class="card-body">
+      <span>
+        {{config[widgetKey.label]}}
+        <b></b>
+      </span>
+      <span class=" pull-right  webuser-cursor-pointer">
+        <!-- <i class="fa fa-sort-down ga-lg" ></i> -->
+        <!-- <i class="fa fa-chevron-down" ></i> -->
+        <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+            <button [hidden]="historyView" (click)="addRowInTable(rowForm)" type="button" tittle="Add Entry" class="btn btn-secondary btn-group-button-padding" ><i class="fa fa-plus fa-lg"></i></button>
+            <button [disabled]='!firstRowFilled' type="button " class="btn btn-primary"   >
+              <!-- <i class="fa fa-table fa-lg" aria-hidden="true"></i> -->
+              <a disabled ="true" data-toggle="collapse" class="fa-stack webuser-cursor-pointer"  href="#{{config[widgetKey._id]}}">
+                  <!-- The icon that will wrap the number -->
+                  <i class="far fa-circle  fa-stack-2x" style="color:#fff"></i>
+                  <!-- a strong element with the custom content, in this case a number -->
+                  <strong class="fa-stack-1x " style="color: red;">
+                      <b>{{firstRowFilled?group.get(config[widgetKey._id]).value.length:0}} </b>
+                  </strong>
+              </a>
+            </button>
+
+        </div>
+
+      </span>
+      <div class="card" class="collapse" [id]="config[widgetKey._id]">
+
+          <div class="card-body">
+
+                    <ul class="list-group table-rows-listing">
+                      <a  class="list-group-item list-group-item-action bg-info">
+                            <h3><b>Filled records list</b></h3>
+
+                      </a>
+                      <span *ngIf="!historyView">
+                        <ng-container *ngIf="firstRowFilled">
+                          <li   class="list-group-item webuser-cursor-pointer"  (click)="showRowData(i,rowForm)" *ngFor="let tableConfig of group.get(config[widgetKey._id]).value; let i = index;">
+                              <div class="justify-content-between"> <span *ngIf="firstRowFilled">{{i+1}}</span></div>
+                              <span class="badge badge-default badge-pill "><i class="fa fa-eye"></i></span>
+                          </li>
+                        </ng-container>
+                        <li *ngIf="!firstRowFilled" class="list-group-item webuser-cursor-pointer">
+                            <div class="justify-content-between"> No entries found</div>
+                        </li>
+                      </span>
+                      <span *ngIf="historyView">
+                        <ng-container *ngIf="group.get(config[widgetKey._id]).value.length>0">
+                          <li   class="list-group-item webuser-cursor-pointer"  (click)="showRowData(i,rowForm)" *ngFor="let tableConfig of group.get(config[widgetKey._id]).value; let i = index;">
+                              <div class="justify-content-between"> <span >{{i+1}}</span></div>
+                              <span class="badge badge-default badge-pill "><i class="fa fa-eye"></i></span>
+                          </li>
+                        </ng-container>
+                        <li *ngIf="group.get(config[widgetKey._id]).value.length<=0" class="list-group-item webuser-cursor-pointer">
+                            <div class="justify-content-between"> No entries found </div>
+
+
+                        </li>
+                      </span>
+
+
+                      <!-- <li (click)="showRowData(i,rowForm)" class="list-group-item webuser-cursor-pointer" *ngFor="let tableConfig of group.get(config[widgetKey._id]).value; let i = index;">
+                         <span *ngIf="firstRowFilled">{{i+1}} {{systemGeneratedEntry}}</span>
+                         <span class="pull-right">ho</span>
+                      </li> -->
+
+                    </ul>
+
+          </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+<ng-template #rowForm class="table-widget-add-row" >
+    <app-form-table-add-row (addTableRecord)="addTableRecordEntry($event)" [derivedFields]="derivedFields" [modalRef]="modalRef"  [config]="tableWidgetDataCopy[0]" [tableWidgetId]="thisTableWidgetId" [recordData]="recordData" [tableLable]="config[widgetKey.label]" [isHistoryView]="historyView"></app-form-table-add-row>
+</ng-template>
+
+
+
+

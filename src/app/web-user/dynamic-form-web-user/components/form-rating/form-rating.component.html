@@ -1,0 +1,45 @@
+<!-- <span *ngIf="config[widgetKey.isUnderHeading].length==0?true:config[widgetKey.isUnderHeading]== expendedHeaderId?true:false">
+  <ion-row>
+    <ion-col size="12" padding>
+      <ion-label>{{config[widgetKey.label]}}</ion-label>
+    </ion-col>
+  </ion-row>
+  <ion-card class="widget-card">
+    <ion-row>
+      <ion-col size="9">
+        <ion-range  [disabled]="historyView" class="rangeStyles" min="{{config[widgetKey.minimum]}}" max="{{config[widgetKey.maximum]}}"
+          [(ngModel)]="group.get(config[widgetKey._id]).value"  (ionChange)="getRatingValue(config[widgetKey._id])">
+          <ion-label slot="start">{{config[widgetKey.minimum]}}</ion-label>
+          <ion-label slot="end">{{config[widgetKey.maximum]}}</ion-label>
+        </ion-range>
+      </ion-col>
+      <ion-col size="3" style="text-align: right;">
+        <circle-progress [title]="group.get(config[widgetKey._id]).value" [percent]="rating" [maxPercent]="100" [radius]="25" [space]="-10"
+          [outerStrokeGradient]="true" [outerStrokeWidth]="10" [outerStrokeColor]="'#4882c2'"
+          [outerStrokeGradientStopColor]="'#53a9ff'" [innerStrokeColor]="'#e7e8ea'" [innerStrokeWidth]="10"
+          [showUnits]="false" [showSubtitle]="false" [showBackground]="false" [clockwise]="true" [startFromZero]="false">
+        </circle-progress>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+  <app-validation [dynamicFormControlRef]="group.get(config[widgetKey._id])">
+          
+  </app-validation>
+</span> -->
+<span *ngIf="derivedFields.indexOf(config[widgetKey._id]) > -1 ? false : isTable ? true : config[widgetKey.isUnderHeading].length==0?true:config[widgetKey.isUnderHeading]== expendedHeaderId?true:false">
+  <div  [formGroup]="group" class="form-group" >
+      <label  [for]="config[widgetKey._id]" class="web-user-widget-label">{{config[widgetKey.label]}} </label><span *ngIf="config[widgetKey.isRequired] == true" class="webuser-mandatory-indicator-color"> *</span>
+      <!-- <input  [ngClass]="{'webuseer-formcontroll-error':group.get(config[widgetKey._id]).invalid === true && group.get(config[widgetKey._id]).dirty === true,
+                          'webuser-formcontroll-sucess':group.get(config[widgetKey._id]).valid === true &&  group.get(config[widgetKey._id]).dirty === true
+                         }"
+       [formControlName]="config[widgetKey._id]" [placeholder]="config[widgetKey.placeholder]" type="text" class="form-control web-user-widget" [id]="config[widgetKey._id]"> -->
+       <ng5-slider  [formControlName]="config[widgetKey._id]" [options]="options"></ng5-slider>
+
+  </div>
+
+  <app-validation [dynamicFormControlRef]="group.get(config[widgetKey._id])" >
+
+  </app-validation>
+</span>
+
+

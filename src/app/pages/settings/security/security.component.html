@@ -1,0 +1,117 @@
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+      <h6 class="m-0 font-weight-bold text-primary"></h6>
+      <div class="card-tools">
+        <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="cancel()"
+          title="{{constants['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+        </button>
+  
+      </div>
+    </div>
+    <div class="card-body mx-4">
+      <div class="container">
+          <div class="d-flex justify-content-md-end"  *ngIf="settingsInfo">
+            <h3>Application Security</h3>
+            <app-toogle class="m-l-10" (changed)="toggleValue($event)" [labels]="labels" [value]="settingsInfo.isAccountLockEnabled" [idfor]="'isAccountLockEnabled'"  [disableList]="disableList">
+            </app-toogle>
+          </div>
+         
+          <form class="user"  [formGroup]="security" >
+
+              <div class="table-responsive scroll">
+                <table class="table table-bordered table-condensed table-hover" >
+                    <thead class="thead-light"> 
+                        <tr>
+                          <th>#</th>
+                          <th  class="pointer" >{{constants.parameter}} </th>
+                          <th  class="pointer" >{{constants.value}} </th>
+                          <th  class="pointer" >{{constants.Description}} </th>
+                          <th>{{constants.Action}}</th>
+                        </tr>
+                      </thead>
+                      <tbody *ngIf="security">
+                        <tr>
+                          <td>1</td>
+                          <td>Account Lock</td>
+                          <td>
+                            <span *ngIf="updateIndex!==2">{{security.value[constants['accountLock']]}}</span>
+                            <input *ngIf="updateIndex === 2" type="text" [ngClass]="{ 'is-invalid': f[constants['accountLock']].errors }" [formControlName]="constants['accountLock']"   numbersOnly>
+                          </td>
+                        
+                          <td>{{constants.accountDescription}}</td>
+                        
+                          <td>
+                            <a href="javascript:;"  *ngIf="updateIndex!==2" (click)="editSetting(2)" [ngClass]="{
+                              'disabledList':disable}">{{constants.label_Update}}</a>
+                           
+                            <a href="javascript:;" *ngIf="updateIndex === 2" (click)="cancelChange(constants['accountLock'])" class="version-update-cancel">{{constants.label_Cancel}}</a>
+                            <a href="javascript:;"  *ngIf="updateIndex==2" class="resetColor" (click)="reset(constants['accountLock'])" [ngClass]="{
+                              'disabledList':disable}">{{constants.label_Reset}}</a>
+                            <a href="javascript:;" *ngIf="updateIndex === 2" (click)="updateSecurity()" class="version-update m-l-10" [ngClass]="{
+                              'disabledList':disable}">{{constants.label_Save}}</a>
+                        </td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>Lock Interval</td>
+                          <td>
+                            <span  *ngIf="updateIndex!==3">{{security.value[constants['lockInterval']]}} mins</span>
+                            <input *ngIf="updateIndex === 3" type="text" [ngClass]="{ 'is-invalid': f[constants['lockInterval']].errors }" [formControlName]="constants['lockInterval']"   numbersOnly>
+                          </td>
+                        
+                          <td>{{constants.intervalDescription}}</td>
+                        
+                          <td>
+                            <a href="javascript:;"  *ngIf="updateIndex!== 3" (click)="editSetting(3)" [ngClass]="{
+                              'disabledList':disable}">{{constants.label_Update}}</a>
+                            
+                            <a href="javascript:;" *ngIf="updateIndex === 3" (click)="cancelChange(constants['lockInterval'])" class="version-update-cancel">{{constants.label_Cancel}}</a>
+                            <a href="javascript:;"  *ngIf="updateIndex==3" class="resetColor" (click)="reset(constants['lockInterval'])" [ngClass]="{
+                              'disabledList':disable}">{{constants.label_Reset}}</a>
+                            <a href="javascript:;" *ngIf="updateIndex === 3" (click)="updateSecurity()" class="version-update m-l-10" [ngClass]="{
+                              'disabledList':disable}">{{constants.label_Save}}</a>
+                        </td>
+                        </tr>
+                        <tr *ngIf="loginDetails.type ==0">
+                          <td>3</td>
+                          <td>Files Per Record</td>
+                          <td>
+                            <span  *ngIf="updateIndex!==4">{{security.value[constants['maxFilesAllowedPerRecord']]}}</span>
+                            <input *ngIf="updateIndex === 4" type="text" [ngClass]="{ 'is-invalid': f[constants['maxFilesAllowedPerRecord']].errors }" [formControlName]="constants['maxFilesAllowedPerRecord']"   numbersOnly>
+                          </td>
+                        
+                          <td>{{constants.filesDescription}}</td>
+                        
+                          <td>
+                            <a href="javascript:;"  *ngIf="updateIndex!== 4" (click)="editSetting(4)" >{{constants.label_Update}}</a>
+                            <a href="javascript:;" *ngIf="updateIndex === 4" (click)="cancelChange(constants['maxFilesAllowedPerRecord'])" class="version-update-cancel">{{constants.label_Cancel}}</a>
+                            <a href="javascript:;"  *ngIf="updateIndex==4" class="resetColor" (click)="reset(constants['maxFilesAllowedPerRecord'])" >{{constants.label_Reset}}</a>
+                            <a href="javascript:;" *ngIf="updateIndex === 4" (click)="updateSecurity()" class="version-update m-l-10" >{{constants.label_Save}}</a>
+                        </td>
+                        </tr>
+                        <tr *ngIf="loginDetails.type ==0">
+                          <td>4</td>
+                          <td>Size of File</td>
+                          <td>
+                            <span   *ngIf="updateIndex!==5">{{security.value[constants['maxSizeOfEachFileAllowedPerRecord']]}} MB</span>
+                            <input *ngIf="updateIndex === 5" type="text" [ngClass]="{ 'is-invalid': f[constants['maxSizeOfEachFileAllowedPerRecord']].errors }" [formControlName]="constants['maxSizeOfEachFileAllowedPerRecord']"   numbersOnly>
+                          </td>
+                        
+                          <td>{{constants.sizeDescription}}</td>
+                        
+                          <td>
+                            <a href="javascript:;"  *ngIf="updateIndex!== 5" (click)="editSetting(5)" >{{constants.label_Update}}</a>
+                            <a href="javascript:;" *ngIf="updateIndex === 5" (click)="cancelChange(constants['maxSizeOfEachFileAllowedPerRecord'])" class="version-update-cancel">{{constants.label_Cancel}}</a>
+                            <a href="javascript:;"  *ngIf="updateIndex== 5" class="resetColor" (click)="reset(constants['maxSizeOfEachFileAllowedPerRecord'])" >{{constants.label_Reset}}</a>
+                            <a href="javascript:;" *ngIf="updateIndex === 5" (click)="updateSecurity()" class="version-update m-l-10" >{{constants.label_Save}}</a>
+                        </td>
+                        </tr>
+                      </tbody>
+                </table>
+              </div>
+          </form>
+            
+      </div>
+    </div>
+  
+  </div>

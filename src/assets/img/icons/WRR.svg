@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="184.999" height="40.975" viewBox="0 0 184.999 40.975">
+  <g id="Group_796" data-name="Group 796" transform="translate(-538 -291)">
+    <g id="Group_795" data-name="Group 795" transform="translate(538 306.023)">
+      <g id="Group_491" data-name="Group 491" transform="translate(0 0)">
+        <path id="Path_833" data-name="Path 833" d="M751,15717H926" transform="translate(-745 -15704.022)" fill="none" stroke="#eb0909" stroke-width="2"/>
+        <g id="cursor" transform="translate(172.022 0) rotate(45)">
+          <path id="Path_834" data-name="Path 834" d="M18.34.7A.778.778,0,0,0,18.1.248.775.775,0,0,0,17.513,0a.783.783,0,0,0-.378.091L.453,8.432a.787.787,0,0,0-.378.391.845.845,0,0,0-.052.547.789.789,0,0,0,.293.463.822.822,0,0,0,.515.176H8.338v7.507a.822.822,0,0,0,.176.515.787.787,0,0,0,.463.293,1.13,1.13,0,0,0,.2.026.764.764,0,0,0,.743-.456L18.256,1.212A.793.793,0,0,0,18.34.7Z" transform="translate(0 0)" fill="#eb0909"/>
+        </g>
+        <ellipse id="Ellipse_57" data-name="Ellipse 57" cx="5.5" cy="5.5" rx="5.5" ry="5.5" transform="translate(0 7.977)" fill="#eb0909"/>
+      </g>
+    </g>
+    <text id="Rejected" transform="translate(592 310)" fill="#eb0909" font-size="18" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Rejected</tspan></text>
+  </g>
+</svg>

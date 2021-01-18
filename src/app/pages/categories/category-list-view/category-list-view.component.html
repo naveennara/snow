@@ -1,0 +1,60 @@
+<div class="card full-height" >
+  <div class="card-header">
+    <div class="card-head-row">
+      <!-- Display current page info and no of records -->
+      <p class="card-category" *ngIf="categoriesList && categoriesList.length">
+        Showing ({{(pageNumber -1) * limit + 1}} to {{limit * (pageNumber-1) + categoriesList.length }}) out of
+        {{totalCount}} Categories
+      </p>
+    </div>
+  </div>
+  <div class="card-body">
+    <!-- category List View -->
+    <div *ngIf="categoriesList && categoriesList.length">
+    <div class="category-list"
+      *ngFor="let category of categoriesList | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: totalCount }">
+      <div class="d-flex">
+        <div class="flex-1 ml-2 pt-1">
+          <h6 class="text-uppercase fw-bold mb-1">
+            {{category.name || 'NA'}}
+          </h6>
+          <small class="text-muted">
+            <span title="{{categoryKeys['label_Description']}}">
+              <i class="fas fa-info-circle icon-color"></i> {{category.description || 'NA' | shortText :30}}
+            </span>
+          </small>
+        </div>
+        <!-- Category Action Bar -->
+        <div class="float-right category-ActionBar pt-3">
+          <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" *ngIf="showButtons" (click)="editCategory(category)"
+            title="{{categoryKeys['label_Edit']}}">
+            <i class="far fa-edit icon-color"></i>
+          </button>
+          <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" *ngIf="!showButtons" (click)="editCategory(category)"
+            title="{{categoryKeys['label_Preview']}}">
+            <i class="fas fa-eye icon-color"></i>
+          </button>
+          <app-category-delete [categoryId]='category._id' *ngIf="showButtons" (notifyParentOnUpdate)='onDeleteItem($event)'>
+          </app-category-delete>
+        </div>
+
+        <!-- End Category Action Bar -->
+      </div>
+      <div class="separator-dashed"></div>
+    </div>
+  </div>
+    <div class="card-body" *ngIf="categoriesList && !categoriesList.length" align="center">
+        <img [src]="imageSrc" class="img-responsive">
+      </div>
+    <!-- End category List View -->
+    <div class="row m-15" *ngIf="categoriesList && categoriesList.length">
+      <pagination-controls (pageChange)="getListOfCategory($event, 'All');pageNumber = $event"></pagination-controls>
+    </div>
+   
+  </div>
+</div>
+
+<!-- No Preview Block @PK -->
+<!-- <div class="mx-auto d-flex justify-content-center flex-wrap" *ngIf="categoriesList && !categoriesList.length">
+  <img [src]="imageSrc" class="img-responsive">
+</div> -->

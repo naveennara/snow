@@ -1,0 +1,127 @@
+<div class="card shadow mb-4 wizard-container wizard-round col-md-12">
+  <div class="card-header">
+    <div class="card-head-row">
+      <div class="card-tools">
+        <div class="btn-group">
+          <div class="float-right padding">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+            (click) = goToTaskList() title="{{taskKeys['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <h6 class="m-0 font-weight-bold text-primary">Create Task</h6> -->
+  </div>
+  <div class="card-body">
+    <form class="user" [formGroup]="createTaskForm" (ngSubmit)="createTask()"  [autocomplete]="autoCompleteForm">
+
+      <div class="form-group form-group-default">
+        <label for="name" class="placeholder">{{taskKeys['Name']}}<span class="required-label">*</span></label>
+        <input [autocomplete]="autoCompleteField" name="create-task-name" type="text" id="name" class="form-control" [formControlName]="taskKeys['name']"
+          [ngClass]="{ 'is-invalid': submitted && f[taskKeys['name']].errors }" appSpecialCharacter myNoSpaces appTrimValues/>
+        <div *ngIf="submitted && f[taskKeys['name']].errors" class="invalid-feedback">
+          <span *ngIf="f[taskKeys['name']].errors.required" class="form-text text-red">{{taskKeys['nameRequired']}}</span>
+          <span *ngIf="!f[taskKeys['name']].errors.required && f[taskKeys['name']].errors.whitespace" class="form-text text-red">{{f.name.errors.whitespace}}</span>
+        </div>
+      </div>
+
+
+      <div class="form-group form-group-default">
+        <label for="description" class="placeholder">{{taskKeys['Description']}}</label>
+        <textarea class="form-control" [formControlName]="taskKeys['description']" rows="3"></textarea>
+      </div>
+
+
+      <div class="form-group form-group-default">
+        <label for="category" class="placeholder">{{taskKeys['Category']}}<span class="required-label">*</span></label>
+        <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="categoryList" [ngClass]="{ 'is-invalid': submitted && f[taskKeys['formzCategory']].errors }"
+        [formControlName]="taskKeys['formzCategory']"  name="formzCategory" 
+          (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)"
+          (onSelectAll)="onSelectAll($event)" required >
+        </ng-multiselect-dropdown>
+        <div *ngIf="submitted && f[taskKeys['formzCategory']].errors" class="invalid-feedback">
+          <span *ngIf="f[taskKeys['formzCategory']].errors.required" class="form-text text-red">{{taskKeys['categoryRequired']}}</span>
+        </div>
+      </div>
+
+      <div class="form-group form-group-default" *ngIf = "taskType == 'task'">
+        <label for="groupAdminId" class="placeholder">{{taskKeys['GroupAdmin']}}</label>
+
+        <select id="groupAdminId" class="form-control" [formControlName]="taskKeys['groupAdminId']"  [ngClass]="{ 'is-invalid': submitted && f[taskKeys['groupAdminId']].errors }" >
+          <option *ngFor="let user of usersList" [ngValue]="user._id">{{ user.username }}</option>
+        </select>
+        <div *ngIf="submitted && f[taskKeys['groupAdminId']].errors" class="invalid-feedback">
+            <span *ngIf="f[taskKeys['groupAdminId']].errors.required" class="form-text text-red">{{taskKeys['groupadminRequired']}}</span>
+          </div>
+      </div>
+      <div class="form-group form-group-default">
+        <label for="layer" class="placeholder">{{taskKeys['Layer']}}</label>
+        <ng-multiselect-dropdown [settings]="layerdropdownSettings" [data]="layerList" [ngClass]="{ 'is-invalid': submitted && f[taskKeys['selectLayer']].errors }"
+        [formControlName]="taskKeys['selectLayer']"  name="selectLayer" 
+          (onSelect)="onItemSelect($event)" (onDeSelect)="onItemDeSelect($event)"
+          (onSelectAll)="onSelectAll($event)">
+        </ng-multiselect-dropdown>
+        <div *ngIf="submitted && f[taskKeys['selectLayer']].errors" class="invalid-feedback">
+          <span *ngIf="f[taskKeys['selectLayer']].errors.required" class="form-text text-red">{{taskKeys['categoryRequired']}}</span>
+        </div>
+      </div>
+      <div class="form-group form-group-default">
+        <label for="workflow" class="placeholder">{{taskKeys['Workflow']}}</label>
+        <select id="workflowName" class="form-control" [formControlName]="taskKeys['workflowName']" (change)="workflowSelected()">
+          <option *ngFor="let workflow of workflowList" [ngValue]="workflow">{{ workflow }}</option>
+        </select>
+      </div>
+      <div class="form-group form-group-default" [hidden]="!createTaskForm.get('workflowName').value">
+        <label for="workflowLevel" class="placeholder">{{taskKeys['WorkflowLevel']}}<span class="required-label">*</span></label>
+        <select id="workflowLevel" class="form-control" [formControlName]="taskKeys['workflowLevel']" [ngClass]="{ 'is-invalid': submitted && f[taskKeys['workflowLevel']].errors }">
+          <option *ngFor="let level of workflowLevels" [ngValue]="level.id">{{ level.name }}</option>
+        </select>
+        <div *ngIf="submitted && f[taskKeys['workflowLevel']].errors" class="invalid-feedback">
+          <span *ngIf="f[taskKeys['workflowLevel']].errors.required" class="form-text text-red">{{taskKeys['workflowLevelRequired']}}</span>
+        </div>
+      </div>
+
+      
+      <!-- <div class="separator-dashed"></div> -->
+      <label class="m-b-10 fon-label">{{taskKeys['SetTaskDates']}}</label>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group form-group-default">
+            <label for="startDate fon-label" class="placeholder"><i class="fas fa-calendar-check"></i> {{taskKeys['StartDate']}}<span class="required-label">*</span></label>
+            <input [autocomplete]="autoCompleteField" appCalendar name="create-task-startdate" type="text"  (bsValueChange)="bsValueChange($event)" class="form-control mb-3" bsDatepicker [formControlName]="taskKeys['startDate']" [minDate]="startMinDate"
+            [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }"
+            [maxDate]="startMaxDate"
+            [ngClass]="{ 'is-invalid': submitted && f[taskKeys['startDate']].errors }" placement="top" required />
+            <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+            <div *ngIf="submitted && f[taskKeys['startDate']].errors" class="invalid-feedback">
+              <span *ngIf="f[taskKeys['startDate']].errors.required" class="form-text text-red">{{taskKeys['startdateRequired']}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group form-group-default">
+            <label for="endDate fon-label" class="placeholder"><i class="fas fa-calendar-times"></i> {{taskKeys['EndDate']}}<span class="required-label">*</span></label>
+            <input [autocomplete]="autoCompleteField" appCalendar name="create-task-enddate" type="text" (bsValueChange)="endValueChange($event)" class="form-control mb-3" bsDatepicker [formControlName]="taskKeys['endDate']" [minDate]="endMinDate"
+            [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }"
+            [maxDate]="endMaxDate"
+            [ngClass]="{ 'is-invalid': submitted && f[taskKeys['endDate']].errors }" placement="top" required />
+            <div *ngIf="submitted && f[taskKeys['endDate']].errors" class="invalid-feedback">
+              <span *ngIf="f[taskKeys['endDate']].errors.required" class="form-text text-red">{{taskKeys['enddateRequired']}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="separator-dashed"></div> -->
+
+      <div class="form-group">
+        <div class="col-md-3 offset-md-5">
+          <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3">{{taskKeys['label_Create']}}</button>
+          <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+            (click) = goToTaskList()>{{taskKeys['label_Cancel']}}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

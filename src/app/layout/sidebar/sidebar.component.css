@@ -1,0 +1,9 @@
+.bs-tooltip-right {
+ position: absolute;
+ z-index: 111;
+}
+
+bs-tooltip-contatiner {
+    position: absolute;
+    z-index: 111;
+}

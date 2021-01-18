@@ -1,0 +1,93 @@
+<div class="card shadow mb-4">
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary"></h6>
+    <div class="card-tools">
+      <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="cancel()"
+        title="{{constants['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+      </button>
+
+    </div>
+  </div>
+  <div class="card-body mx-4">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-12 ">
+          <form [formGroup]="privileges" (ngSubmit)="updatePrivileges()">
+              <div class="form-group" *ngIf="loginDetails.type == 1">
+                  <label for="constants['accountAdmin']" class="placeholder">{{constants['typeLabel']}}<span
+                      class="required-label">*</span></label>
+                  <select class="form-control" 
+                    (change)="changeType($event.target.value)">
+                    <option [ngValue]="null" disabled></option>
+                    <option [value]="3">Group Administrators</option>
+                    <option [value]="5">Moderators</option>
+                  </select>
+    
+                </div>
+            <div class="form-group">
+              <label for="constants['accountAdmin']" class="placeholder">{{constants['accountAdminLabel']}}<span
+                  class="required-label">*</span></label>
+              <select class="form-control" [formControlName]="constants['accountAdmin']"
+                (change)="getPrivileges($event.target.value)">
+                <option [ngValue]="null" disabled></option>
+                <option [value]="entry._id" *ngFor="let entry of  adminsList">{{entry.username}}</option>
+              </select>
+
+              <!-- <div *ngIf="submitted && f[constants['accountAdmin']].errors" class="invalid-feedback">
+                <span *ngIf="f[constants['accountAdmin']].errors.required"
+                  class="form-text text-red">{{constants['adminReqMsg']}}</span>
+              </div> -->
+            </div>
+
+            <div class="quick-wrapper settings-wrapper">
+              <div class="quick-scroll scrollbar-outer">
+                <div class="quick-content settings-content">
+                  <div class="separator-dashed"></div>
+                  <!-- <span class="category-title mt-0">General Settings</span> -->
+                  <ul class="settings-list">
+                    <li *ngFor="let tabs of privilegeList| keyvalue">
+                      <!-- <div class="custom-control custom-checkbox">
+                              <input type="checkbox" class="custom-control-input item-label" id="customCheck2"
+                                >
+                            </div> -->
+                        <div class="custom-control custom-checkbox">
+                          <input type="checkbox" 
+                          class="custom-control-input" 
+                          id="'check_'+{{tabs.key}}" 
+                          [checked]="privilegeTabs.includes(tabs.key)?true:false"
+                          (change)="getSelectedCheckBoxValue(tabs,$event.target.checked)">
+                          <label class="custom-control-label" for="'check_'+{{tabs.key}}">{{constants.tabs[tabs.key]}}</label>
+                        </div>
+
+                      <!-- <input type="checkbox" class="item-label custom-control-input" [value]=""
+                        [checked]="privilegeTabs.includes(tabs.key)?true:false"
+                        (change)="getSelectedCheckBoxValue(tabs,$event.target.checked)">
+                      <span class="item-label m-t-0 m-b-0"><strong>{{constants.tabs[tabs.key]}}</strong></span> -->
+                      <div class="item-control">
+                        <app-toogle (changed)="toggleValue($event)" [labels]="labels" [value]="tabs.value" [idfor]="tabs.key" [disableList]="disableList[type]">
+                        </app-toogle>
+                      </div>
+                      <div class="separator-dashed"></div>
+                    </li>
+
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-4 offset-md-4" *ngIf="privilegeTabs?.length">
+                <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3"
+                  [disabled]="!privileges.valid">{{constants['label_Update']}}</button>
+                <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+                  (click)="cancel()">{{constants['label_Cancel']}}</button> </div>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

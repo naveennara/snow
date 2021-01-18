@@ -1,0 +1,198 @@
+<div class="container-fluid p-0">
+  <!-- ============================== -->
+  <nav class="navbar navbar-expand-sm sticky-top topic-set p-0 navbar-custom">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto ">
+        <li class="nav-item title-Block insight-title dropdown">
+          <a class="dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false" tabindex="930">
+            ENTITY
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li *ngFor="let buttons of dropdown" (click)="getData(buttons)">
+              <!-- <img src=""> -->
+              <span>{{buttons}}</span>
+              <span class="subTitle"> {{constants.description[buttons]}}.</span>
+            </li>
+          </ul>
+        </li>
+        <div class="title-block topic-selector selected">
+          <span>{{selectedEntity}}</span>
+        </div>
+      </ul>
+      <ul class="navbar-nav">
+
+        <li class="nav-item">
+          <a href="javascript:;" class="close-quick-sidebar" *ngIf="status" (click)="close()" title="{{constants['label_Close']}}">
+            <i class="fas fa-times icon-white"></i>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="javascript:;" class="maximizeWindow" (click)="maximizeWindow(flag)" *ngIf="status" title="{{constants['toggleFullScreen']}}">
+            <i class="fas fa-expand icon-white"></i>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+  <!-- ================================ -->
+  <!-- DATA BLOCK -->
+
+  <div class="Analytics_Content" [style.width.%]="setInnerwidth" *ngIf="data">
+    <!-- 8x4 GRID -->
+
+    <div class="email-head d-lg-flex d-block" *ngIf="deptName != ''">
+      <h3>
+        <!-- <i class="fa fa-star favorite"></i> -->
+        {{  deptName  }}
+      </h3>
+      <div class="controls mt-3 mt-lg-0">
+        <!-- <div class="btn-group dropdown show">
+            <button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown"
+              aria-expanded="true" style="color: #9c9c9c;">
+              <span class="btn-label">
+                <i class="fa fa-cog"></i>
+              </span>
+            </button>
+            <ul class="dropdown-menu show" role="menu" x-placement="top-start"
+              style="position: absolute; transform: translate3d(0px, -117px, 0px); top: 0px; left: 0px; will-change: transform;">
+              <li>
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </li>
+            </ul>
+          </div> -->
+
+        <!-- ====================== -->
+        <div class="dropdown">
+          <button class="btn-dropdown btn btn-icon btn-round btn-transparent" data-toggle="dropdown"
+            aria-expanded="false" title="{{constants['Actions']}}">
+            <i class="icon-options-vertical"></i>
+          </button>
+          <ul class="dropdown-menu messages-notif-box animated fadeIn scrollable-menu"
+            aria-labelledby="departmentSearch">
+            <div class="searchBar">
+              <li>
+                <form class="navbar-left navbar-form nav-search mx-2 my-2">
+                  <div class="input-group" style="background: #eee !important;">
+                    <div class="input-group-prepend">
+                      <button type="button" class="btn btn-search pr-1">
+                        <i class="fa fa-search search-icon"></i>
+                      </button>
+                    </div>
+                    <input type="text" placeholder="Search" class="form-control" (keyup)="onKey($event)">
+                  </div>
+                </form>
+              </li>
+            </div>
+
+            <div class="scrollContent">
+              <li>
+                <div class="message-notif-scroll scrollbar-outer">
+                  <div class="notif-center" style="border-bottom: 1px dashed #ebecec;">
+                    <a href="javascript:;" *ngFor="let dept of departmentList | filter:searchDept:'name'; let i = index" (click)="deptChange(dept)">
+                      <div class="notif-content">
+                        <span class="subject mx-2">{{dept.name}}</span>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </li>
+            </div>
+          </ul>
+        </div>
+
+        <!-- ====================== -->
+      </div>
+    </div>
+
+    <div class="row m-l-0 m-r-0">
+      <!-- LEFT COLUMN -->
+      <div class="col-md-5">
+
+        <!-- @PHANI -->
+        <div class="row m-l-0 m-r-0 boxLayout">
+          <div class="col-md-6 mainBlock p-5 my-0" *ngFor="let main of data.main | keyvalue; let i =index;">
+            <div class="card StatsBlock mb-0" [ngStyle]="{background: setbackgroundColor(i)}">
+              <div class="card-body StatsBlock-content">
+                <div class="h3 m-0 count" title="{{main.value}}">{{main.value | removeSpace | shortText : 3 }}</div>
+                <div class="desc">{{constants[main.key]}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--  END @PHANI -->
+      </div>
+      <!-- RIGHT COLUMN -->
+      <div class="col-md-7">
+        <div class="row boxLayout">
+          <div id="carousel" class="carousel slide" data-interval="false">
+            <div class="carousel-inner" *ngIf='data.other'>
+              <div class="carousel-item" *ngFor="let rows of selectionButtons;let i=index"
+                [ngClass]="{'active': i === 0}">
+                <div class="row m-l-0 m-r-0">
+                  <div class="col-md-4 mainBlock p-5" *ngFor="let keys of rows;let j=index">
+                    <div class="card StatsBlock2 m-0">
+                      <div class="card-body StatsBlock-content">
+                        <div class="float-right clickEvents" *ngIf="isTable(keys)">
+                          <span (click)="getTable(keys)"><i class="fas fa-ellipsis-v"></i></span>
+                        </div>
+                        <div class="h3 m-0 count" *ngIf="isTable(keys)">{{data.other[keys].count || data.other[keys].length}}</div>
+                        <div class="h3 m-0 count" *ngIf="!isTable(keys)">{{data.other[keys]}}</div>
+                        <div class="desc">{{constants[keys]}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONTROLS BLOCK -->
+          <div class="card-selector" *ngIf="selectionButtons.length>1">
+            <div class="circle" href="#carousel" role="button" data-slide="prev">
+              <div class="selected"></div>
+            </div>
+            <div class="circle" href="#carousel" role="button" data-slide="next">
+              <div class="selected"></div>
+            </div>
+          </div>
+          <!-- END CONTROLS BLOCK -->
+        </div>
+      </div>
+    </div>
+    <!-- 8x4 GRID END-->
+    <!-- END DATA BLOCK -->
+    <br>
+    <!-- Table Block -->
+    <div class="row m-l-0 m-r-0">
+      <div class="col-md-12">
+        <div *ngFor="let table of tables">
+          <app-dashboard-tables [selected]="table" [data]="data.other" (closeTable)="closeTable($event)">
+          </app-dashboard-tables>
+        </div>
+        <div *ngFor="let pie of pieChartData">
+          <app-dashboaard-piecharts [selected]="pie" [data]="data.other" (closePieChart)="closePieChart($event)">
+          </app-dashboaard-piecharts>
+        </div>
+        <div *ngFor="let feed of showFeedData">
+          <app-dashboard-feed [selected]="feed" [data]="data.other" (closeShowFeed)="closeShowFeed($event)">
+          </app-dashboard-feed>
+        </div>
+      </div>
+    </div>
+    <!-- END Tale Block -->
+
+  </div>
+  <!-- END  Analytics_Content-->
+
+</div>

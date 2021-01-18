@@ -1,0 +1,350 @@
+
+<!-- [ngClass]="{'d-none': total_length === 0, 'd-block': total_length >0}" -->
+<!-- [ngClass]="{'d-none':showTable('table')}"  -->
+<div class="row m-l-0 m-r-0 m-b-10" [hidden]="hide">
+<!-- <div #map style="width:100%;height:400px"></div> -->
+<app-leaflet #leafletRef style="width:100%;height:400px"  [taskId]= "taskId" [selectedRecords]="locationsList" [displayValues]="displayValues" (toggleMap)="toggleMap($event)" *ngIf="mapType != 'googleMap'">
+</app-leaflet>
+<app-googlemaps #googleMaps style="width:100%;height:400px" [selectedRecords]="locationsList" [displayValues]="displayValues" (toggleMap)="toggleMap($event)" *ngIf="mapType == 'googleMap'">
+</app-googlemaps>
+</div>
+<div class="row m-l-0 m-r-0">
+  <!-- <div class="col-md-8 p-0" [hidden]="total_length==0">
+  </div> -->
+
+  <!-- Export action bar -->
+  <div class="col align-self-end p-0" [hidden]="total_length==0">
+    <div class="btn-group float-right">
+      <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" [class.active]="filterFlag"
+      (click)="WFfilter()" title="Filter WorkFlow Records" [hidden]="globalInfo.type == 0 || globalInfo.type == 1 || !showFilterRecords">
+      <img [hidden]="filterFlag" class="customSvg" [src]='recordsIcons.recordWFFilter' alt="Filter WorkFlow Records">
+      <img [hidden]="!filterFlag" class="customSvg" [src]='recordsIcons.recordWFFilterUndo' alt="Filter WorkFlow Records">
+
+     </button>
+    
+        <button type="button" class="btn btn-icon btn-round mr-2 btn-xs btn-transparent"
+        (click)="showColumns(range.startRange,range.endRange,constantKeys['excel'])" title="{{constantKeys['label_ExportExcel']}}">
+        <i class="far fa-file-excel icon-color"></i>
+      </button>
+        <!-- <button type="button" class="btn btn-icon btn-round mr-2 btn-xs btn-transparent" (click)="sketching()"
+        title="Go To Map">
+        <i class="far fa-map icon-color"></i>
+      </button> -->
+
+      <button type="button" class="btn btn-icon btn-round mr-2 btn-xs btn-transparent" (click)="emailPopUp()"
+        title="{{constantKeys['label_ExportEmail']}}">
+        <i class="far fa-envelope icon-color"></i>
+      </button>
+
+      <button type="button" class="btn btn-icon btn-round mr-2 btn-xs btn-transparent"
+        (click)="showColumns(range.startRange,range.endRange,constantKeys['pdf'])" title="{{constantKeys['label_ExportPdf']}}">
+        <i class="far fa-file-pdf icon-color"></i>
+      </button>
+
+      <button type="button" class="btn btn-icon btn-round mr-2 btn-xs btn-transparent" (click)="reassignPopUp()"
+        title="{{constantKeys['label_ReassignRecords']}}" *ngIf = "showOrHideReassign()">
+        <img [src]='recordsIcons.reassign' alt="Reassign Records">
+      </button>
+
+      <button type="button" class="btn btn-icon btn-round mr-2 btn-xs btn-transparent" #locations (click)="insertedLocations()" [hidden]="requestData?.status == 0"
+        title="{{constantKeys['label_InsertedLocations']}}">
+        <img [src]='recordsIcons.insertedLocation' alt="Inserted Locations">
+      </button>
+
+      <!-- <button type="button" class="btn btn-icon btn-round mr-2 btn-xs btn-transparent" (click)="editRecord()"
+        title="Edit Record" *ngIf = "showOrHide()">
+        <i class="far fa-edit icon-color"></i>
+      </button> -->
+
+      <button type="button" class="btn btn-icon btn-round mr-2 btn-xs btn-transparent" (click)="addingColumns()"
+        title="{{constantKeys['label_AddColumns']}}">
+        <i class="fas fa-bars icon-color"></i>
+      </button>
+
+    </div>
+  </div>
+  <!-- End Export action bar -->
+</div>
+<br>
+
+<div class="row" *ngIf="isAttachPrepop && requestData?.status == 0">
+  <div class="col-md-3">
+    <label>Choose File
+      <span class="c-red">*</span>
+    </label>
+  </div>
+  <div class="col-md-5">
+    <input type="file" (change)="onFileChange($event)" accept=".xlsx">
+  </div>
+  <div class="col-md-2">
+    <button type="button" class="btn  btn-xs btn-icon btn-round btn-success mr-2" title="{{constantKeys['label_Submit']}}"
+      (click)="attachPrepopFile()">
+      <i class="fa fa-check"></i>
+    </button>
+    <button type="button" class="btn  btn-xs btn-icon btn-round btn-danger mr-2" title="{{constantKeys['label_Cancel']}}"
+      (click)="closeAttachPrepop()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+</div>
+
+<div class="row" *ngIf="isAttachPrepop && requestData?.status == 0"><br></div>
+
+<div class="float-right" *ngIf="requestData?.status == 0 && showOrHideAssign()">
+  <button type="button" class="btn btn-icon btn-border btn-round my-2 mr-2 btn-xs btn-transparent" (click)="attachPrepop()"
+    title="{{constantKeys['label_AddRecords']}}">
+    <i class="fas fa-plus icon-color"></i>
+  </button>
+  <button type="button" class="btn btn-icon btn-border btn-round my-2 mr-2 btn-xs btn-transparent" [ngClass]="{'disabledList':!assignedUsers }"
+    (click)="submitPendingRecords()" title="{{constantKeys['label_UpdateRecords']}}">
+    <i class="far fa-save icon-color"></i>
+  </button>
+  <button type="button" class="btn btn-icon btn-border btn-round my-2 mr-2 btn-xs btn-transparent"
+    (click)="deletePendingRecords()" title="{{constantKeys['label_DeleteRecords']}}">
+    <i class="far fa-trash-alt icon-color"></i>
+  </button>
+
+  <div class="float-right my-1">
+    <form [formGroup]="prepopDataForm">
+      <div class="float-right">
+        <label for="user" class="placeholder">Users:&nbsp; </label>
+        <select formControlName="user" name="user" style="width: 95px;
+									height: 33px;
+									text-indent: 20px;">
+          <option *ngFor="let user of usersList" value={{user.username}}>
+            {{user.username}}
+          </option>
+        </select>
+        <button type="button" class="btn btn-icon btn-round btn-xs btn-transparent ml-2" (click)="assignUser()">
+          <i class="fas fa-user-plus"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<ag-grid-angular #agGrid style="width: 100%;overflow-x:hidden;" [style.height.px]="myInnerHeight" id="myGrid"
+  class="ag-theme-balham" [defaultColDef]="defaultColDef" [suppressRowClickSelection]="true" 
+  [rowSelection]="rowSelection" (gridReady)="onGridReady($event)" [paginationPageSize]="paginationPageSize"  [suppressPaginationPanel]="false"
+  [pagination]="true" [gridOptions]="gridOptions"  [getRowNodeId]="getRowNodeId"  [overlayNoRowsTemplate]="noRowsTemplate" (paginationChanged)="pageChanged($event)"> 
+</ag-grid-angular>
+<!-- <pre class="card card-block card-header mb-3">The selected page no: {{currentPage}} of {{smallnumPages}}</pre> -->
+<!-- <pagination *ngIf="gridApi" class="py-2 p-b-0" [totalItems]="total_length" (pageChanged)="pageChanged($event)" [(ngModel)]="currentPage" (numPages)="smallnumPages = $event" [maxSize]="5"></pagination> -->
+<!-- <div class="btn-group d-flex justify-content-center" *ngIf="isPendingRecords">
+  <button type="button" class="btn btn-outline-primary btn-rounded btn-sm mr-3" (click)="submitPendingRecords()">
+    Update
+  </button>
+  <button type="button" class="btn btn-outline-danger btn-rounded btn-sm mr-3" (click)="cancelSidebar()">
+    Cancel
+  </button>
+</div> -->
+
+<div id="collapse" *ngIf="columnsSelection || isOpen">
+  <!-- Quick Sidebar -->
+  <div class="quick-sidebar1">
+    <a href="javascript:;" class="close-quick-sidebar" style="float:right;" (click)="closeSidebar()">
+      <i class="flaticon-cross"></i>
+    </a>
+
+    <div class="quick-sidebar-wrapper">
+      <h4>Columns Selection</h4>
+      <h6  *ngIf="isOpen" class="fon-label">If no columns are selected, Generation will be done with all columns</h6>
+      <div class="separator-dashed"></div>
+      <div class="container-fluid p-r-0 p-l-0" [style.height.px]="myInnerComponentHeight">
+        <form class="user" [formGroup]="records">
+          <div class="tasks-list" *ngIf="isOpen">
+            <div class="custom-control custom-checkbox d-flex align-items-center my-1"  *ngFor="let tab  of records.controls.columns.controls; let i = index">
+              <!-- <label class="custom-checkbox custom-control checkbox-secondary ion-label" formArrayName="columns">
+                <input type="checkbox" checked="" class="custom-control-input" name="value" [formControlName]="i"
+                  value="tab[i].id">{{columns[i].label}}
+              </label> -->
+              <div class="custom-control custom-checkbox" >
+                <div formArrayName="columns">
+                  <input type="checkbox" class="custom-control-input" name="value" [formControlName]="i" id="{{i}}"
+                  value="tab[i].id">
+                <label class="custom-control-label" for="{{i}}">{{columns[i].label}}</label>
+                </div>
+                
+            </div>
+            </div>
+          </div>
+          
+          <div class="tasks-list" *ngIf="columnsSelection">
+            
+            <div class="custom-control custom-checkbox d-flex align-items-center my-1"  *ngFor="let tab  of records.controls.columnAddingValues.controls; let i = index">
+              <!-- <label class="custom-checkbox custom-control checkbox-secondary" formArrayName="columnAddingValues">
+                <input type="checkbox" checked="" class="custom-control-input" name="value" [formControlName]="i"
+                  value="tab[i].id">{{columnAddingValues[i].label}}
+              </label> -->
+              <div class="custom-control custom-checkbox" >
+                <div formArrayName="columnAddingValues">
+                  <input type="checkbox" class="custom-control-input" name="value" [formControlName]="i" id="{{i}}"
+                  value="tab[i].id">
+                <label class="custom-control-label" for="{{i}}">{{columnAddingValues[i].label}}</label>
+                </div>
+                
+            </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <button class="btn btn-icon btn-round btn-success" (click)="addColumnsToTable()"
+        style="position: fixed;bottom: 15px;right: 15px;" *ngIf="columnsSelection">
+        <i class="fa fa-check"></i>
+      </button>
+      <button class="btn btn-icon btn-round btn-success" (click)="download()"
+        style="position: fixed;bottom: 15px;right: 15px;" *ngIf="isOpen">
+        <i class="fa fa-check"></i>
+      </button>
+
+    </div>
+
+  </div>
+  <!-- End Quick Sidebar -->
+</div>
+
+<!-- End Collapse -->
+<!-- Email Model  -->
+<ngx-smart-modal #emailModel [closable]="false" [identifier]="'emailModel'">
+  <!-- <div class="card"> -->
+    <div class="row">
+      <span class="col-md-11">
+          <h4 class="textP fw-bold"> Email Attachment</h4>
+          <h6 class="textP fw-bold">Records will be sent to your email.</h6>
+      </span>
+      <span class="col-md-1">
+          <button type="button" class="close" aria-label="Close" (click)="emailModel.close()">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </span>
+    </div>
+
+    <!-- <div class="card-body card-padding"> -->
+
+      <form name="email" [formGroup]="email" class="form-horizontal" (ngSubmit)="showColumnsEmail();">
+
+        <div class="form-group form-group-default">
+          <label>TO<span class="required-label">*</span></label>
+          <input type="text" id="to" class="form-control" [formControlName]="constantKeys['sendTo']"
+            [ngClass]="{ 'is-invalid': submitted && f.sendTo.errors }" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"/>
+          <span *ngIf="f.sendTo.dirty && f.sendTo.invalid && f.sendTo.value.length>0 && !submitted"
+            class="form-text text-red">{{constantKeys['validation_Email']}}</span>
+            <div *ngIf="submitted && f.sendTo.errors" class="invalid-feedback">
+              <span *ngIf="f.sendTo.errors.required" class="form-text text-red">{{constantKeys['validation_Email']}}</span>
+          </div>
+        </div>
+        <div class="form-group form-group-default">
+          <label>CC</label>
+          <input type="text" id="cc" class="form-control" [formControlName]="constantKeys['sendCC']" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"/>
+          <span *ngIf="f.sendCC.dirty && f.sendCC.invalid && f.sendCC.value.length>0"
+            class="emailText">{{constantKeys['validation_Email']}}</span>
+        </div>
+        <div class="form-group form-group-default">
+          <div class="custom-control custom-radio">
+            <input type="radio" id="SystemDate" value="1" class="custom-control-input" 
+              [formControlName]="constantKeys['fileType']">
+            <label class="custom-control-label" for="SystemDate">Excel</label>
+          </div>
+
+          <div class="custom-control custom-radio">
+            <input type="radio" id="ManualEntry" value="2" class="custom-control-input"
+              [formControlName]="constantKeys['fileType']">
+            <label class="custom-control-label" for="ManualEntry">Pdf</label>
+          </div>
+          <div *ngIf="submitted && f.fileType.errors">
+              <span *ngIf="f.fileType.errors.required" class="emailText">{{constantKeys['required_Pdf']}}</span>
+          </div>
+          <!-- <div *ngIf="submitted">
+              <span *ngIf="!email.value[constantKeys['fileType']]" class="form-text text-red">Type  required</span>
+            </div> -->
+        </div>
+        <div class="separator-solid"></div>
+        <div class="btn-group d-flex justify-content-center">
+          <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3">
+            Send
+          </button>
+          <button type="button" class="btn btn-outline-danger btn-rounded btn-sm mr-3" (click)="emailModel.close()">
+            Cancel
+          </button>
+        </div>
+      </form>
+    <!-- </div> -->
+  <!-- </div> -->
+
+</ngx-smart-modal>
+
+<ngx-smart-modal #reassignModel [closable]="false" [identifier]="'reassignModel'">
+  <!-- <div class="card"> -->
+      <div class="row">
+          <span class="col-md-11">
+              <h4 class="textP fw-bold">Record Re-assign</h4>
+          </span>
+          <span class="col-md-1">
+              <button type="button" class="close" aria-label="Close" (click)="reassignModel.close()">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </span>
+        </div>
+    <!-- <div class="card-body card-padding"> -->
+      <form name="reassign" [formGroup]="reassign" class="form-horizontal" (ngSubmit)="recordsReassign()">
+        <div class="form-group form-group-default">
+          <label>Comments<span class="required-label">*</span></label>
+          <textarea id="comments" class="form-control input-border-bottom" [formControlName]="constantKeys['comments']"
+            rows="3"></textarea>
+          <div *ngIf="submitted && c.comments.errors" class="invalid-feedback">
+            <span *ngIf="c.comments.errors.required"
+              class="form-text text-red">{{constantKeys['comments_validation']}}</span>
+          </div>
+        </div>
+        <div class="form-group form-group-default">
+          <label>Users</label>
+          <select id="users" class="form-control" [formControlName]="constantKeys['assignedTo']">
+            <option *ngFor="let user of usersList" [ngValue]="user">{{ user.username }}</option>
+          </select>
+          <div *ngIf="submitted && c.assignedTo.errors" class="invalid-feedback">
+            <span *ngIf="c.assignedTo.errors.required"
+              class="form-text text-red">{{constantKeys['users_validation']}}</span>
+          </div>
+        </div>
+        <div class="separator-solid"></div>
+        <div class="btn-group d-flex justify-content-center">
+          <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3 buttonBorder">
+            Submit
+          </button>
+          <button type="button" class="btn btn-outline-danger btn-rounded btn-sm mr-3 buttonBorder" (click)="reassignModel.close()">
+            Cancel
+          </button>
+        </div>
+      </form>
+    <!-- </div> -->
+  <!-- </div> -->
+
+</ngx-smart-modal>
+
+<!-- End Email Model  -->
+<ngx-smart-modal #sketchingpreview [identifier]="'sketchingpreview'" [closable]="false"
+  [style.height.px]="myInnerComponentHeight">
+  <div class="modal-header">
+    <h5 class="modal-title">Sketching Properties</h5>
+    <button aria-label="Close" class="close btn-lg" data-dismiss="modal" type="button"
+      (click)="sketchingpreview.close()">
+      <span aria-hidden="true"><i class="fas fa-times icon-color"></i></span>
+    </button>
+  </div>
+  <div [style.height.px]="myInnerComponentHeight-180" style="overflow:auto;" #scrollMe>
+
+    <div *ngIf="formInfo && widgets">
+      <dynamic-form [config]="widgets" [data]="formInfo" [ispreview]="ispreview">
+
+      </dynamic-form>
+    </div>
+  </div>
+</ngx-smart-modal>
+<!-- End sketching Model  -->
+<app-delete-template (deleteOrCancel)="confirmDelete($event)"></app-delete-template>
+
+
+<a href="javascript:;" (click)="showMap()" class="float">
+  <img [src]="imgForMap" class="headerImg m-t-8">
+  </a>

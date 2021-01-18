@@ -1,0 +1,23 @@
+<div class="card full-height">
+    <div class="card-header">
+        <div class="card-head-row card-tools-still-right">
+          <h4 class="card-title">Feed Activity</h4>
+          <div class="card-tools">
+            <button class="btn btn-icon btn-link btn-xs addColor" (click)="close(selected)" title="{{constants['label_Close']}}"><span
+                class="fa fa-times"></span></button>
+          </div>
+        </div>
+      </div>
+    <div class="card-body">
+      <ol class="activity-feed">
+        <li class="feed-item " [ngClass]="{'feed-item-secondary':i==0,'feed-item-success':i==1,'feed-item-info':i==2,'feed-item-warning':i==3,'feed-item-danger':i==4} " *ngFor="let feed of feedData;let i = index">
+          <time class="date" datetime="9-25">{{feed.timestamp | date:'medium'}}</time>
+          <span class="text">{{feed.activity}} by {{feed.username}} for <span class="colorChange"> {{feed.taskName == 'N/A'?feed.formName:feed.taskName}}</span></span>
+        </li>
+       
+      </ol>
+      <div align="center" *ngIf="feedData && !feedData.length">
+        <img [src]="noDataImg" class="img-responsive">
+      </div>
+    </div>
+  </div>

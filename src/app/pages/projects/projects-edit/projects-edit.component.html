@@ -1,0 +1,87 @@
+<div class="card shadow mb-4 wizard-container wizard-round col-md-12">
+    <div class="card-header">
+        <div class="card-head-row">
+            <div class="card-tools">
+              <div class="btn-group">
+                <div class="float-right padding">
+                  <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+                  [routerLink]="['/mainLayout','projectsTab','projects']" title="{{projectKeys['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+                   </button>
+                </div>
+              </div>
+            </div>
+          </div>
+      <!-- <h6 class="m-0 font-weight-bold text-primary" *ngIf="loginDetails['type']!=3">{{projectKeys['UpdateProject']}}</h6> -->
+      <!-- <h6 class="m-0 font-weight-bold text-primary" *ngIf="loginDetails['type']==3">{{projectKeys['PreviewProject']}}</h6> -->
+    </div>
+    <div class="card-body">
+      <form class="user" [formGroup]="updateproject" (ngSubmit)="updateProject()">
+          <div class="form-group form-group-default">
+              <label for="name" class="placeholder">{{projectKeys['Name']}}<span class="required-label">*</span></label>
+              <input type="text" id="name" class="form-control" [formControlName]="projectKeys['name']" [readonly]="true" required />
+          </div>
+            <div class="form-group form-group-default">
+                <label for="description" class="placeholder">{{projectKeys['Description']}}</label>
+                <textarea *ngIf="loginDetails['type']==1" id="description" class="form-control input-border-bottom" [formControlName]="projectKeys['description']"
+                  rows="3"></textarea>
+                  <textarea *ngIf="loginDetails['type']==3" id="description" class="form-control input-border-bottom" [readonly]="true" [formControlName]="projectKeys['description']"
+                  rows="3"></textarea>
+            </div>
+            <div >
+                <label for="Categories" class="placeholder fon-label" >{{projectKeys['Category']}}<span class="required-label">*</span></label>
+                <ng-select [items]="categoriesList"
+                            [hideSelected]="true"
+                            multiple="false"
+                            bindLabel="name" [formControlName]="projectKeys['category']" [ngClass]="{
+                                'disabledList':true}">
+                </ng-select>
+            </div>
+            <div class="form-group group-admin-div">
+                <label for="group admins" class="fon-label" >{{projectKeys['GroupAdmin']}}<span class="required-label">*</span></label>
+                <ng-select [items]="groupAdminsList"
+                            [hideSelected]="true"
+                            multiple="false"
+                            bindLabel="username" [formControlName]="projectKeys['groupAdmins']" [ngClass]="{
+                                'disabledList':true}">
+                 </ng-select>
+                
+            </div>
+            <!-- <div class="separator-dashed"></div> -->
+           <label class="m-b-10 fon-label">{{projectKeys['SetProjectDates']}}</label>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group form-group-default">
+                        <label for="startDate" class="placeholder"><i class="fas fa-calendar-check"></i> {{projectKeys['StartDate']}}<span class="required-label">*</span></label>
+                        <input type="text"  class="form-control mb-3" appCalendar (bsValueChange)="bsValueChange($event)" bsDatepicker [formControlName]="projectKeys['startDate']"
+                        [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }" [minDate]="startMinDate" [maxDate]="startMaxDate"
+                         [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }" disabled />
+                    </div>
+                </div>
+                <div class="col-md-6" *ngIf="loginDetails['type']==1">
+                    <div class="form-group form-group-default">
+                        <label for="startDate fon-label" class="placeholder"><i class="fas fa-calendar-check"></i> {{projectKeys['EndDate']}}<span class="required-label">*</span></label>
+                        <input type="text" class="form-control mb-3" appCalendar bsDatepicker [formControlName]="projectKeys['endDate']"
+                        [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }" [minDate]="endMinDate" [maxDate]="endMaxDate" [ngClass]="{ 'is-invalid': submitted && f.endDate.errors }" required />
+                    </div>
+                    <div *ngIf="submitted && f.endDate.errors" class="invalid-feedback">
+                       <span *ngIf="f.endDate.errors.required" class="form-text text-red">{{projectKeys['enddateRequired']}}</span>
+                   </div>
+                </div>
+                <div class="col-md-6" *ngIf="loginDetails['type']==0 || loginDetails['type']==3">
+                    <div class="form-group form-group-default">
+                        <label for="startDate" class="placeholder fon-label"><i class="fas fa-calendar-check"></i> {{projectKeys['EndDate']}}<span class="required-label">*</span></label>
+                        <input type="text" class="form-control mb-3" appCalendar bsDatepicker [formControlName]="projectKeys['endDate']"
+                        [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }" [minDate]="endMinDate" [maxDate]="endMaxDate" [ngClass]="{ 'is-invalid': submitted && f.endDate.errors }" disabled />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3 offset-md-5">
+                  <button type="submit" [disabled] = "!updateproject.dirty" *ngIf="loginDetails['type']!=3" class="btn btn-outline-primary btn-rounded btn-sm mr-3">{{projectKeys['label_Update']}}</button>
+                  <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+                    [routerLink]="['/mainLayout','projectsTab','projects']">{{projectKeys['label_Cancel']}}</button>
+                </div>
+            </div>
+      </form>
+    </div>
+  </div>

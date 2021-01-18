@@ -1,0 +1,64 @@
+.version-info{
+    vertical-align: top;
+    display: inline-block;
+  
+}
+/* .version-info-code {
+  
+    background-color: grey;
+} */
+.version-info-code {
+    display: block;
+}
+.main-div{
+    margin-top: 40px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.version-row{
+    /* border-bottom: 2px solid #ece3e3; */
+    padding-bottom: 4px;
+}
+.version-feature-add{
+   
+   
+}
+.version-sub-header-label{
+    font-size: 16px
+}
+
+/*  */
+
+
+.version-label-subtext{
+    color: #b7b2b2
+}
+
+.view-button{
+    position: relative;
+    left: 4px;
+}
+.update-btn{
+    position: relative;
+    right: 4px;
+}
+
+#version-card {
+    margin-bottom: 1px;
+}
+
+.version-li:hover{
+    cursor: pointer;
+}
+.add-bugs, .add-features, .add-store-url{
+    margin-top: 10px;
+}
+.play-store-link{
+    margin-top: 15px;
+}
+
+.btn-border.btn-white {
+  font-size:11px;
+  color: #7b7777 !important;
+ border: 1px solid #DFE0EB !important;
+}

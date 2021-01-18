@@ -1,0 +1,63 @@
+<div class="card">
+
+  <div class="card-header">
+    <div class="card-head-row card-tools-still-right">
+      <h4 class="card-title text-primary">{{workflowKeys['wfLevelTitle']}} - ({{index+1}})</h4>
+      <div  class="card-tools">
+        <button class="btn btn-icon btn-link btn-primary btn-xs" (click)="delete()" title="{{workflowKeys['label_Delete']}}" [ngClass]="{'disabledList':!isWorkflowEditAllowed }"><span
+            class="fa fa-times"></span></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body card-padding">
+    <form [formGroup]="workflowLevelForm">
+
+      <div class="row">
+
+        <div class="col-md-offset-1 col-md-4">
+          <div class="form-group form-group-default">
+            <label>{{workflowKeys['wfFromLabel']}}</label>
+            <select id="from" class="form-control"  [formControlName]="workflowKeys['wfFromCtrl']" [compareWith]="compare">
+              <option *ngFor="let user of usersList" [ngValue]="user">{{ user.username }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group form-group-default">
+            <label>{{workflowKeys['wfToLabel']}}</label>
+            <select id="to" class="form-control" [formControlName]="workflowKeys['wfToCtrl']" [compareWith]="compare">
+              <option *ngFor="let user of usersList" [ngValue]="user">{{ user.username }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+            <button class="btn btn-link" *ngIf="viewType === 'create'" [disabled]="freezeWorkflow || workflowLevelForm.invalid" (click)="save()">
+              <span class="btn-label">
+                <i class="fa fa-check"></i>
+              </span>
+              Save WorkFlow
+            </button>
+            <button class="btn btn-link" *ngIf="viewType === 'edit' && showButtons" (click)="edit()" [disabled]="!isWorkflowEditAllowed">
+              <span class="btn-label">
+                <i class="fa fa-pencil"></i>
+              </span>
+              Edit
+            </button>
+            <button class="btn btn-link" *ngIf="viewType === 'edit' && showButtons" [disabled]="freezeWorkflow || workflowLevelForm.invalid|| !isWorkflowEditAllowed" (click)="save()">
+              <span class="btn-label">
+                <i class="fa fa-check"></i>
+              </span>
+              Save
+            </button>
+        </div>
+
+      </div>
+      <div class="d-flex justify-content-center" *ngIf="workflowLevelForm.get(workflowKeys['wfToCtrl']).dirty && workflowLevelForm.invalid">
+        <small class ="required-label">From and To cannot be same</small>
+      </div>
+    </form>
+  </div>
+</div>

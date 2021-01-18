@@ -1,0 +1,10 @@
+
+<button type="button" *ngIf="gridView==undefined && !gridView" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+(click)="deleteTask()" title="{{taskKeys['label_Delete']}}">
+<i class="far fa-trash-alt icon-color"></i>
+</button>
+<button type="button" *ngIf="gridView" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+(click)="deleteTask()" title="{{taskKeys['label_Delete']}}">
+<i class="far fa-trash-alt icon-white"></i>
+</button>
+<app-delete-template  (deleteOrCancel)="confirmDelete($event)"></app-delete-template>

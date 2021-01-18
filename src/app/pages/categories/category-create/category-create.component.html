@@ -1,0 +1,48 @@
+
+<div class="card shadow mb-4">
+    <div class="card-header">
+     <div class="card-head-row">
+      <div class="card-tools">
+        <div class="btn-group">
+          <div class="float-right padding">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+            [routerLink]="['/mainLayout','categories']" title="{{categoryKeys['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+             </button>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!-- <h6 class="m-0 font-weight-bold text-primary">{{categoryKeys['creationTitle']}}</h6> -->
+    </div>
+    <!-- <div class="card-body mx-4"> -->
+        <div class="card-body mx-4">
+        <form [autocomplete]="autoCompleteForm"  [formGroup]="createCategory" (ngSubmit)="onCreate(createCategory.value)"  class="user">
+            <div class="form-group form-group-default">
+              <label for="categoryKeys['catNameCtrl']" class="placeholder">{{categoryKeys['catNameLabel']}}<span class="required-label">*</span></label>
+              <!-- <input autocomplete="true"  type="text" id="categoryKeys['catNameCtrl']" class="form-control" [formControlName]="categoryKeys['catNameCtrl']" appSpecialCharacter  myNoSpaces  /> -->
+             
+              <input   [autocomplete]="autoCompleteField" type="text" name="category-create-name" [formControlName]="categoryKeys['catNameCtrl']" id="username" class="form-control input-border-bottom"
+              [ngClass]="{ 'is-invalid': submitted && f.name.errors }" appSpecialCharacter myNoSpaces appTrimValues/>
+
+
+
+              <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                <span *ngIf="f.name.errors.required || f.name.errors.whitespace" class="form-text text-red">{{categoryKeys['nameReqMsg']}}</span>
+                <!-- <span *ngIf="!f.name.errors.required && f.name.errors.whitespace" class="form-text text-red">{{f.name.errors.whitespace}}</span> -->
+              </div>
+            </div>
+            <div class="form-group form-group-default">
+              <label for="description" class="placeholder">{{categoryKeys['label_Description']}} </label>
+              <textarea id="description" class="form-control input-border-bottom" [formControlName]="categoryKeys['catDescCtrl']"
+                rows="3"></textarea>
+            </div>
+            <div class="form-group">
+              <div class="col-md-3 offset-md-5">
+                <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3" >{{categoryKeys['label_Create']}}</button>                
+                <button type="button" class="btn btn-outline-danger btn-rounded btn-sm" [routerLink]="['/mainLayout','categories']">{{categoryKeys['label_Cancel']}}</button>              </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

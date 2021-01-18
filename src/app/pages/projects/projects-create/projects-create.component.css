@@ -1,0 +1,12 @@
+/* .groupadmin{
+    font-weight: 400
+} */
+.group-admin-div{
+    position: relative;
+    margin-right: -10px;
+    margin-left: -10px;
+}
+.dropdown-btn{
+    background-color: green !important;
+    border: 1px solid red !important;
+}

@@ -1,0 +1,72 @@
+<div class="page-inner">
+  <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row pb-3">
+    <!-- <h4 class="page-title">Device Management</h4> -->
+    <div>
+        <h2 class="pageTitle">
+            <img [src]='pageDetails.pageIcon' class="headerImg mr-2">{{constants['header_Downloads']}}</h2> 
+      <ul class="pb-2 breadcrumbs">
+        <!-- <li class="nav-home">
+          <a href="javascript:">
+            <i class="flaticon-home"></i>
+          </a>
+        </li> -->
+        <!-- <li class="separator">
+          <i class="flaticon-right-arrow"></i>
+        </li> -->
+      </ul>
+      </div>
+  </div>
+  <div class="card">
+      <div class="card-header">
+          <div class="card-head-row card-tools-still-right">
+              <h4 class="card-title">{{constants['header_Downloads']}}</h4>
+              
+              <div class="card-tools">
+                  <button class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2" (click)="fetchDownloadDetails()"><span
+                      class="fa fa-sync-alt icon-color" title="{{constants['label_Refresh']}}"></span></button>
+              </div>
+          </div>
+          <div class="card-head-row card-tools-still-right">
+              <small>{{constants['downloadsMsg']}}</small>
+          </div>
+      </div>
+    <div class="card-body">
+      <div class="table-responsive scroll">
+        <table class="table table-bordered table-condensed" *ngIf="fetchedRecords.length>0">
+            <thead>
+                <tr>
+                  <th>#</th>
+                  <th>{{constants['label_FileName']}}</th>
+                  <th>{{constants['label_Generated']}}</th>
+                  <th>{{constants['label_FileSize']}}</th>
+                  <th>{{constants['label_downloadForm']}}</th>
+                  <th>{{constants['label_RecordType']}}</th>
+                  <th>{{constants['label_FromDate']}}</th>
+                  <th>{{constants['label_ToDate']}}</th>
+                  <th>{{constants['label_TaskName']}}</th>
+                  <th>{{constants['label_Download']}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let i = index;let record of fetchedRecords | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: total_count }">
+                  <td>{{ i + 1 + (pageNumber - 1) * limit}}</td>
+                  <td title={{record.fileName}}><span [ngClass]="record.type == 'pdf'?'far fa-file-pdf':'far fa-file-excel'">&nbsp;{{record.fileName | shortText :10}}</span></td>
+                  <td>{{record.downloadTime | date : "short"}}</td>
+                  <td>{{record.size |number:'2.3-3'}}MB</td>
+                  <td>{{record.placeOfRecord}}</td>
+                  <td>{{record.typeOfRecord}}</td>
+                  <td>{{record.fromDate | date : "shortDate"}}</td>
+                  <td>{{record.toDate | date : "shortDate"}}</td>
+                  <td>{{record.taskName}}</td>
+                  <td><a href="javascript:;" (click)="downloadFile(record)"><i class="fa fa-download" aria-hidden="true"></i></a></td>
+               </tr>
+              </tbody>
+        </table>
+      </div>
+      <pagination-controls (pageChange)="pageNumber = $event" *ngIf="fetchedRecords.length>0"></pagination-controls>
+      <div *ngIf="!fetchedRecords.length" align="center">
+          <img [src]="Imgsrc" class="img-responsive">
+      </div>
+    </div>
+  </div>
+</div>

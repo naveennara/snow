@@ -1,0 +1,12 @@
+.table-css{
+    margin-left: 25%;
+    width: 50%;
+}
+.serialNumber{
+    width: 6%;
+    text-align: center;
+}
+.userName{
+    text-align: center;
+    width: 25%;
+}

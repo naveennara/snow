@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="413" height="283.727" viewBox="0 0 413 283.727">
+  <g id="Good_Afternoon" data-name="Good Afternoon" transform="translate(-345 -360.273)">
+    <text id="Good_Afternoon-2" data-name="Good Afternoon" transform="translate(345 628)" fill="#fff" font-size="58" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Good Afternoon</tspan></text>
+    <g id="sun" transform="translate(462 360.273)">
+      <g id="Group_824" data-name="Group 824" transform="translate(44.726 44.726)">
+        <g id="Group_823" data-name="Group 823">
+          <path id="Path_841" data-name="Path 841" d="M152.28,88.523A45.354,45.354,0,0,0,120.4,75.2,44.372,44.372,0,0,0,88.523,88.523,45.2,45.2,0,0,0,120.4,165.6,44.372,44.372,0,0,0,152.28,152.28,45.354,45.354,0,0,0,165.6,120.4,44.372,44.372,0,0,0,152.28,88.523Zm-8.564,55.193a33.318,33.318,0,1,1,9.516-23.314A32.907,32.907,0,0,1,143.716,143.716Z" transform="translate(-75.2 -75.2)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_826" data-name="Group 826" transform="translate(149.165 83.741)">
+        <g id="Group_825" data-name="Group 825">
+          <path id="Path_842" data-name="Path 842" d="M275.3,140.8H256.985a6.185,6.185,0,1,0,0,12.371H275.3a6.185,6.185,0,0,0,0-12.371Z" transform="translate(-250.8 -140.8)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_828" data-name="Group 828" transform="translate(83.741 149.165)">
+        <g id="Group_827" data-name="Group 827">
+          <path id="Path_843" data-name="Path 843" d="M146.985,250.8a6.3,6.3,0,0,0-6.185,6.185V275.3a6.185,6.185,0,1,0,12.371,0V256.985A6.3,6.3,0,0,0,146.985,250.8Z" transform="translate(-140.8 -250.8)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_830" data-name="Group 830" transform="translate(130.013 130.013)">
+        <g id="Group_829" data-name="Group 829">
+          <path id="Path_844" data-name="Path 844" d="M242.033,233.469l-13.085-13.085a6.056,6.056,0,0,0-8.564,8.564l13.085,13.085a6.056,6.056,0,0,0,8.564-8.564Z" transform="translate(-218.6 -218.6)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_832" data-name="Group 832" transform="translate(83.741)">
+        <g id="Group_831" data-name="Group 831">
+          <path id="Path_845" data-name="Path 845" d="M146.985,0A6.3,6.3,0,0,0,140.8,6.185V24.5a6.185,6.185,0,1,0,12.371,0V6.185A6.3,6.3,0,0,0,146.985,0Z" transform="translate(-140.8)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_834" data-name="Group 834" transform="translate(130.251 24.623)">
+        <g id="Group_833" data-name="Group 833">
+          <path id="Path_846" data-name="Path 846" d="M242.433,43.184a6.031,6.031,0,0,0-8.564,0L220.784,56.269a6.056,6.056,0,0,0,8.564,8.564l13.085-13.085A6.031,6.031,0,0,0,242.433,43.184Z" transform="translate(-219 -41.4)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_836" data-name="Group 836" transform="translate(0 83.741)">
+        <g id="Group_835" data-name="Group 835">
+          <path id="Path_847" data-name="Path 847" d="M24.5,140.8H6.185A6.3,6.3,0,0,0,0,146.985a6.142,6.142,0,0,0,6.185,6.185H24.5a6.185,6.185,0,1,0,0-12.371Z" transform="translate(0 -140.8)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_838" data-name="Group 838" transform="translate(24.385 130.013)">
+        <g id="Group_837" data-name="Group 837">
+          <path id="Path_848" data-name="Path 848" d="M64.433,220.384a6.029,6.029,0,0,0-8.564,0L42.784,233.469a6.056,6.056,0,0,0,8.564,8.564l13.085-13.085A6.031,6.031,0,0,0,64.433,220.384Z" transform="translate(-41 -218.6)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Group_840" data-name="Group 840" transform="translate(24.385 24.623)">
+        <g id="Group_839" data-name="Group 839">
+          <path id="Path_849" data-name="Path 849" d="M64.433,56.269,51.349,43.184a6.056,6.056,0,0,0-8.564,8.564L55.869,64.833a6.056,6.056,0,1,0,8.564-8.564Z" transform="translate(-41 -41.4)" fill="#fff"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

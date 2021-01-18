@@ -1,0 +1,28 @@
+<div class="row p-5 animated fadeIn">
+  <div class="kanban-board col-md-12" [ngStyle]="{'background-color':setColor()}">
+    <header class="kanban-board-header success">
+      <div class="kanban-title-board">
+          <app-common-form-labels [widget]="config"></app-common-form-labels>
+        <!-- <img [src]='WidgetInfo.displayIcon' alt="{{WidgetInfo.displayText}}" class="dragged_Widget_Img">
+        {{WidgetInfo.displayText}}  -->
+        <button *ngIf="(ispreview == 'preview' || ispreview == 'Edit') && group.value[config[widgetKey._id]]" style="float:right" (click)="goToMap()" class="btn btn-icon btn-round mr-2 btn-xs btn-transparent" title="{{constants['label_GoToMap']}}" type="button"><i class="fas fa-map-marker-alt icon-color"></i></button>
+
+      </div>
+      <app-common-formaction-view [config]="config" *ngIf="ispreview!='preview' &&  ispreview != 'Edit'"></app-common-formaction-view>
+    </header>
+    <form [formGroup]="group" >
+      <div class="form-group form-group-default" *ngIf="ispreview == 'preview' ||ispreview == 'Edit' ">
+        <!-- <label for="form-map" class="p-5">{{config[widgetKey.label] || "Map" }}
+          <span class="required-label" *ngIf="config[widgetKey.isRequired]">*</span>
+        </label> -->
+        <span >
+          <input  type="text" id="form-input" class="form-control" [formControlName]="config[widgetKey._id]" [ngClass]="{'disabledEvent':ispreview == 'preview' }" />
+          <app-validation [dynamicFormControlRef]="group.get(config[widgetKey._id])">
+
+            </app-validation>
+        </span>
+      </div>
+    </form>
+
+  </div>
+</div>

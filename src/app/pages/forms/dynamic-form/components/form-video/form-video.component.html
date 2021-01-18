@@ -1,0 +1,26 @@
+<div class="row p-5 animated fadeIn">
+  <div class="kanban-board col-md-12" [ngStyle]="{'background-color':setColor()}">
+    <header class="kanban-board-header success">
+      <div class="kanban-title-board">
+          <app-common-form-labels [widget]="config"></app-common-form-labels>
+        <!-- <img [src]='WidgetInfo.displayIcon' alt="{{WidgetInfo.displayText}}" class="dragged_Widget_Img">
+        {{WidgetInfo.displayText}}  -->
+      </div>
+      <app-common-formaction-view [config]="config" *ngIf="ispreview!='preview' &&  ispreview != 'Edit'"></app-common-formaction-view>
+    </header>
+    <form action="">
+      <div class="form-group form-group-default" *ngIf="ispreview == 'preview' || ispreview == 'Edit'">
+        <!-- <label for="form-video" class="p-5">{{config[widgetKey.label] || "Video" }}
+          <span class="required-label" *ngIf="config[widgetKey.isRequired]">*</span>
+        </label> -->            <div class="m-t-5 m-l-5 m-b-5" *ngIf="ispreview == 'preview' && !group.value[config[widgetKey._id]]"><i class="fas fa-play-circle fa-3x icon-color"></i></div>
+        <span *ngIf="(ispreview == 'preview' ||ispreview == 'Edit')  && group.value[config[widgetKey._id]]">
+        <video width="200" controls>
+          <source [src]=video type="video/mp4">
+          <source [src]=video type="video/ogg">
+          Your browser does not support HTML5 video.
+        </video>
+        </span>
+      </div>
+    </form>
+  </div>
+</div>

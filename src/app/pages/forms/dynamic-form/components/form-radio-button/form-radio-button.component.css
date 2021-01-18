@@ -1,0 +1,14 @@
+.custom-control.custom-radio{
+    display:block !important;
+}
+
+.setHeight {
+    height: 100px;
+    margin-right:0px !important;
+    overflow-y: auto;
+}
+
+.custom-control-label::before {
+    position: absolute;
+    /* top: -1px !important; */
+}

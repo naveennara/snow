@@ -1,0 +1,208 @@
+<div class="sidebar sidebar-style-2">
+  <div class="sidebar-wrapper scrollbar scrollbar-inner">
+    <div class="sidebar-content">
+      <ul class="nav nav-primary">
+
+        <li class="nav-item" routerLinkActive="active" *ngIf="showOrHide('dashboard')"
+          [attr.routerLinkOptions]="{match:['/', '/mainLayout/dashboard']}">
+          <a routerLink="/mainLayout/dashboard" tooltip="Dashboard" placement="right">
+            <img [src]='sidebarIcons.dashboard' alt="Dashboard" class="sidebarImg">
+            <!-- <i class="fas fa-home"></i> -->
+            <!-- <p>Dashboard</p> -->
+          </a>
+        </li>
+
+        <!-- ADMINISTRATOR RELATED ROUTES -->
+        <!-- Seperator Heading -->
+        <!-- <li class="nav-section">
+          <span class="sidebar-mini-icon">
+            <i class="fa fa-ellipsis-h"></i>
+          </span>
+          <h4 class="text-section">Administration</h4>
+        </li> -->
+
+        <!-- [1] DEPARTMENTS -->
+        <!-- <li class="nav-item" routerLinkActive="active" *ngIf="loginDetails.type==0"
+          [routerLinkActiveOptions]="{exact: true}" >
+          <a [routerLink]="['/mainLayout','departments']" tooltip="Accounts" placement="right"   >
+            <i class="fas fa-user-tie"></i>
+          </a>
+        </li> -->
+
+        <li class="nav-item" routerLinkActive="active" *ngIf="showOrHide('accounts')"
+          [attr.routerLinkOptions]="{match:['/', '/mainLayout/accounts']}">
+          <a [routerLink]="['/mainLayout','accounts']" tooltip="{{constants['toolTipAccounts']}}" placement="right">
+            <img [src]='sidebarIcons.departments' alt="Accounts" class="sidebarImg">
+          </a>
+        </li>
+
+        <!-- [2] ADMINISTRATORS -->
+        <li class="nav-item" routerLinkActive="active" *ngIf="showOrHide('admins')"
+          [attr.routerLinkOptions]="{match:['/', '/mainLayout/administrators']}">
+          <a [routerLink]="['/mainLayout','administrators']" tooltip="{{constants['toolTipAdministrators']}}" placement="right">
+            <img [src]='sidebarIcons.administrators' alt="Administrators" class="sidebarImg">
+          </a>
+        </li>
+
+        <!-- [3] USERS -->
+        <li class="nav-item" routerLinkActive="active" *ngIf="showOrHide('users')"
+          [attr.routerLinkOptions]="{match:['/', '/mainLayout/users']}">
+          <a [routerLink]="['/mainLayout','users']" tooltip="{{constants['toolTipUsers']}}" placement="right">
+            <img [src]='sidebarIcons.users' alt="Users" class="sidebarImg">
+            <!-- <i class="fas fa-users"></i> -->
+            <!-- <p>Users</p> -->
+          </a>
+        </li>
+
+        <!-- [4] CATEGORIES -->
+        <li class="nav-item" routerLinkActive="active" *ngIf="showOrHide('category')"
+          [attr.routerLinkOptions]="{match:['/', '/mainLayout/categories']}">
+          <a [routerLink]="['/mainLayout','categories']" tooltip="{{constants['toolTipCategories']}}" placement="right">
+            <!-- <i class="fa fa-tags"></i> -->
+            <img [src]='sidebarIcons.categories' alt="Categories" class="sidebarImg">
+            <!-- <p>Categories</p> -->
+          </a>
+        </li>
+
+        <!-- [5] DEVICE MANAGEMENT -->
+        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+          *ngIf="showOrHide('devices')">
+          <a routerLink="/mainLayout/deviceManagement" tooltip="Device Management" placement="right">
+            <img [src]='sidebarIcons.deviceManagement' alt="Device Management" class="sidebarImg">
+            <!-- <i class="fas fa-mobile-alt"></i> -->
+            <!-- <p>Device Management</p> -->
+          </a>
+        </li>
+
+        <!-- [6] TEMPLATES -->
+        <li class="nav-item" routerLinkActive="active" *ngIf="showOrHide('templates')"
+          [attr.routerLinkOptions]="{match:['/', '/mainLayout/templates']}">
+          <a [routerLink]="['/mainLayout','templates']" tooltip="{{constants['toolTipTemplates']}}" placement="right">
+            <!-- <i class="fas fa-layer-group"></i> -->
+            <!-- <p>Templates</p> -->
+            <img [src]='sidebarIcons.templates' alt="Templates" class="sidebarImg">
+          </a>
+        </li>
+
+        <!-- [7] FORMS -->
+        <li class="nav-item" routerLinkActive="active" *ngIf="showOrHide('forms')"
+          [attr.routerLinkOptions]="{match:['/', '/mainLayout/forms']}">
+          <a [routerLink]="['/mainLayout','forms']" tooltip="{{constants['toolTipForms']}}" placement="right">
+            <img [src]='sidebarIcons.forms' alt="Forms" class="sidebarImg">
+            <!-- i class="far fa-list-alt"></i> -->
+            <!-- <p>Forms</p> -->
+          </a>
+        </li>
+
+        <!-- [8] PROJECTS -->
+        <li class="nav-item" routerLinkActive="active" *ngIf="showOrHide('projects')"
+          [attr.routerLinkOptions]="{match:['/', '/mainLayout/projectsTab/projects']}">
+          <a [routerLink]="['/mainLayout/projectsTab/projects']" tooltip="{{constants['toolTipProjects']}}" placement="right">
+            <img [src]='sidebarIcons.projects' alt="Projects" class="sidebarImg">
+            <!-- <i class="fas fa-list"></i> -->
+            <!-- <p>Projects</p> -->
+          </a>
+        </li>
+
+        <!-- [9] TASKS -->
+        <li class="nav-item" routerLinkActive="active" *ngIf="showOrHide('tasks')"
+          [attr.routerLinkOptions]="{match:['/', '/mainLayout/tasks']}">
+          <a routerLink="/mainLayout/tasks" tooltip="{{constants['toolTipTasks']}}" placement="right">
+            <img [src]='sidebarIcons.tasks' alt="Tasks" class="sidebarImg">
+            <!-- <i class="fa fa-clipboard"></i> -->
+            <!-- <p>Tasks</p> -->
+          </a>
+        </li>
+
+        <!-- [10] WORKFLOW MANAGEMENT -->
+        <li class="nav-item" routerLinkActive="active" *ngIf="showOrHide('workflow')"
+          [attr.routerLinkOptions]="{match:['/', '/mainLayout/workFlowManagement']}">
+          <a routerLink="/mainLayout/workFlowManagement" tooltip="{{constants['toolTipWorkflowManagement']}}" placement="right">
+            <img [src]='sidebarIcons.workflow' alt="Workflow Management" class="sidebarImg">
+            <!-- <i class="fa fa-link"></i> -->
+            <!-- <p>Workflow Management</p> -->
+          </a>
+        </li>
+
+        <!-- [11] Approvals -->
+        <li class="nav-item" routerLinkActive="active" [attr.routerLinkOptions]="{match:['/', '/mainLayout/approvals']}"
+          *ngIf="loginDetails.type==4 || loginDetails.type==5">
+          <a routerLink="/mainLayout/approvals" tooltip="{{constants['toolTipApprovals']}}" placement="right">
+            <img [src]='sidebarIcons.tasks' alt="Approvals" class="sidebarImg">
+            <!-- <p>Workflow Management</p> -->
+          </a>
+        </li>
+
+        <!-- [12] ASYNC DOWNLOADS -->
+        <li class="nav-item" routerLinkActive="active" [attr.routerLinkOptions]="{match:['/', '/mainLayout/downloads']}"
+          *ngIf="showOrHide('downloads')">
+          <a routerLink="/mainLayout/downloads" tooltip="{{constants['toolTipDownloads']}}" placement="right">
+            <img [src]='sidebarIcons.download' alt="Downloads" class="sidebarImg">
+            <!-- <i class="fa fa-download" aria-hidden="true"></i> -->
+            <!-- <p>Workflow Management</p> -->
+          </a>
+        </li>
+
+       
+
+        <!-- [13] License Management -->
+        <li class="nav-item" routerLinkActive="active" [attr.routerLinkOptions]="{match:['/', '/mainLayout/licenses']}"
+          *ngIf="showOrHide('licenses')">
+          <a routerLink="/mainLayout/licenses" tooltip="{{constants['toolTipLicenseManagement']}}" placement="right">
+            <img [src]='sidebarIcons.license' alt="License Management" class="sidebarImg">
+            <!-- <i class="fa fa-download" aria-hidden="true"></i> -->
+          </a>
+        </li>
+
+        <!-- [14] App Setting -->
+        <li class="nav-item" routerLinkActive="active" [attr.routerLinkOptions]="{match:['/', '/mainLayout/appSettings']}"
+          *ngIf="showOrHide('appSettings')">
+          <a routerLink="/mainLayout/appSettings" tooltip="Application Settings" placement="right">
+            <img [src]='sidebarIcons.settings' alt="App Settings" class="sidebarImg">
+            <!-- <i class="fa fa-download" aria-hidden="true"></i> -->
+          </a>
+        </li>
+
+        <!-- [15] Map Locations -->
+        <!-- <li class="nav-item" routerLinkActive="active" [attr.routerLinkOptions]="{match:['/', '/mainLayout/mapLocations']}"
+          *ngIf="showOrHide('location')">
+          <a routerLink="/mainLayout/mapLocations" tooltip="{{constants['toolTipMapLocations']}}" placement="right">
+            <img [src]='sidebarIcons.mapLocation' alt="Map Locations" class="sidebarImg">
+          </a>
+        </li> -->
+
+         <!-- [16] Dataloader -->
+         <li class="nav-item" routerLinkActive="active" 
+         [attr.routerLinkOptions]="{match:['/', '/mainLayout/dataloader']}"  *ngIf="showOrHide('dataloader')">
+         <a routerLink="/mainLayout/dataloader" tooltip="{{constants['toolTipDataloader']}}" 
+         placement="right">
+           <img [src]='sidebarIcons.dataloader' alt="Dataloader" class="sidebarImg">
+           <!-- <i class="fa fa-link"></i> -->
+           <!-- <p>Dataloader</p> -->
+         </a>
+       </li>
+
+       <!-- [17] Spatial Eye -->
+       <li class="nav-item" *ngIf="showOrHide('gsalite')">
+       <a  tooltip="{{constants['toolTipGSALite']}}" 
+       placement="right" href="https://snow.fieldon.com.au:8081/" target="_blank">
+         <img [src]='sidebarIcons.gsalite' alt="GSA Lite" class="sidebarImg">
+         <!-- <i class="fa fa-link"></i> -->
+         <!-- <p>Dataloader</p> -->
+       </a>
+     </li>
+
+
+         <!-- [18] Settings -->
+         <li class="nav-item" routerLinkActive="active" [attr.routerLinkOptions]="{match:['/', '/mainLayout/settings']}"
+         *ngIf="showOrHide('settings')">
+         <a routerLink="/mainLayout/settings" tooltip="{{constants['toolTipSettings']}}" placement="right">
+           <img [src]='sidebarIcons.settings' alt="Settings" class="sidebarImg">
+           <!-- <i class="fa fa-download" aria-hidden="true"></i> -->
+         </a>
+       </li>
+
+      </ul>
+    </div>
+  </div>
+</div>

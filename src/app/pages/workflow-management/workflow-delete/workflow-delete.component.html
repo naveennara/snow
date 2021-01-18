@@ -1,0 +1,4 @@
+<button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="deleteWorkflow()" title="{{workflowKeys['label_Delete']}}">
+    <i class="far fa-trash-alt icon-color"></i>
+</button>
+<app-delete-template [openModal]="openModal" (deleteOrCancel)="confirmDelete($event)"></app-delete-template>

@@ -1,0 +1,54 @@
+<!-- header start -->
+<!-- <div class="bgimage"> -->
+<nav class="navbar navbar-expand-lg sticky-top navbar-light" style="background-color: #e3f2fd;">
+  <a class="navbar-brand"> <img [src]="orgImage" alt="FieldOn" class="navbar-brand" draggable="false"
+      style="width: 70px;"></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <!-- <ul class="navbar-nav mr-auto">
+    </ul> -->
+    <form class="form-inline my-2 my-lg-0 caption" [formGroup]="dynamicSearch" (ngSubmit)="getClaimDetails()">
+      <input class="form-control mr-sm-2" type="search" placeholder="Claim Document No." aria-label="Search" formControlName="search" numbersOnly>
+      <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" [ngClass]="{disabledList:!dynamicSearch.valid}">Search</button>
+    </form>
+  </div>
+</nav>
+
+<div class="page-inner">
+</div>
+<div class="row">
+  <div [ngClass]="{'col-md-12': isFullLayout === true , 'col-md-6': isFullLayout === false}">
+    <div class="card  webuser-assignment-card border border-primary"
+      [ngClass]="loginDetails?'custom-card-assignment-list' :'col-md-8 offset-md-2' ">
+      <div class="card-body">
+        <div class="table-responsive scroll" *ngIf="tableData.length">
+          <table class="table table-bordered table-condensed table-hover">
+           
+            <tr *ngFor="let column of tableData;let i=index;" [ngClass]="{borderClass:i==0}">
+              <td *ngIf="column.type != 'heading'" width="50%" >{{column.label}} </td>
+              <td *ngIf="column.type == 'heading'" class="hdrcolor" colspan="2">{{column.label}}</td>
+              <td *ngIf="column.type != 'calendar' && column.type != 'heading'" width="50%">{{recordData[column.id] }}</td>
+              <td *ngIf="column.type == 'calendar' && column.type != 'heading'" width="50%">{{recordData[column.id] | date:longDate }}</td>
+            </tr>
+          </table>
+        </div>
+        <div *ngIf="!tableData.length && !noDataFound">
+          <h1 class="text-center text-primary">Welcome!</h1>
+          <h2 class="text-md-center">Enter your 'Claim Document No.' in the search box &</h2>
+          <h2 class="text-md-center">view the details of your Claim Document</h2>
+        </div>
+        <div *ngIf="!tableData.length && noDataFound">
+          <h1 class="text-center text-warning">No Claim Document Found!</h1>
+          <h2 class="text-md-center">Please check the 'Claim Doument No.' you entered</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- </div> -->

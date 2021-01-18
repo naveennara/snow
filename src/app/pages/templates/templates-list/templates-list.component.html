@@ -1,0 +1,179 @@
+<div class="card full-height">
+  <div class="card-header">
+    <div class="card-head-row">
+      <p class="card-category" *ngIf="formsList && formsList.length && !showme">
+        Showing ({{(pageNumber -1) * limit + 1}} to {{limit * (pageNumber-1) + formsList.length }}) out of
+        {{total_count}}&nbsp;
+        <span *ngIf="templateType=='Private'">{{templateType}} -&nbsp;</span>
+        <span *ngIf="templateType=='Public'">{{templateType}} -&nbsp;</span> Templates
+      </p>
+      <p class="card-category" *ngIf="showme">
+      {{templateKeys['label_Categories']}}
+       </p>
+      <div class="card-tools">
+        <div class="btn-group">
+          <button type="button" *ngIf="!showme" class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2"
+            data-toggle="dropdown" aria-expanded="false" title="{{templateKeys['label_Filter']}}">
+            <i class="fas fa-filter icon-color"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right animated fadeIn" *ngIf="!showme" x-placement="bottom-end">
+
+            <li *ngFor="let list of filtersList; let i = index" class="templateLi">
+              <a href="javascript:;" class="dropdown-item p-l-10" (click)="filterTemplates(list,i)"
+                [class.active]='i == selectedRow'>
+                <ul class="html-legend">
+                  <li *ngIf="list=='Public'">
+                    <span class="publicLegend"></span>
+                    {{list}}
+                  </li>
+                  <li *ngIf="list=='Private'">
+                    <span class="privateLegend"></span>
+                    {{list}}
+                  </li>
+                  <li *ngIf="list=='All'">
+                    <span class="allLegend"></span>
+                    {{list}}
+                  </li>
+                </ul>
+              </a>
+            </li>
+          </ul>
+          <button *ngIf="!showme" class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2" title="Groupby Category"
+            (click)="sort()" [ngClass]="{'disabledList': formsList && !formsList.length }">
+            <i class="fas fa-bars  icon-color"></i>
+          </button>
+          <button *ngIf="showme" class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2" title="{{templateKeys['label_Back']}}"
+            (click)="showAllForms()">
+            <i class="fas fa-arrow-left icon-color"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-body card-padding mt-7 bodyBg" *ngIf="!showme">
+    <!-- List View -->
+    <div *ngIf="formsList && formsList.length >0">
+      <div class="formsz-list"
+        *ngFor="let form of formsList | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: total_count,id: 'first'}"
+        [ngStyle]="{'border-left':getFormType(form.category)}">
+        <div class="d-flex">
+          <div class="flex-1 ml-2 pt-2">
+            <h6 class="text-uppercase fw-bold mb-1">{{form.name}}</h6>
+            <small class="text-muted" title="{{templateKeys['label_Created']}}"><i class="fas fa-calendar-alt icon-color"></i>
+              {{form.createdTime | date:'mediumDate'}}</small>
+          </div>
+          <!-- Formsz Action Bar -->
+          <div class="float-right formsz-ActionBar pt-3">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              (click)="previewForm(form)" title="{{templateKeys['label_Preview']}}">
+              <i class="fas fa-eye icon-color"></i>
+              <!-- <img class="customSvg" [src]='recordsIcons.preview' alt="Preview"> -->
+            </button>
+            <button type="button" *ngIf="loginDetails['type']==0"
+              class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="editTemplate(form)"
+              title="{{templateKeys['label_Edit']}}">
+              <i class="far fa-edit icon-color"></i>
+            </button>
+            <button type="button" *ngIf="loginDetails['type']==1"
+              class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="importTemplate(form)"
+              title="{{templateKeys['label_Import']}}">
+              <i class="fas fa-file-import icon-color"></i>
+            </button>
+            <app-templates-delete *ngIf="loginDetails['type']==0" [formId]='form._id'
+              (notifyParentOnUpdate)='onDeleteItem($event)'></app-templates-delete>
+          </div>
+          <!-- End Formsz Action Bar -->
+        </div>
+        <div class="separator-dashed"></div>
+      </div>
+
+    </div>
+    <!-- End List View -->
+
+    <div *ngIf="formsList && !formsList.length" align="center">
+      <img [src]="Imgsrc" class="img-responsive">
+    </div>
+
+    <div class="row m-15" *ngIf="formsList && formsList.length">
+      <pagination-controls (pageChange)="getTemplates($event);pageNumber = $event" id="first"></pagination-controls>
+    </div>
+
+  </div>
+
+  <div class="card-body card-padding mt-7 bodyBg" *ngIf="showme">
+    <div
+      *ngFor="let i = index;let category of categories| paginate: { itemsPerPage: categoriesLimit, currentPage: categoryPageNumber,totalItems: totalCategories,id: 'second'}">
+      <accordion (click)="toggleAccordion(i)">
+        <accordion-group #group>
+          <span accordion-heading style="cursor: pointer">
+            <i class="fas fa-chevron-up float-right" *ngIf="clickedItem && i == selectedindex"></i> 
+            <i class="fas fa-chevron-down float-right" [hidden]="clickedItem && i == selectedindex"></i> 
+            {{category}}
+          </span>
+              
+          <!-- <span class="fas fa-chevron-up" *ngIf="clickedItem && i == selectedindex"></span>
+          <span class="fas fa-chevron-down" *ngIf="!clickedItem && i == selectedindex"></span> -->
+          <!-- [ngClass]="{'fas fa-chevron-up': aria-expanded, 'fas fa-chevron-up': !aria-expanded}" -->
+          <!-- <div class="widget_height"> -->
+          <div class="formsz-list"
+            *ngFor="let form of finalData[category] | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: total_count,id: 'first'}"
+            [ngStyle]="{'border-left':getFormType(form.category)}">
+            <div class="d-flex">
+              <div class="flex-1 ml-2 pt-2">
+                <h6 class="text-uppercase fw-bold mb-1">{{form.name}}</h6>
+                <small class="text-muted" title="{{templateKeys['label_Created']}}"><i class="fas fa-calendar-alt icon-color"></i>
+                  {{form.createdTime | date:'mediumDate'}}</small>
+              </div>
+              <!-- Formsz Action Bar -->
+              <div class="float-right formsz-ActionBar pt-3">
+                <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+                  (click)="previewForm(form)" title="{{templateKeys['label_Preview']}}">
+                  <i class="fas fa-eye icon-color"></i>
+                  <!-- <img class="customSvg" [src]='recordsIcons.preview' alt="Preview"> -->
+                </button>
+                <button type="button" *ngIf="loginDetails['type']==0"
+                  class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="editTemplate(form)"
+                  title="{{templateKeys['label_Edit']}}">
+                  <i class="far fa-edit icon-color"></i>
+                </button>
+                <button type="button" *ngIf="loginDetails['type']==1"
+                  class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="importTemplate(form)"
+                  title="{{templateKeys['label_Import']}}">
+                  <i class="fas fa-file-import icon-color"></i>
+                </button>
+                <app-templates-delete *ngIf="loginDetails['type']==0" [formId]='form._id'
+                  (notifyParentOnUpdate)='onDeleteItem($event)'></app-templates-delete>
+              </div>
+              <!-- End Formsz Action Bar -->
+            </div>
+            <div class="separator-dashed"></div>
+          </div>
+          <!-- </div> -->
+
+          <div *ngIf="finalData[category] && !finalData[category].length" align="center">
+            <img [src]="Imgsrc" class="img-responsive">
+          </div>
+        </accordion-group>
+      </accordion>
+    </div>
+    <pagination-controls (pageChange)="categoryPageNumber = $event" id="second"></pagination-controls>
+  </div>
+
+</div>
+
+<ngx-smart-modal #previewTemplate [identifier]="'previewTemplate'" [closable]="false">
+  <div class="modal-header">
+    <h5 class="modal-title">{{templateKeys['templatePreview']}}</h5>
+    <button aria-label="Close" class="close btn-lg" data-dismiss="modal" type="button"
+      (click)="previewTemplate.close()">
+      <span aria-hidden="true"><i class="fas fa-times icon-color"></i></span>
+    </button>
+  </div>
+  <div [style.height.px]="myInnerComponentHeight-180" style="overflow:auto;" #scrollMe>
+
+    <div *ngIf="formInfo && widgets">
+      <dynamic-form [config]="widgets" [data]="formInfo" [ispreview]="ispreview"></dynamic-form>
+    </div>
+  </div>
+</ngx-smart-modal>

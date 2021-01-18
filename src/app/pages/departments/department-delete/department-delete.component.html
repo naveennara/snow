@@ -1,0 +1,7 @@
+    <!-- <i class="fa fa-trash-alt" (click)="deleteDepartment()" title="Delete"></i> -->
+    <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="deleteDepartment()" title="{{deptKeys['label_Delete']}}">
+      <i class="far fa-trash-alt icon-color"></i>
+    </button>
+    
+      <app-delete-template  (deleteOrCancel)="confirmDelete($event)"></app-delete-template>
+

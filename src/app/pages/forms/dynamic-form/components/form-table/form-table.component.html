@@ -1,0 +1,52 @@
+<div class="row animated fadeIn p-5">
+  <div class="kanban-board bg-info col-md-12" [ngStyle]="{'background-color':getColor()}">
+    <header class="kanban-board-header success">
+      <div class="kanban-title-board clickedHeader mr-2 Lable-color" title="{{constants['headerMsg']}}" *ngIf="ispreview!='preview' &&  ispreview != 'Edit'">
+        {{config[widgetKey.label] || 'TABLE' }}
+      </div>
+      <div class="kanban-title-board clickedHeader mr-2 Lable-color"   *ngIf="ispreview=='preview' ||  ispreview == 'Edit'">
+        {{config[widgetKey.label] || 'TABLE' }}
+      </div>
+    </header>
+  </div>
+</div>
+<ng-container *ngFor="let tableConfig of group.get(config[widgetKey._id]).value; let i = index;">
+  <!-- <ng-container> -->
+    <div class="card" >
+      <div class="card-header" (click)="showRowData(i)" style="cursor: pointer">
+        <h4 class="card-title" >
+            <i class="fas fa-chevron-up float-right" *ngIf="clickedItem && i == selectedindex"></i>
+            <i class="fas fa-chevron-down float-right" [hidden]="clickedItem && i == selectedindex"></i>
+            Table Info : {{i+1}}
+        </h4>
+      </div>
+      <div class="card-body" *ngIf="clicked(i)">
+        <!-- <div class="row animated fadeIn p-5"> -->
+          <app-table-modal [config]="configTable" [recordData]="recordData" [ispreview]="ispreview"  (submit)="submitted($event)"></app-table-modal>
+        <!-- </div> -->
+      </div>
+    </div>
+  <!-- </ng-container> -->
+
+    <!-- Accordion type card -->
+    <!-- <ng-container>
+    <accordion (click)="showRowData(i);">
+      <accordion-group #group>
+        <span accordion-heading style="cursor: pointer">
+          <i class="fas fa-chevron-up float-right" *ngIf="clickedItem && i == selectedindex"></i>
+          <i class="fas fa-chevron-down float-right" [hidden]="clickedItem && i == selectedindex"></i>
+          Table Info : {{i+1}}
+        </span>
+        <div class="card" *ngIf="clicked(i)">
+          <div class="card-body">
+            <div class="d-flex">
+              <app-table-modal [config]="configTable" [recordData]="recordData"></app-table-modal>
+            </div>
+          </div>
+        </div>
+      </accordion-group>
+    </accordion>
+  </ng-container> -->
+  <!-- END -->
+
+</ng-container>

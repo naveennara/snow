@@ -1,0 +1,423 @@
+<div class="page-navs bg-white py-2">
+  <div class="d-flex align-items-center justify-contents-center w-100">
+    <div class="card-title fw-bold mr-2">
+      <!-- <button type="button" id="homebtn" class="btn btn-light" (click)="showDataLoaderHome()">
+        <i id="titleicon" class="fas fa-home"></i>
+      </button> -->
+      <a class="btn btn-link btn-sm" (click)="showDataLoaderHome()">
+        <i class="fas fa-home fa-2x"></i>
+      </a>
+      Dataloader
+    </div>
+
+    <!-- DataMapper Action Btns -->
+    <div class="d-md-inline-block" *ngIf="showMapOptions">
+      <div class="nav nav-tabs nav-line nav-color-secondary tabView">
+
+        <button class="btn text-primary fw-bold ml-2 mr-2"
+          [ngClass]="{'active': isValue == 1, 'disabled': disableAddMap}" (click)="showMapInfo()">
+          <span tooltip="Add a Map" placement="bottom"> <i class="fas fa-plus"></i>
+          ADD MAP</span>
+        </button>
+
+        <div class="dropdown">
+          <button [ngClass]="{ 'active' : isValue == 2 , disabled: disableAddLayers}"
+            class="btn text-primary fw-bold mr-2 dropdown-toggle" data-toggle="dropdown">
+            <span tooltip="Add Data Layers" placement="right">
+            <i class="fas fa-plus"></i> Add Layers</span>
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" (click)="showUpload('kml')">ADD KML LAYER</a>
+            <a class="dropdown-item" (click)="showUpload('shape')">ADD SHAPE LAYER</a>
+          </div>
+        </div>
+
+       
+
+        <button type="button" class="btn text-primary fw-bold mr-2"
+          [ngClass]="{'active' : isValue == 3 , disabled: disableMapping }" (click)="showDataMapper()">
+          <span tooltip="Perform Data Mapping" placement="bottom"> Data Mapping </span>
+        </button>
+<!-- 
+        <div class="headerdivider"></div>
+
+        <button class="btn text-primary fw-bold ml-2 mr-2"
+          [ngClass]="{'active' : isValue == 4 , disabled: disableMigrate}" (click)="migrateData()">
+          Migrate
+        </button> -->
+
+      </div>
+    </div>
+    <!-- End Action Btns -->
+
+    <!-- Map Name -->
+    <div class="ml-auto mt-2 mapTitle" *ngIf="showMapOptions">
+     
+      <span tooltip="Map Name" placement="bottom"> {{mapName}}</span>
+      <a class="btn btn-link btn-s" (click)="showHelpModal()">
+        <span tooltip="Help" placement="bottom">
+          <i class="fas fa-question fa-x"></i></span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<span *ngIf="dataloaderProgress" tooltip="{{dataloaderProgress}} Completed" placement="bottom">
+<div class="progress-container">
+  <div class="custom-progressbar">
+    
+  </div>
+  <div class="custom-progressbar-pending">
+    
+  </div>
+</div>
+</span>
+
+<div class="page-inner page-inner-fill">
+  <div class="board">
+
+    <!--<div class="noData">
+      <h1 class="animated fadeIn">{{watermark}}</h1>
+    </div>-->
+
+    <div class="emptyImageContainer"  *ngIf="watermark && showMapOptions">
+      <i class="fas fa-map fa-4x" *ngIf="watermark === 'Create New Map' && showMapOptions "></i>
+      <i class="fas fa-layer-group fa-4x" *ngIf="watermark === 'Add layers' && !showUploadPane"></i>
+    </div>
+    <div class="sowTitle" *ngIf="watermark && showMapOptions">{{watermark}}</div>
+
+
+    <!-- <p class="watermark">{{watermark}}</p>  -->
+
+
+
+
+    <ngx-smart-modal #mapModal [closable]="false" [customClass]="'map-modal'" [identifier]="'mapModal'">
+      <!-- <div class="map-container"> -->
+      <div class="modal-header">
+
+        <h5 class="modal-title">Create New Map</h5>
+
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="registerForm" #formDirective="ngForm" (ngSubmit)="onSubmit()">
+
+          <!-- MMPK63 : Responsive form -->
+          <div class="form-group form-show-validation row">
+            <label for="mapName" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right">
+              Map Name <span class="required-label">*</span></label>
+            <div class="col-lg-8 col-md-9 col-sm-8">
+              <input type="text" class="form-control" formControlName="mapname" id="mapName" name="mapName"
+                placeholder="Enter map name" [ngClass]="{ 'is-invalid': submitted && f.mapname.errors }"
+                required="required">
+              <div *ngIf="submitted && f.mapname.errors" class="invalid-feedback">
+                <div *ngIf="f.mapname.errors.required">Map name is required</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group form-show-validation row">
+            <label for="mapDesc" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right">
+              Description </label>
+            <div class="col-lg-8 col-md-9 col-sm-8">
+              <textarea placeholder="Enter Description" class="form-control" formControlName="mapDesc" name="mapDesc" id="mapDesc"
+                rows="4"></textarea>
+            </div>
+          </div>
+
+          <div class="form-group form-show-validation row">
+            <label class="col-lg-3 col-md-3 col-sm-4 mt-sm-4 text-right">Domain
+              <span class="required-label">*</span></label>
+            <div class="col-lg-8 col-md-9 col-sm-8 d-flex align-items-center">
+
+              <div class="custom-control custom-radio">
+                <input type="radio" class="custom-control-input" formControlName="inlineRadioOptions"
+                  name="inlineRadioOptions" id="inlineRadio1" value="land" required>
+                <label class="custom-control-label" for="inlineRadio1">Land</label>
+
+              </div>
+
+              <div class="custom-control custom-radio">
+                <input type="radio" class="custom-control-input" formControlName="inlineRadioOptions"
+                  name="inlineRadioOptions" id="inlineRadio2" value="gas_distribution" required>
+                <label class="custom-control-label" for="inlineRadio2">Gas</label>
+              </div>
+
+              <div class="custom-control custom-radio mt-4">
+                <input type="radio" class="custom-control-input" formControlName="inlineRadioOptions"
+                  name="inlineRadioOptions" id="inlineRadio3" value="drainage" required>
+                <label class="custom-control-label" for="inlineRadio3">Water (Drainage)</label>
+              </div>
+
+              <div class="custom-control custom-radio mt-4">
+                <input type="radio" class="custom-control-input" formControlName="inlineRadioOptions"
+                  name="inlineRadioOptions" id="inlineRadio4" value="water_supply" required>
+                <label class="custom-control-label" for="inlineRadio4">Water (Water Supply)</label>
+              </div>
+
+
+
+            </div>
+
+
+          </div>
+
+
+          <div class="form-group form-show-validation row">
+            <label for="invalidRadio" class="col-lg-3 col-md-3 col-sm-4 mt-sm-2 text-right">
+            </label>
+
+
+            <div *ngIf="submitted && f.inlineRadioOptions.errors" class="invalid-radio">
+              <div id="invalidRadio" *ngIf="f.inlineRadioOptions.errors.required">Domain name is required</div>
+
+            </div>
+          </div>
+
+          <!-- END MAP NAME -->
+
+          <!-- <div class="form-group required row">
+              <label class="col-md-3 col-form-label ">Map Name <label
+                  class="col-form-label control-label">:</label></label>
+
+
+              <div class="col-sm-9">
+
+                <input placeholder="Enter map name" type="text" formControlName="mapname" class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f.mapname.errors }" required="required" />
+                <div *ngIf="submitted && f.mapname.errors" class="invalid-feedback">
+                  <div *ngIf="f.mapname.errors.required">Map name is required</div>
+                </div>
+              </div>
+            </div> -->
+
+
+          <!-- <div class="form-group row">
+              <label class="col-md-3 col-form-label">Description :</label>
+              <div class="col-sm-9">
+
+                <textarea placeholder="Enter Description" class="form-control" id="exampleFormControlTextarea1"
+                  rows="4"></textarea>
+
+              </div>
+            </div> -->
+
+          <!-- <div class="form-group required row">
+              <label class="col-md-3 col-form-label">Domain <label
+                  class="col-form-label control-label">:</label></label>
+              <div class="col-sm-9">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="inlineRadioOptions"
+                    name="inlineRadioOptions" id="inlineRadio1" value="land"
+                    [ngClass]="{ 'is-invalid': submitted && f.inlineRadioOptions.errors }" required>
+                  <label class="form-check-label" for="inlineRadio1">Land</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="inlineRadioOptions"
+                    name="inlineRadioOptions" id="inlineRadio2" value="gas_distribution"
+                    [ngClass]="{ 'is-invalid': submitted && f.inlineRadioOptions.errors }" required>
+                  <label class="form-check-label" for="inlineRadio2">Gas</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="inlineRadioOptions"
+                    name="inlineRadioOptions" id="inlineRadio3" value="drainage"
+                    [ngClass]="{ 'is-invalid': submitted && f.inlineRadioOptions.errors }" required>
+                  <label class="form-check-label" for="inlineRadio3">Water (Drainage)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="inlineRadioOptions"
+                    name="inlineRadioOptions" id="inlineRadio4" value="water_supply"
+                    [ngClass]="{ 'is-invalid': submitted && f.inlineRadioOptions.errors }" required>
+                  <label class="form-check-label" for="inlineRadio4">Water (Water Supply)</label>
+                </div>
+                <div *ngIf="submitted && f.inlineRadioOptions.errors">
+                  <div id="invalidRadio" *ngIf="f.inlineRadioOptions.errors.required">Domain name is required</div>
+                </div>
+              </div>
+            </div> -->
+
+
+        </form>
+
+
+
+      </div>
+
+      <div class="modal-footer p-10">
+        <button type="button" class="btn btn-outline-danger btn-sm mr-2" (click)="hideMapInfo()">Cancel
+        </button>
+
+        <button type="button" class="btn btn-outline-primary  btn-sm mr-2" (click)="onSubmit()">
+          Save
+        </button>
+      </div>
+      <!-- </div> -->
+    </ngx-smart-modal>
+
+
+    <div class="row row-card-no-pd" [style.display]="!showMapOptions? 'flex' : 'none'">
+      <div class="col-md-12">
+          <div class="card">
+              <div class="card-header">
+                  <div class="card-head-row card-tools-still-right">
+                      <h4 class="card-title"><i class="fa fa-history" aria-hidden="true"></i>
+                        Dataloader History <span tooltip="Previous transactions with Dataloader" placement="bottom">
+                          <i class="fa fa-info-circle"></i></span> </h4>
+                      <div class="card-tools">
+
+                        <a (click)="createNewMap()" class="btn btn-info btn-border btn-round btn-sm mr-2">
+                          <span class="btn-label">
+                              <i class="fa fa-plus"></i>
+                          </span>
+                          Create New map
+                      </a>
+                          <!-- <button class="btn btn-icon btn-link btn-primary btn-xs"><span class="fa fa-angle-down"></span></button>
+                          <button class="btn btn-icon btn-link btn-primary btn-xs btn-refresh-card"><span class="fa fa-sync-alt"></span></button>
+                          <button class="btn btn-icon btn-link btn-primary btn-xs"><span class="fa fa-times"></span></button> -->
+                      </div>
+                  </div>
+                  <!-- <p class="card-category">DataLoader History</p> -->
+              </div>
+              <div class="card-body"> 
+                <div class="emptyImageContainer"  *ngIf="historyWaterMark && !showMapOptions && !showHistoryPane">
+                  <i class="fa fa-history fa-4x"></i>
+                </div>
+                <div class="sowTitle" *ngIf="historyWaterMark && !showMapOptions && !showHistoryPane" >{{historyWaterMark}}</div>
+            
+                
+              <!--  <table class="card-table table table-hover"  *ngIf="showHistoryPane">
+                  <thead>
+                    <tr>
+                      <th scope="col">Map Name </th>
+                      <th scope="col">Description </th>
+                      <th scope="col">Domain </th>
+                      <th scope="col">Timestamp (UTC)</th>
+                      <th scope="col">Status </th>
+                      <th scope="col">Compatibility </th>
+                      <th scope="col">Mapped Collections </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let task of userHistory; index as i">
+                      <td scope="row">{{ task.map_name }}</td>
+                      <td scope="row">{{ task.description }}</td>
+                      <td scope="row">{{ task.domain }}</td>
+                      <td scope="row">{{ task.date_time }}</td>
+                      <td scope="row"><textarea class="form-control" disabled=true name="status" rows="1"  style="resize:none">{{ task.status }}</textarea></td>
+                      <td scope="row">{{ task.percentage }} %</td>
+                      <td scope="row"><textarea class="form-control" disabled=true  name="collections_mapped" rows="1"  style="resize:none">{{ task.collections_mapped }}</textarea></td>
+                    </tr>
+                  </tbody>
+                </table>-->
+
+                <ag-grid-angular  #agGrid  style="width: 100%; height: 300px;" 
+                 *ngIf="showHistoryPane"
+  class="ag-theme-balham"  [defaultColDef]="defaultColDef"
+   [paginationPageSize]="paginationPageSize"  
+  [pagination]="true"   [rowData]="userHistory"
+  [columnDefs]="columnDefs">
+</ag-grid-angular>
+              
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+    
+
+    <!-- Creates the bootstrap modal where the image will appear -->
+    
+    <div [style.display]="showUploadPane ? 'block' : 'none'" class="row modal" 
+      id="uploadmodal" tabindex="-1" role="dialog"
+      aria-labelledby="myModalLabel" aria-hidden="true">
+
+      <div class="modal-dialog">
+        <p class="modal-title" id="uploadLabel">{{uploadLabel}}</p>
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" (click)="closeUploadModel()">&times;</button>
+            
+          </div>
+          <div class="modal-body">
+
+            <div class="container" appDnd (fileDropped)="onFileDropped($event)">
+              <input type="file" #fileDropRef id="fileDropRef" multiple
+                (change)="fileBrowseHandler($event.target.files)" accept=".kml,.shp,.dfx,.dbf,.shx,.prj,.cpg,.sbn,.sbx" />
+              <mat-icon id="uploadicon">cloud_upload</mat-icon>
+
+              <!-- <i class="fa fa-upload fa-4x text-primary my-2" aria-hidden="true"></i> -->
+
+              <p class="uploadtext">Drag files to Upload</p>
+              <p class="uploadtext">(OR)</p>
+              <label for="fileDropRef">Choose files</label>
+
+             
+            </div>
+            
+
+            <div class="files-list" *ngIf="showOptions">
+              <p class="files-size">
+                {{ files.length}} FILES ADDED
+              </p>
+              <div class="single-file" *ngFor="let file of files; let i = index">
+                <div class="file-icon">
+                  <mat-icon id="fileicon"> insert_drive_file</mat-icon>
+                </div>
+                <div class="info">
+                  <h4 class="name">
+                    {{ file?.name }}
+                  </h4>
+                  <p class="size">
+                    {{ formatBytes(file?.size,0) }}
+                  </p>
+                  <app-progress [progress]="file?.progress"></app-progress>
+                  <h6 id="uploadstatus">{{file.progress}}% completed</h6>
+
+                </div>
+
+                <div class="delete" (click)="deleteFile(i)" title="Delete File">
+                  <mat-icon>delete_forever</mat-icon>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <div class="form-group row" *ngIf="showOptions">
+              <button type="button" (click)="onUpload()"  [ngClass]="{disabled:disableUploadBtn}"
+                class="btn btn-outline-primary btn-sm mr-2 float-right">{{uploadbtnlbl}}</button>
+              <!-- <span></span> -->
+              <button type="button" class="btn btn-outline-danger btn-sm  float-right" data-dismiss="modal"
+                (click)="hideUpload()">CANCEL</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    
+    <!-- ================================================================== -->
+
+
+    <mat-progress-spinner *ngIf="showSpinner" color="primary" mode="indeterminate">
+    </mat-progress-spinner>
+
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<script>
+  $('#MyModal').on('hidden.bs.modal', function () {
+    $(this).find('form').trigger('reset');
+  })
+
+  
+
+ 
+
+</script>

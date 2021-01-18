@@ -1,0 +1,84 @@
+<div class="card shadow mb-4">
+  <div class="card-header">
+    <div class="card-head-row">
+      <div class="card-tools">
+        <div class="btn-group">
+          <div class="float-right padding">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+            (click)="back()" title="{{deptKeys['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+             </button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <h6 class="m-0 font-weight-bold text-primary">{{deptKeys['header_removeAdmins']}}</h6> -->
+  </div>
+  <div class="card-body mx-4">
+    <form [formGroup]="remove" (ngSubmit)="removeAssociation()">
+
+      <div class="row m-l-0 m-r-0">
+      </div>
+      <div class="card">
+        <div class="card-header p-5" style="background-color:#E5E5E5;">
+          <div class="card-head-row card-tools-still-right">
+            <h4 class="card-title">User Types</h4>
+            <div class="card-tools">
+              <div class="float-right">
+                <select class="form-control input-border-bottom" id="selectFloatingLabel"
+                  (change)="dropdownChange($event.target.value)">
+                  <option>{{deptKeys['label_Admins']}}</option>
+                  <option>{{deptKeys['label_Moderator']}}</option>
+                  <option>{{deptKeys['label_GroupAdmins']}}</option>
+                  <option>{{deptKeys['label_Users']}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row m-l-0 m-r-0">
+            <!-- ================ -->
+            <div class="table-responsive" *ngIf="availableList.length">
+              <table class="table table-bordered table-condensed border border-primary table-css">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>{{deptKeys['label_Username']}}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let i=index;let u of availableList | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: total_count }"
+                    [ngClass]="{'rowColor':getSelectedRows(u)}" (click)="RowSelected(u);">
+                    <td>{{i+1}} </td>
+                    <td>{{u.username}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              
+            </div>
+            <div class="row m-15" *ngIf="availableList && availableList.length">
+              <pagination-controls (pageChange)="pageNumber = $event"></pagination-controls>
+            </div>
+            <div *ngIf="availableList && !availableList.length" class="text-center" style="margin:0 auto;">
+              <img [src]="imageSrc" class="img-responsive">
+            </div>
+            <!-- ================= -->
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-md-6 offset-md-4">
+          <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3"
+            [disabled]="!remove.dirty && !usersRemove.length && !groupAdminsRemove.length && !adminsRemove.length && !moderatorRemove.length">{{deptKeys['label_Remove']}}</button>
+          <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+            [routerLink]="['/mainLayout','accounts']">{{deptKeys['label_Cancel']}}</button>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</div>

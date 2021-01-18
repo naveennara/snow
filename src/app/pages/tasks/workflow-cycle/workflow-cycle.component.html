@@ -1,0 +1,18 @@
+<div class="row py-2">
+    <div class="col-md-12">
+            <div class="form-group form-floating-label">
+              <input type="text" [value]='assignedTo' id="assignedTo" class="form-control input-border-bottom"
+              [ngClass]="{'disabledList':true }" required />
+              <label for="username" class="placeholder">Next Approver<span class="required-label">*</span></label>
+            </div>
+            <div *ngIf="droppedItems">
+              <dynamic-form [config]="droppedItems"  [ispreview]="'Edit'" (closeSideBar)="closeSideBarView()" (workFlowSubmit)="updateWorkFlow($event)" [isWorkFlow]='true' [editForm]='true'></dynamic-form>
+            </div>
+        <!-- <div class="row">
+            <div class="col-md-6 .col-md-offset-4 ml-auto mr-auto">
+              <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3 " (click)="updateWorkFlow(taskobject)" >Submit</button>
+              <button type="button" class="btn btn-outline-danger btn-rounded btn-sm mr-3 " (click)="closeSideBarView()">Cancel</button>
+            </div>
+          </div> -->
+      </div>
+</div>

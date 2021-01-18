@@ -1,0 +1,125 @@
+<ngx-smart-modal #savePopup [identifier]="'savePopup'" [closable] = "false">
+
+
+    <div class="modal-header">
+        <h4 class="modal-title" *ngIf="getText()">{{showTitle}}</h4>
+
+      <!-- <h4 class="modal-title" *ngIf="showActions() && isTemplate=='form'">Save form</h4>
+      <h4 class="modal-title" *ngIf="showActions() && isTemplate=='template'">Save template</h4>
+      <h4 class="modal-title" *ngIf="!showActions() && !showCopyName && updateType != 'hard' && isTemplate=='form'">Update form</h4>
+      <h4 class="modal-title" *ngIf="!showActions() && !showCopyName && updateType != 'hard' && isTemplate=='template'">Update template</h4>
+      <h4 class="modal-title" *ngIf="(showCopyName || updateType == 'hard') && isTemplate=='form'">Copy Form</h4>
+      <h4 class="modal-title" *ngIf="(showCopyName || updateType == 'hard') && isTemplate=='template'">Copy Template</h4> -->
+      <button aria-label="Close" class="close" data-dismiss="modal" type="button" (click)="savePopup.close()">
+          <span aria-hidden="true">
+            <i class="fas fa-times icon-color"></i>
+          </span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <p class="c-gray m-l-15" *ngIf="showActions()">
+        {{constants['createFormMsg']}}
+      </p>
+      <p class="c-gray m-l-15" *ngIf="!showActions() && !showCopyName && updateType != 'hard'">
+        {{constants['updateFormMsg']}}
+      </p>
+      <p class="c-gray m-l-15" *ngIf="showCopyName && updateType != 'hard'"><b>Note : </b>{{constants['copyFormMsg']}}</p>
+      <p class="c-gray m-l-15" *ngIf="updateType == 'hard'">{{constants['hardChangeMsg']}}</p>
+    </div>
+
+    <div class="card">
+      <div class="card-body card-padding">
+        <form name="submitForm" [formGroup]="saveForm" class="form-horizontal" [autocomplete]="autoCompleteForm">
+          <div class="form-group form-group-default" *ngIf="showFields('formname')">
+            <label>{{constants['label_FormName1']}}<span class="required-label">*</span></label>
+            <input [autocomplete]="autoCompleteField" type="text" id="username" class="form-control" formControlName="formname"
+              [ngClass]="{ 'is-invalid': submitted}" />
+            <div *ngIf="submitted">
+              <span *ngIf="saveForm.value.formname.length=='0'" class="errorText">{{constants['required_FormName']}}</span>
+            </div>
+          </div>
+
+          <div class="form-group form-group-default" *ngIf="showFields('displayField')">
+            <label>{{constants['label_displayFields']}}<span class="required-label">*</span></label>
+            <ng-multiselect-dropdown class="form-control w-100" [placeholder]="'Select Fields'" 
+            [settings]="dropdownSettings" [data]="requiredFields"
+              formControlName="displayField" name="requiredFields" 
+              [ngClass]="{ 'is-invalid': submitted && f.displayField.errors }">
+            </ng-multiselect-dropdown>
+            <div *ngIf="submitted && f.displayField.errors">
+              <span *ngIf="f.displayField.errors.required" class="errorText">{{constants['displayFieldMsg']}}</span>
+            </div>
+          </div>
+
+          <div class="separator-solid"></div>
+          <!-- save form create -->
+          <div class="form-group float-right" *ngIf="showActions()">
+            <button type="submit" class="btn btn-icon btn-xs btn-round btn-success mr-2" (click)="formSubmitionPopup()">
+              <i class="fa fa-check"></i>
+            </button>
+
+            <button class="btn btn-icon btn-xs btn-round btn-danger" (click)="savePopup.close()">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <!-- saveform update  -->
+          <div class="btn-group float-right" *ngIf="updateType === 'soft'">
+            <button type="button" *ngIf="!showCopyName"
+              class="btn btn-sm btn-round btn-outline-primary mr-2 buttonBorder" (click)="formSubmitionPopup()">
+              {{constants['label_Update']}} 
+            </button>
+            <button type="button" *ngIf="!showCopyName"
+              class="btn btn-sm btn-round btn-outline-success mr-2 buttonBorder" (click)="copyForm()">
+              {{constants['label_Copy']}} 
+            </button>
+            <button type="button" *ngIf="!showCopyName" class="btn btn-sm btn-round btn-outline-danger buttonBorder"
+              (click)="savePopup.close()">
+              {{constants['label_Cancel']}} 
+            </button>
+            <button type="button" *ngIf="showCopyName"
+              class="btn btn-sm btn-round btn-outline-primary mr-2 buttonBorder" (click)="copyFormProcess()">
+              {{constants['label_Copy']}} 
+            </button>
+            <button type="button" *ngIf="showCopyName" class="btn btn-sm btn-round btn-outline-danger mr-2 buttonBorder"
+              (click)="Back()">
+              {{constants['label_Back']}}
+            </button>
+          </div>
+          <!-- saveform hardchange -->
+          <div class="btn-group float-right" *ngIf="updateType === 'hard'">
+            <button type="button" class="btn btn-sm btn-round btn-outline-success mr-2 buttonBorder"
+              (click)="copyFormProcess()">
+              {{constants['label_Create']}} 
+            </button>
+            <button type="button" class="btn btn-sm btn-round btn-outline-danger buttonBorder"
+              (click)="savePopup.close()">
+              {{constants['label_Cancel']}} 
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+    
+    <!-- Capture Hard change when a widget is Deleted -->
+    <div class="card" *ngIf="savePopup.getData() && savePopup.getData().length>0">
+        <div class="card-header">
+            <h5>{{constants['deletedWidgetsList']}}</h5>
+        </div>
+        <div class="card-body card-padding" >
+            <div class ="table-responsive">
+                <table class="table table-bordered table-condensed">
+                    <tr>
+                        <th>{{constants['label_Sno']}}</th>
+                        <th>{{constants['label_Label']}}</th>
+                    </tr>
+                    <tr *ngFor="let item of savePopup.getData(); let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{item.label}} {{constants['deletedWidgetsMsg']}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</ngx-smart-modal>

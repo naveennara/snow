@@ -1,0 +1,341 @@
+<!-- ....................... -->
+<div class="card shadow mb-4">
+  <div class="card-header">
+    <div class="card-head-row">
+      <!-- <div class="card-title" *ngIf="loginDetails['type']==3">Preview</div> -->
+      <!-- <div class="card-title" *ngIf="loginDetails['type']!=3">Edit</div> -->
+      <div class="card-tools">
+        <div class="btn-group">
+          <div class="float-right padding">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              [routerLink]="['/mainLayout','administrators']" title="{{adminKeys['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+            </button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body mx-4">
+    <form class="user" [autocomplete]="autoCompleteForm" [formGroup]="editAdmin" (ngSubmit)="UpdateAdministrator()">
+
+      <div class="form-group form-group-default">
+        <label for="username" class="placeholder">{{adminKeys['label_Username']}}<span
+            class="required-label">*</span></label>
+        <input [autocomplete]="autoCompleteField" type="text" [formControlName]="adminKeys['username']" id="username"
+          class="form-control" [ngClass]="{'disabledList':true }" />
+      </div>
+
+      <div class="form-group form-group-default">
+        <label for="name" class="placeholder">{{adminKeys['label_FirstName']}}<span
+            class="required-label">*</span></label>
+        <input [autocomplete]="autoCompleteField" type="text" [formControlName]="adminKeys['name']" id="name" appTrimValues
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f[adminKeys['name']].errors, 'disabledList':preview  }" />
+        <div *ngIf="submitted && f[adminKeys['name']].errors" class="invalid-feedback">
+          <span *ngIf="f[adminKeys['name']].errors.required"
+            class="form-text text-red">{{adminKeys['required_Name']}}</span>
+        </div>
+      </div>
+      <div class="form-group form-group-default">
+        <label for="name" class="placeholder">{{adminKeys['label_LastName']}}<span
+            class="required-label">*</span></label>
+        <input [autocomplete]="autoCompleteField" name="lastname-ref" type="text" class="form-control" appTrimValues [ngClass]="{'is-invalid': submitted && f[adminKeys['lastname']].errors ,
+              'disabledList':preview }" [formControlName]="adminKeys['lastname']">
+        <div *ngIf="submitted && f[adminKeys['lastname']].errors" class="invalid-feedback">
+          <span *ngIf="f[adminKeys['lastname']].errors.required"
+            class="form-text text-red">{{adminKeys['required_LastName']}}</span>
+        </div>
+      </div>
+
+      <div class="form-group form-group-default">
+        <label for="email" class="placeholder">{{adminKeys['label_Email']}}<span class="required-label">*</span></label>
+        <input [autocomplete]="autoCompleteField" name="email-ref" type="email" [formControlName]="adminKeys['email']"
+          class="form-control" id="email" 
+          [ngClass]="{ 'is-invalid': submitted && f[adminKeys['email']].errors , 'disabledList':preview  }" myNoSpaces appTrimValues
+          required />
+        <span
+          *ngIf="f[adminKeys['email']].dirty && f[adminKeys['email']].invalid && f[adminKeys['email']].value.length>0 && !submitted"
+          class="emailText">{{adminKeys['validation_Email']}}</span>
+        <span *ngIf="f[adminKeys['email']].dirty && f[adminKeys['email']].value.length==0 && !submitted"
+          class="emailText">{{adminKeys['required_Email']}}</span>
+        <div *ngIf="submitted && f[adminKeys['email']].errors" class="invalid-feedback">
+          <span *ngIf="f[adminKeys['email']].errors.required"
+            class="form-text text-red">{{adminKeys['required_Email']}}</span>
+          <span *ngIf="f[adminKeys['email']].errors.email">{{adminKeys['validation_Email']}}</span>
+        </div>
+      </div>
+
+      <div class="form-group form-group-default">
+        <label for="phone" class="placeholder">{{adminKeys['label_Contact']}}<span
+            class="required-label">*</span></label>
+        <input [autocomplete]="autoCompleteField" type="text" [formControlName]="adminKeys['phone']" appTrimValues
+          (keypress)="keyPress($event)" minlength='10' maxlength='12' id="phone" class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f[adminKeys['phone']].errors , 'disabledList':preview  }"
+          numbersOnly />
+        <div *ngIf="submitted && f[adminKeys['phone']].errors" class="invalid-feedback">
+          <span *ngIf="f[adminKeys['phone']].errors.required"
+            class="form-text text-red">{{adminKeys['required_Phone']}}</span>
+          <span *ngIf="f[adminKeys['phone']].errors.minlength"
+            class="form-text text-red">{{adminKeys['validation_Phone_MinL']}}</span>
+          <span *ngIf="f[adminKeys['phone']].errors.maxlength"
+            class="form-text text-red">{{adminKeys['validation_Phone_MaxL']}}</span>
+          <span *ngIf="f[adminKeys['phone']].errors.pattern"
+            class="form-text text-red">{{adminKeys['onlyNumbers']}}</span>
+        </div>
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="fon-label">{{adminKeys['label_Role']}} :</label> <br>
+        <div class="custom-control custom-checkbox" *ngIf="loginDetails.type == 0">
+          <input type="checkbox" class="custom-control-input" id="customCheck1" [formControlName]="adminKeys['type']"  
+            value="1" (change)="roleType(1, $event)" [checked]="checkedType(1)">
+          <label class="custom-control-label fon-label" for="customCheck1" [ngClass]="{
+                  'disabledList':checkedType(1) ||checkedType(3) || preview }">{{adminKeys['label_DA']}}</label>
+        </div>
+
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="customCheck2" [formControlName]="adminKeys['type']"
+            value="3" (change)="roleType(3, $event)" [checked]="checkedType(3)">
+          <label class="custom-control-label fon-label" for="customCheck2" [ngClass]="{
+                  'disabledList':checkedType(1) ||checkedType(3) || preview}">{{adminKeys['label_GA']}}</label>
+        </div>
+      </div>
+      <div class="form-group" *ngIf='singleSelection && loginDetails.type==0'>
+        <label for="accounts" class="placeholder fon-label">{{adminKeys['label_Department']}}<span *ngIf="deptErrMsg" class="required-label ml-1">*</span>
+        </label>
+        <ng-multiselect-dropdown [placeholder]="'Select Account'" [settings]="dropdownSettings" [data]="deptList"
+          [formControlName]="adminKeys['accounts']" name="accounts"  [ngClass]="{
+                  'disabledList':dropdownDisabled || preview}">
+        </ng-multiselect-dropdown>
+        <span *ngIf="submitted && deptErrMsg && editAdmin.value[adminKeys['accounts']].length==0"
+          class="errorText">{{adminKeys['required_Account']}}</span>
+      </div>
+      <div class="form-group" *ngIf='!singleSelection && loginDetails.type==0'>
+        <label for="accounts" class="placeholder fon-label">{{adminKeys['label_Department']}}<span *ngIf="deptErrMsg" class="required-label ml-1">*</span>
+        </label>
+        <ng-select [items]="deptList" [addTag]="addTag" [hideSelected]="true" multiple="true" bindLabel="name"
+          [formControlName]="adminKeys['accounts']" [ngClass]="{
+                        'disabledList': preview}">
+        </ng-select>
+        <span *ngIf="submitted && deptErrMsg && editAdmin.value[adminKeys['accounts']].length==0"
+          class="errorText">{{adminKeys['required_Account']}}</span>
+      </div>
+      <div class="form-group">
+        <label>{{adminKeys['label_Image']}}</label>
+        <div class="input-file input-file-image">
+          <img class="img-upload-preview img-circle" width="100" height="100"
+            *ngIf="editAdmin.value.imageurl && !imageUploaded" src="{{imgUrldataAdmin+editAdmin.value.imageurl}}"
+            alt="preview">
+          <img class="img-upload-preview img-circle" width="100" height="100" *ngIf="imageUploaded" [src]="imgURL"
+            alt="preview">
+
+          <input type="file" (change)="onFileChange($event)" class="form-control form-control-file" id="uploadImg"
+            name="uploadImg" accept="image/x-png,image/jpeg" >
+          <label for="uploadImg" class=" label-input-file btn btn-primary fon-label" [ngClass]="{'disabledList':preview }">Change
+            Avatar</label>
+
+        </div>
+      </div>
+
+      <div class="form-group" [hidden]="preview">
+        <div class="col-md-3 offset-md-5">
+          <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3"
+            [ngClass]="{'disabledList':preview }"
+            [disabled]="deptErrMsg && editAdmin.value['accounts'].length==0">{{adminKeys['label_Update']}}</button>
+          <button type="button" class="btn btn-outline-danger btn-rounded btn-sm" [ngClass]="{'disabledList':preview }"
+            [routerLink]="['/mainLayout','administrators']">{{adminKeys['label_Cancel']}}</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+<!-- <div class="wizard-container wizard-round col-md-12">
+  <div class="wizard-header text-right">
+    <div class="card-head-row">
+      <div class="card-tools">
+        <div class="btn-group">
+          <div class="float-right padding">
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              [routerLink]="['/mainLayout','administrators']" title="Back"><i class="fas fa-arrow-left icon-color"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form class="user" [autocomplete]="autoCompleteForm" [formGroup]="editAdmin" (ngSubmit)="UpdateAdministrator()">
+    <div class="wizard-body">
+      <div class="row">
+
+        <tabset #staticTabs (click)="checkValidations(1)" type="pills" class="wizard-menu nav-primary">
+          <tab heading="About" class="tabWidth">
+            <div class="row">
+
+              <div class="col-md-6">
+                <div class="form-group form-floating-label">
+                  <input [autocomplete]="autoCompleteField" type="text" [formControlName]="adminKeys['username']"
+                    id="username" class="form-control input-border-bottom" [ngClass]="{'disabledList':true }" />
+                  <label for="username" class="placeholder"
+                    [ngClass]="{'disabledList':true }">{{adminKeys['label_Username']}}
+                    <span class="required-label ml-1">*</span>
+                  </label>
+                </div>
+
+                <div class="form-group form-floating-label">
+                  <input [autocomplete]="autoCompleteField" type="text" [formControlName]="adminKeys['name']" id="name"
+                    class="form-control input-border-bottom"
+                    [ngClass]="{ 'is-invalid': submitted && f[adminKeys['name']].errors, 'disabledList':preview  }" />
+                  <label for="name" class="placeholder">{{adminKeys['label_FirstName']}}
+                    <span class="required-label ml-1">*</span>
+                  </label>
+                  <div *ngIf="submitted && f[adminKeys['name']].errors" class="invalid-feedback">
+                    <span *ngIf="f[adminKeys['name']].errors.required" class="form-text text-red">
+                      {{adminKeys['required_Name']}}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="form-group form-floating-label">
+                  <input [autocomplete]="autoCompleteField" type="text" [formControlName]="adminKeys['phone']"
+                    (keypress)="keyPress($event)" minlength='10' maxlength='12' id="phone"
+                    class="form-control input-border-bottom"
+                    [ngClass]="{ 'is-invalid': submitted && f[adminKeys['phone']].errors , 'disabledList':preview  }"
+                    numbersOnly />
+                  <label for="phone" class="placeholder">{{adminKeys['label_Contact']}}
+                    <span class="required-label ml-1">*</span>
+                  </label>
+
+                  <div *ngIf="submitted && f[adminKeys['phone']].errors " class="invalid-feedback">
+                    <span *ngIf="f[adminKeys['phone']].errors.required"
+                      class="form-text text-red">{{adminKeys['required_Phone']}}</span>
+                    <span *ngIf="f[adminKeys['phone']].errors.minlength"
+                      class="form-text text-red">{{adminKeys['validation_Phone_MinL']}}</span>
+                    <span *ngIf="f[adminKeys['phone']].errors.maxlength"
+                      class="form-text text-red">{{adminKeys['validation_Phone_MaxL']}}</span>
+                  </div>
+
+                </div>
+              </div>
+
+              <div class="col-md-6">
+
+                <div class="form-group form-floating-label">
+                  <input [autocomplete]="autoCompleteField" name="lastname-ref" type="text"
+                    class="form-control input-border-bottom" [ngClass]="{'is-invalid': submitted && f[adminKeys['lastname']].errors ,
+                      'disabledList':preview }" [formControlName]="adminKeys['lastname']">
+                  <label class="placeholder">{{adminKeys['label_LastName']}}<span class="required-label ml-1">*</span>
+                  </label>
+                  <div *ngIf="submitted && f[adminKeys['lastname']].errors" class="invalid-feedback">
+                    <span *ngIf="f[adminKeys['lastname']].errors.required" class="form-text text-red">
+                      {{adminKeys['required_LastName']}}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="form-group form-floating-label">
+                  <input [autocomplete]="autoCompleteField" name="email-ref" type="email"
+                    [formControlName]="adminKeys['email']" class="form-control input-border-bottom" id="email"
+                    pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                    [ngClass]="{ 'is-invalid': submitted && f[adminKeys['email']].errors , 'disabledList':preview  }"
+                    myNoSpaces required />
+                  <label for="email" class="placeholder">{{adminKeys['label_Email']}}
+                    <span class="required-label ml-1">*</span>
+                  </label>
+                  <span
+                    *ngIf="f[adminKeys['email']].dirty && f[adminKeys['email']].invalid && f[adminKeys['email']].value.length>0 && !submitted"
+                    class="emailText">{{adminKeys['validation_Email']}}</span>
+                  <span *ngIf="f[adminKeys['email']].dirty && f[adminKeys['email']].value.length==0 && !submitted"
+                    class="emailText">{{adminKeys['required_Email']}}</span>
+                  <div *ngIf="submitted && f[adminKeys['email']].errors " class="invalid-feedback">
+                    <span *ngIf="f[adminKeys['email']].errors.invalid"
+                      class="form-text text-red">{{adminKeys['validation_Email']}}</span>
+                    <span *ngIf="f[adminKeys['email']].errors.required"
+                      class="form-text text-red">{{adminKeys['required_Email']}}</span>
+
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>{{adminKeys['label_Image']}} :</label>
+                  <div class="input-file input-file-image">
+                    <img class="img-upload-preview img-circle" width="100" height="100"
+                      *ngIf="editAdmin.value.imageurl && !imageUploaded"
+                      src="{{imgUrldataAdmin+editAdmin.value.imageurl}}" alt="preview">
+                    <img class="img-upload-preview img-circle" width="100" height="100" *ngIf="imageUploaded"
+                      [src]="imgURL" alt="preview">
+
+                    <input type="file" (change)="onFileChange($event)" class="form-control form-control-file"
+                      id="uploadImg" name="uploadImg" accept="image/x-png,image/jpeg" required>
+                    <label for="uploadImg" class=" label-input-file btn btn-primary"
+                      [ngClass]="{'disabledList':preview }">Change Avatar</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </tab>
+
+          <tab heading="Role" (selectTab)="submitted=true">
+            <h4 class="info-text">{{adminKeys['tab2_ContentSet']}} </h4>
+            <div class="row">
+              <div class="col-md-8 ml-auto mr-auto">
+
+                <div class="form-check form-check-inline">
+                  <label>{{adminKeys['label_Role']}} :</label> <br>
+                  <div class="custom-control custom-checkbox" *ngIf="loginDetails.type == 0">
+                    <input type="checkbox" class="custom-control-input" id="customCheck1"
+                      [formControlName]="adminKeys['type']"   value="1" (change)="roleType(1, $event)"
+                      [checked]="checkedType(1)">
+                    <label class="custom-control-label" for="customCheck1" [ngClass]="{
+                        'disabledList':checkedType(1) ||checkedType(3) || preview }">{{adminKeys['label_DA']}}</label>
+                  </div>
+
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="customCheck2"
+                      [formControlName]="adminKeys['type']" value="3" (change)="roleType(3, $event)"
+                      [checked]="checkedType(3)">
+                    <label class="custom-control-label" for="customCheck2" [ngClass]="{
+                        'disabledList':checkedType(1) ||checkedType(3) || preview}">{{adminKeys['label_GA']}}</label>
+                  </div>
+                </div>
+
+                <div class="form-group" *ngIf='singleSelection && loginDetails.type==0'>
+                  <label>{{adminKeys['label_Department']}}
+                    <span *ngIf="deptErrMsg" class="required-label ml-1">*</span>
+                  </label>
+                  <ng-multiselect-dropdown [placeholder]="'Select Account'" [data]="deptList"
+                    [formControlName]="adminKeys['accounts']" name="accounts" [settings]="dropdownSettings" [ngClass]="{
+                        'disabledList':dropdownDisabled || preview}">
+                  </ng-multiselect-dropdown>
+                  <span *ngIf="submitted && deptErrMsg && editAdmin.value[adminKeys['accounts']].length==0"
+                    class="errorText">{{adminKeys['required_Account']}}</span>
+                </div>
+                <div class="form-group" *ngIf='!singleSelection && loginDetails.type==0'>
+                  <label>{{adminKeys['label_Department']}}
+                    <span *ngIf="deptErrMsg" class="required-label ml-1">*</span>
+                  </label>
+                  <ng-select [items]="deptList" [addTag]="addTag" [hideSelected]="true" multiple="true" bindLabel="name"
+                    [formControlName]="adminKeys['accounts']" [ngClass]="{
+                              'disabledList': preview}">
+                  </ng-select>
+                  <span *ngIf="submitted && deptErrMsg && editAdmin.value[adminKeys['accounts']].length==0"
+                    class="errorText">{{adminKeys['required_Account']}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="form-group" [hidden]="preview">
+              <div class="col-md-3 offset-md-4">
+                <button type="submit" class="btn btn-outline-primary btn-rounded btn-sm mr-3"
+                  [ngClass]="{'disabledList':preview }"
+                  [disabled]="deptErrMsg && editAdmin.value['accounts'].length==0">{{adminKeys['label_Update']}}</button>
+                <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+                  [ngClass]="{'disabledList':preview }"
+                  [routerLink]="['/mainLayout','administrators']">{{adminKeys['label_Cancel']}}</button>
+              </div>
+            </div>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </form>
+</div> -->

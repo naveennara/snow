@@ -1,0 +1,469 @@
+
+.dFldDtype, .sFldDtype{ 
+
+    clear:both; 
+} 
+    
+.sFld, .dFld{ 
+    
+float:left; 
+font-family:'Mulish', sans-serif;
+    } 
+    
+     
+    
+.sDtype, .dDtype{ 
+    
+float:right; 
+    
+text-transform:capitalize; 
+    
+font-style:italic; 
+    
+font-family:'Mulish', sans-serif;
+    } 
+    
+     
+    
+.listHeaderType{ 
+    
+    float:right; 
+    
+   // text-transform:capitalize !important; 
+    
+  //  font-style:italic; 
+    
+    //font-variant:all-petite-caps; 
+   // flex:auto; 
+    
+    padding-top: 5px;
+    /* margin-top: 15px; */
+    font-family: 'Mulish', sans-serif;
+    background: #C4C4C4;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    height: 30px !important;
+    margin: 0px;
+    
+
+    
+} 
+    
+.listHeaderFld{ 
+    
+    flex:auto; 
+    
+    padding-top: 5px;
+    /* margin-top: 15px; */
+    font-family: 'Mulish', sans-serif;
+    background: #C4C4C4;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    height: 30px !important;
+    margin: 0px;
+    
+} 
+
+body{
+    margin-top: 0px;
+    background-color: white !important;
+    padding:40px 70px 0px 70px;
+    font-family: 'Mulish', sans-serif !important;
+
+}
+
+
+#datalisterpane{
+    background: #fcfcfc;
+    padding-left:40px;
+    padding-right: 40px;
+
+    .listlabel{
+        font-family: 'Mulish', sans-serif;
+    text-transform: uppercase;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 15px;
+    display: flex;
+    align-items: center;
+    color: #6C757D;
+    padding-bottom: 10px;
+
+    }
+
+    #standarddslbl,.standarddsdiv  { display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        flex-direction: column;
+        margin-right: 18px;
+
+      }
+
+    
+}
+mat-list-option.mat-list-item.mat-list-option.mat-focus-indicator.mat-accent.mat-list-single-selected-option,
+mat-list-option.mat-list-item.mat-list-option.mat-focus-indicator.mat-accent.ng-star-inserted.mat-list-single-selected-option {
+    background: rgba(82, 154, 243, 0.692);
+    color: whitesmoke;
+}
+
+
+
+
+.mat-subheader{
+    font-family: 'Mulish', sans-serif;
+    background: #C4C4C4;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    height: 30px !important;
+    margin: 0px;
+}
+
+.list-item-active,
+mat-list-item:hover, 
+mat-list-item:active,
+mat-list-item:visited {
+  background-color: blue; 
+}
+
+.mat-option:after {
+    content: '';
+    width: 100%;
+    border-bottom: 1px solid #DFE0EB;
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    top: calc(3em - 2px);
+  }
+
+  
+
+mat-option{
+    font-family: 'Mulish', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px !important;
+    line-height: 20px;
+    /* identical to box height, or 143% */
+    
+    letter-spacing: 0.2px;
+    
+    
+    /* grayscale / black */
+    
+    color: #252733;
+    
+    /* Inside Auto Layout */
+    
+    flex: none;
+    order: 0;
+    align-self: center;
+    text-transform: uppercase;
+}
+
+
+
+mat-select{
+  
+    font-family: 'Mulish', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    /* identical to box height, or 143% */
+    
+    letter-spacing: 0.2px;
+    
+    
+    /* grayscale / black */
+    
+    color: #252733;
+    
+    /* Inside Auto Layout */
+    
+    flex: none;
+    order: 0;
+    align-self: center;
+margin-top: 10px;
+    
+
+        background-color: #FAFAFA;
+          margin: 0px;
+          margin-left: 5px;
+          /* width: fit-content; */
+          /* padding: 5px; */
+          padding: 0px;
+          /* margin: 0px;*/
+        
+
+}
+
+:host ::ng-deep  .mat-form-field{
+    padding:0px !important;
+    background: #fcfcfc;
+    width: max-content;
+}
+:host ::ng-deep .mat-select-arrow{
+    margin-top: 20px;
+}
+
+
+
+:host ::ng-deep .mat-form-field-appearance-fill .mat-select-arrow-wrapper{
+//transform: translateY(20);
+}
+:host ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex{
+    padding: 0px;
+}
+
+
+:host ::ng-deep  .mat-primary .mat-option.mat-selected:not(.mat-option-disabled){
+    color: black;
+}
+
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled){
+    color: black;
+}
+
+
+
+:host ::ng-deep .mat-form-field-infix{
+    background-color:#fcfcfc;
+    padding: 0px;
+    margin: 0px;
+    border: none;
+    padding:0px;
+}
+
+.heading{
+    text-align: center;
+}
+
+#row1{
+    display:flex;
+    flex-direction:row;
+justify-content: space-around; 
+
+}
+
+#column1{
+    display:flex;
+    flex-direction:column;
+font-size: 0.8em;
+    box-sizing: content-box;
+width: 100%;
+
+padding: 5px;
+
+}
+
+#mapper{
+    
+
+   
+    margin-right: 20px;
+    height: 60px;
+    
+   
+    margin-top: 100px;
+
+    border-radius: unset;
+
+    font-style: normal;
+font-weight: bold;
+font-size: 12px;
+
+}
+
+
+#mappingbtnpane{
+
+    button{
+        background: transparent;
+        margin-right: 20px;
+        border: 3px solid #333333 !important;
+        border-radius: 0px;
+        font-family: 'Mulish', sans-serif;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 12px;
+        /* line-height: 15px; */
+        /* display: flex; */
+        /* align-items: center; */
+        color: #4F4F4F;
+    }
+
+
+}
+  .tree{
+  
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    height: 200px;
+    overflow-y: auto;
+  }
+  button.mat-focus-indicator.nav-link.mat-button.mat-button-base {
+    padding:0px;
+}
+
+
+i{
+    font-size:18px;
+}
+
+  .mat-icon{
+    color: #828282;
+    font-size:19px;
+  }
+  .mat-tree-node:nth-child(even){
+    background: #F7F7F7;
+    }
+
+    .mat-icon-button {
+        padding: 0;
+        min-width: 0;
+        /* width: 40px; */
+        /* height: 40px; */
+        flex-shrink: 0;
+        line-height: 40px;
+        background: transparent;
+        /* border-radius: 50%; */
+    }
+
+.mat-tree-node:nth-child(odd){
+    background: #FFFFFF;
+border: 1px solid #FFFFFF;
+box-sizing: border-box;
+    }
+
+#column2{
+    display:flex;
+    flex-direction:column;
+    font-size: 0.8em;
+    box-sizing: content-box;
+width: 100%;
+
+padding: 5px;
+margin-left: 20px;
+}
+
+.pane{
+   /* width: 450px;*/
+   height: 220px;
+   min-height: 220px;
+}
+
+mat-list-option{
+    font-family: 'Mulish' sans-serif;
+    font-style: normal;
+   font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    /* identical to box height, or 143% */
+    
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+    
+    color: #9A99A2;
+}
+
+mat-list-option.is-selected{
+background:rgba(5, 60, 128, 0.692);
+
+    color: whitesmoke !important;
+
+}
+
+
+.mat-list-base .mat-list-option{
+    font-family: 'Mulish';
+    font-weight: normal;
+    font-size: 12px;
+    color: #9A99A2;
+}
+
+.mat-list-option.mat-list-item.mat-list-option.mat-focus-indicator.mat-accent.ng-star-inserted {
+    height: 40px;
+    
+    border:5px;
+}
+
+.mat-list-item .is-active,.mat-list-item-content .mat-list-item-content-reverse{
+    background: #0097C6;
+}
+.active{
+    border : 5px solid black;
+    padding : 1rem;
+    background-color: aqua;
+    cursor: pointer;
+  }
+  
+  .not-active{
+    border : 5px solid black;
+    background-color: powderblue;
+    padding : 1rem;
+    cursor: pointer;
+  }
+
+ 
+ 
+
+
+mat-label{
+    margin-left: 5px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+mat-selection-list.mat-selection-list.mat-list-base {
+   padding-top:0px;
+    background-color:white;
+    color: #9A99A2;
+    border:1px solid #DFE0EB;
+//200px
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.mat-tree-node{
+    height: 35px;
+
+    min-height: 0px;
+  
+    font-family: 'Mulish', sans-serif;
+    /* font-family: Muli; */
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    color: #4F4F4F;
+}
+
+#childicon{
+    margin-top: 10px;
+    margin-right: 20px;
+}
+
+mat-tree-node#child {
+    text-transform: uppercase;
+}
+
+

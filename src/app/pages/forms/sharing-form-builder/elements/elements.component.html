@@ -1,0 +1,176 @@
+<div class="accordion accordion-secondary">
+  <!-- [(1)=> Form Widgets includes Text/TextArea/Dropdown/Radio/CheckBox/Number/Rating/Calender]-->
+  <div class="card m-0">
+    <div class="card-header" id="headingOne" data-toggle="collapse" data-target="#formWidgets" aria-expanded="true"
+      aria-controls="formWidgets">
+      <div class="span-icon">
+        <div class="flaticon-list"></div>
+      </div>
+      <div class="span-title fw-bold">
+        Form Widgets
+      </div>
+      <div class="span-mode"></div>
+    </div>
+
+    <div id="formWidgets" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+      <div class="card-body p-0">
+
+        <div class="element-actions">
+          <div class="element-actions-items">
+            <div class="row m-0">
+              <div  class="col-6 col-md-6 p-0" cdkDropList 
+               cdkDropListConnectedTo="droplist" >
+              
+              <div *ngFor="let item of formWidgets" [cdkDragData]="item" cdkDrag>
+                <div class="element-actions-item">
+                  <!-- <i class="{{item.displayIcon}}"></i> -->
+                  <img [src]='item.displayIcon' alt="{{item.displayText}}">
+                  <span class="text">{{item.displayText}}</span>
+                  <div *cdkDragPlaceholder class="field-placeholder"></div>
+
+                </div>
+              </div>
+            </div>
+
+              <!-- <div class="col-6 col-md-6 p-0" href="javascript:;" 
+              cdkDrag cdkDropList
+              cdkDropListConnectedTo="drop-list"   [cdkDragData]="item"
+              (cdkDragStarted)="dragStart($event)"
+              (cdkDragMoved)="moved($event)"
+                *ngFor="let item of formWidgets" 
+              >
+                <div class="element-actions-item">
+                 
+                  <img [src]='item.displayIcon' alt="{{item.displayText}}">
+                  <span class="text">{{item.displayText}}</span>
+                  <div *cdkDragPlaceholder class="field-placeholder"></div>
+
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- END Form Widgets -->
+
+  <div class="separator-solid"></div>
+  <!-- [(2)=> Media Widgets includes Camera/Video/Signature/Barcode]-->
+  <div class="card m-0">
+    <div class="card-header collapsed" id="headingTwo" data-toggle="collapse" data-target="#mediaWidgets"
+      aria-expanded="false" aria-controls="mediaWidgets">
+      <div class="span-icon">
+        <div class="flaticon-picture"></div>
+      </div>
+      <div class="span-title fw-bold">
+        Media Widgets
+      </div>
+      <div class="span-mode"></div>
+    </div>
+    <div id="mediaWidgets" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+      <div class="card-body p-0">
+        
+        <div class="element-actions">
+          <div class="element-actions-items">
+            <div class="row m-0">
+
+              <div  class="col-6 col-md-6 p-0" cdkDropList 
+               cdkDropListConnectedTo="droplist" >
+              
+              <div *ngFor="let widgets of mediaWidgets" [cdkDragData]="widgets" cdkDrag>
+                <div class="element-actions-item">
+                  <!-- <i class="{{widgets.displayIcon}}"></i> -->
+                  <img [src]="widgets.displayIcon" alt="{{widgets.displayText}}">
+                  <span class="text">{{widgets.displayText}}</span>
+                  <div *cdkDragPlaceholder class="field-placeholder"></div>
+
+                </div>
+              </div>
+            </div>
+
+              <!-- <div class="col-6 col-md-6 p-0" href="javascript:;" 
+              cdkDrag cdkDropList
+              cdkDropListConnectedTo="drop-list"   [cdkDragData]="widgets"
+              (cdkDragStarted)="dragStart($event)"
+              (cdkDragMoved)="moved($event)"
+                *ngFor="let widgets of mediaWidgets" 
+               >
+                <div class="element-actions-item">
+                  <img [src]="widgets.displayIcon" alt="{{widgets.displayText}}">
+                
+                  <span class="text">{{widgets.displayText}}</span>
+                  <div *cdkDragPlaceholder class="field-placeholder"></div>
+
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- END Media Widgets -->
+
+  <div class="separator-solid"></div>
+  <!-- [(3)=> Addon Widgets includes Calculator/Header/Page Break/Map]-->
+  <div class="card m-0">
+    <div class="card-header collapsed" id="headingTwo" data-toggle="collapse" data-target="#addONs"
+      aria-expanded="false" aria-controls="addONs">
+      <div class="span-icon">
+        <div class="flaticon-circle"></div>
+      </div>
+      <div class="span-title fw-bold">
+        Addon Widgets
+      </div>
+      <div class="span-mode"></div>
+    </div>
+    <div id="addONs" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+      <div class="card-body p-0">
+        
+        <div class="element-actions">
+          <div class="element-actions-items">
+            <div class="row m-0">
+                <!-- <mat-list> -->
+
+                  <div  class="col-6 col-md-6 p-0" cdkDropList 
+                  cdkDropListConnectedTo="droplist" >
+                 
+                 <div *ngFor="let widgets of addOnWidgets" [cdkDragData]="widgets" cdkDrag>
+                   <div class="element-actions-item">
+                    <img [src]="widgets.displayIcon"  alt="{{widgets.displayText}}">
+                    <!-- <i class="{{widgets.displayIcon}}"></i> -->
+                    <span class="text">{{widgets.displayText}}</span>
+                    <div *cdkDragPlaceholder class="field-placeholder"></div>
+   
+                   </div>
+                 </div>
+               </div>
+
+               
+               <!-- <div
+              class="col-6 col-md-6 p-0" href="javascript:;"  cdkDrag cdkDropList
+              cdkDropListConnectedTo="drop-list"   [cdkDragData]="widgets"
+              (cdkDragStarted)="dragStart($event)"
+              (cdkDragMoved)="moved($event)"
+                *ngFor="let widgets of addOnWidgets" >
+           
+                <div class="element-actions-item">
+                  <img [src]="widgets.displayIcon"  alt="{{widgets.displayText}}">
+                  
+                  <span class="text">{{widgets.displayText}}</span>
+                  <div *cdkDragPlaceholder class="field-placeholder"></div>
+                </div>
+              </div
+              > -->
+      <!-- </mat-list> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END Addon Widgets -->
+</div>

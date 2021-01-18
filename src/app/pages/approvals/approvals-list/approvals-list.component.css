@@ -1,0 +1,8 @@
+.catImg{
+    width: 18px;
+    margin-bottom: 5px;
+  }
+  .icon-white {
+    -webkit-filter: brightness(5);
+    filter: brightness(5);
+  }

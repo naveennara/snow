@@ -1,0 +1,113 @@
+<h5 class="op-7 mb-2"><span *ngIf="deptName.length">Filtered results of Account: {{deptName}}</span></h5>
+
+<div class="card full-height">
+  <div class="card-header">
+    <div class="card-head-row">
+      <p class="card-category"  *ngIf="projectsList && projectsList.length" >
+        Showing ({{(pageNumber -1) * limit + 1}} to {{limit * (pageNumber-1) + projectsList.length }}) out of {{totalCount}} Projects
+      </p>
+      <div class="card-tools">
+        <div class="btn-group">
+          <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="toggle()">
+            <i [ngClass]="show?'icon-grid':'icon-list'"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body"  *ngIf="projectsList && projectsList.length">
+    <!-- Project List View -->
+    <div *ngIf="show">
+      <div class="project-list"
+        *ngFor="let project of projectsList | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: totalCount }">
+        <div class="d-flex">
+          <div class="flex-1 ml-2 pt-1">
+            <h6 class="text-uppercase fw-bold mb-1">{{project.name}}</h6>
+            <!-- Project Dates -->
+            <small class="text-muted">
+              <span title="{{projectKeys['label_StartDate']}}">
+                <i class="fas fa-calendar-check icon-color"></i> {{project.startDate | date:'mediumDate'}}
+              </span>|
+              <span title="{{projectKeys['label_EndDate']}}">
+                <i class="fas fa-calendar-times icon-color"></i> {{project.endDate | date:'mediumDate'}}
+              </span>
+            </small>
+            <!-- End Project Dates -->
+          </div>
+          <!-- Project Action Bar -->
+          <div class="float-right project-ActionBar pt-3">
+            <button type="button" *ngIf="loginDetails['type']==1 && showButtons" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              (click)="editProject(project)" title="{{projectKeys['label_Edit']}}">
+              <i class="far fa-edit icon-color"></i>
+            </button>
+            <button type="button" *ngIf="loginDetails['type']==3 || (loginDetails['type']==1 && !showButtons)" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              (click)="editProject(project)" title="{{projectKeys['label_Preview']}}">
+              <i class="fas fa-eye icon-color"></i>
+            </button>
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              (click)="goToProjectTasks(project._id)" title="{{projectKeys['label_Tasks']}}">
+              <i class="fas fa-tasks icon-color"></i>
+            </button>
+            <app-projects-delete [projectId]='project._id' *ngIf="loginDetails['type']==1 && showButtons"
+              (notifyParentOnUpdate)='onDeleteItem($event)'></app-projects-delete>
+          </div>
+          <!-- End Project Action Bar -->
+        </div>
+        <div class="separator-dashed"></div>
+      </div>
+    </div>
+    <div class="row" *ngIf="!show">
+      <div class="col-md-3 p-10"
+        *ngFor="let project of projectsList | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: totalCount }">
+        <div class="card card-dark bg-info taskGrid">
+          <div class="card-body bubble-shadow">
+            <h2 class="py-2 mb-0">{{project.name}}
+            </h2>
+            <div class="row">
+              <div class="col-8 pr-0">
+                <div class="text-small text-uppercase fw-bold op-8" title="{{projectKeys['label_StartDate']}}"> <i class="fas fa-calendar-check icon-white"></i>
+                  {{project.startDate | date:'mediumDate'}}</div>
+                <div class="text-small text-uppercase fw-bold op-8" title="{{projectKeys['label_EndDate']}}"> <i class="fas fa-calendar-times icon-white"></i>
+                  {{project.endDate | date:'mediumDate'}}</div>
+                <div class="btn-group m-t-2 taskGrid-ActionBar">
+                  <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+                    (click)="editProject(project)" title="{{projectKeys['label_Edit']}}">
+                    <i class="far fa-edit icon-white"></i>
+                  </button>
+                  <button type="button" *ngIf="loginDetails['type']==3" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+                    (click)="editProject(project)" title="{{projectKeys['label_Preview']}}">
+                    <i class="fas fa-eye icon-white"></i>
+                  </button>
+                  <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+                    (click)="goToProjectTasks(project._id)" title="{{projectKeys['label_Tasks']}}">
+                    <i class="fas fa-tasks icon-white"></i>
+                  </button>
+
+
+                  <app-projects-delete [projectId]='project._id' *ngIf="loginDetails['type']==1" (notifyParentOnUpdate)='onDeleteItem($event)'>
+                  </app-projects-delete>
+                </div>
+              </div>
+              <div class="col-4"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Project List View -->
+  </div>
+  <div class="card-body" *ngIf="projectsList && !projectsList.length" align="center">
+    <img [src]="noDataImg" class="img-responsive">
+  </div>
+  <div class="card-footer" *ngIf="projectsList && projectsList.length">
+    <div class="row">
+      <pagination-controls (pageChange)="getProjects($event);pageNumber = $event"></pagination-controls>
+    </div>
+  </div>
+</div>
+
+  <!-- Error Block -->
+  <!-- <div class="mx-auto d-flex justify-content-center flex-wrap" *ngIf="projectsList && !projectsList.length">
+    <img [src]="noDataImg" class="img-responsive">
+  </div> -->
+  <!-- End Error Block -->

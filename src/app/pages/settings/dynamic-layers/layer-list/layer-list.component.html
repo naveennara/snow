@@ -1,0 +1,65 @@
+<div class="card shadow mb-4">
+  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+    <h6 class="m-0 font-weight-bold text-primary"></h6>
+    <div class="card-tools">
+      <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="cancel()"
+        title="{{constants['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+      </button>
+    </div>
+  </div>
+  <div class="card-body mx-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="dropdown float-right m-t-20">
+            <button class="btn-dropdown btn btn-icon btn-round btn-transparent pulse" data-toggle="dropdown"
+              aria-expanded="false" title="{{constants['Actions']}}">
+              <i class="icon-options-vertical"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right animated fadeIn" x-placement="bottom-end">
+              <li>
+                <a href="javascript:;" class="dropdown-item" (click)="create()">{{constants['createLayer']}}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered" *ngIf="layersData && layersData?.length">
+            <thead>
+              <tr>
+                <th *ngFor="let feilds of tableLayerFields">
+                  <label class="activityLog">{{feilds}}</label>
+                </th>
+              </tr>
+            </thead>
+            <tr
+              *ngFor="let i = index;let layer of layersData | paginate: { itemsPerPage: layersLimit, currentPage: layersPageNumber,totalItems: totalLayers,id:'second'}">
+              <td scope="row">{{ i + 1 + (layersPageNumber - 1) * layersLimit}}</td>
+              <td>{{layer.externalName}}</td>
+              <td>{{layer.internalName}}</td>
+              <td>{{layer.layerUrl}}</td>
+              <td>
+                <button type="button" title="Edit" class="btn btn-icon btn-xs"
+                  (click)="editLayer(layer.externalName)">
+                  <i class="far fa-edit icon-color"></i>
+                </button>
+                <button type="button" class="btn btn-icon btn-xs"
+                  (click)="deleteLayer(layer.externalName)" title="{{constants['label_Delete']}}">
+                  <i class="far fa-trash-alt icon-color"></i>
+                </button>
+                <app-delete-template (deleteOrCancel)="confirmDelete($event)"></app-delete-template>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <pagination-controls (pageChange)="activityPageNumber = $event" id="second"
+          *ngIf="layersData && layersData.length>0"></pagination-controls>
+        <div *ngIf="layersData && !layersData.length " align="center">
+          <img [src]="Imgsrc" class="img-responsive">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

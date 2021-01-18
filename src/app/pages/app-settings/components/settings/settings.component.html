@@ -1,0 +1,127 @@
+
+<div class="card full-height" >
+    <div class="card-header">
+      <div class="card-head-row">
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive scroll">
+        <table class="table table-bordered table-condensed table-hover" >
+            <thead class="thead-light"> 
+                <tr>
+                  <th>#</th>
+                  <!-- <th *ngFor="let i = index;let headers of licenseList[0] | keyvalue" class="pointer" (click)="sort(headers.key)">{{constants.tableList[headers.key] }} <i class="fa" [ngClass]="{'fas fa-sort': column != headers.key, 'fas fa-arrow-up': (column == headers.key && isDesc), 'fas fa-arrow-down': (column == headers.key && !isDesc) }" aria-hidden="true"> </i></th> -->
+                  <th  class="pointer" >{{constants.parameter}} </th>
+                  <th  class="pointer" >{{constants.value}} </th>
+                  <th  class="pointer" >{{constants.Description}} </th>
+                  <th  class="pointer">{{constants.details}}</th>
+                  <!-- <th  class="pointer" (click)="sort(constants['mobileLicenses'])">{{constants.tableList['mobileLicenses'] }} <i class="fa" [ngClass]="{'fas fa-sort': column != 'mobileLicenses', 'fas fa-arrow-up': (column == 'mobileLicenses' && isDesc), 'fas fa-arrow-down': (column == 'mobileLicenses' && !isDesc) }" aria-hidden="true"> </i></th> -->
+                  <th>{{constants.Action}}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Android Version  start-->
+                <tr>
+                  <td>1</td>
+                  <td>Android Version</td>
+                  <td >
+                      <span *ngIf="updateIndex!=1">{{settingsInfo.androidAppVersion}}</span>
+                    <!-- <button  triggers="focus" placement="top" *ngIf="updateIndex!=1" type="button" class="btn btn-link" [tooltip]="versionHistory">  
+                        {{settingsInfo.androidAppVersion}}
+                    </button> -->
+                    <input *ngIf="updateIndex === 1" type="text" [(ngModel)]="androidUpdateAppVesrion">
+                  </td>
+                
+                  <td>Latest version of the android mobile app</td>
+                  <td>
+                      <!-- 
+                                                                                              
+                       -->
+                      <a href="javascript:;"   (click)="addOrViewDetails('android')"> Add/View</a>
+                  </td>
+                  <td>
+                    <a href="javascript:;"  *ngIf="updateIndex!==1" (click)="editSetting(1)">{{constants.label_Update}}</a>
+                    <a href="javascript:;" *ngIf="updateIndex === 1" (click)="cancelUpdateVersion()" class="version-update-cancel">{{constants.label_Cancel}}</a>
+                    <a href="javascript:;" *ngIf="updateIndex === 1" (click)="updateVersion(1)" class="version-update">{{constants.label_Save}}</a>
+                </td>
+                </tr>
+
+                 <!-- IOS Version  -->
+                 <tr>
+                    <td>2</td>
+                    <td>iOS Version</td>
+                    <td >
+                        <span *ngIf="updateIndex!=4">{{settingsInfo.iOSAppVersion}}</span>
+                    
+                      <!-- <button  triggers="focus" placement="top" *ngIf="updateIndex!=4" type="button" class="btn btn-link" [tooltip]="versionHistory">  
+                          {{settingsInfo.iOSAppVersion}}
+                      </button> -->
+                      <input *ngIf="updateIndex === 4" type="text" [(ngModel)]="iosUpdateAppVesrion">
+                    </td>
+                  
+                    <td>Latest version of the iOS mobile app</td>
+                    <td>
+                        <!-- <button  (click)="addOrViewDetails('iOS')" triggers="focus" placement="top" type="button" class="btn btn-link">  
+                           Add/View
+                        </button> -->
+                        <a href="javascript:;"   (click)="addOrViewDetails('iOS')"> Add/View</a>
+
+                    </td>
+                    <td>
+                      <a href="javascript:;"  *ngIf="updateIndex!==4" (click)="editSetting(4)">{{constants.label_Update}}</a>
+                      <a href="javascript:;" *ngIf="updateIndex === 4" (click)="cancelUpdateVersion()" class="version-update-cancel">{{constants.label_Cancel}}</a>
+                      <a href="javascript:;" *ngIf="updateIndex === 4" (click)="updateVersion(4)" class="version-update">{{constants.label_Save}}</a>
+                    </td>
+                </tr>
+
+
+                 <!-- // Account lock  start-->
+                <tr>
+                  <td>3</td>
+                  <td>Account Lock</td>
+                  <td>
+                    <span  *ngIf="updateIndex!==2">{{settingsInfo.accountLock}}</span>
+                    <input *ngIf="updateIndex === 2" type="text" [(ngModel)]="updateAccountLock" numbersOnly>
+                  </td>
+                
+                  <td>{{constants.accountDescription}}</td>
+                  <td></td>
+                  <td>
+                    <a href="javascript:;"  *ngIf="updateIndex!==2" (click)="editSetting(2)">{{constants.label_Update}}</a>
+                    <a href="javascript:;" *ngIf="updateIndex === 2" (click)="cancelUpdateLock()" class="version-update-cancel">{{constants.label_Cancel}}</a>
+                    <a href="javascript:;"  *ngIf="updateIndex===2" class="resetColor" (click)="reset(2)">{{constants.label_Reset}}</a>
+                    <a href="javascript:;" *ngIf="updateIndex === 2" (click)="updateVersion(2)" class="version-update">{{constants.label_Save}}</a>
+                   </td>
+                </tr>
+                 <!-- // Account lock  end-->
+
+                <!-- // lock interval start-->
+                <tr>
+                  <td>4</td>
+                  <td>Lock Interval</td>
+                  <td>
+                    <span  *ngIf="updateIndex!==3">{{settingsInfo.lockInterval}} mins</span>
+                    <input *ngIf="updateIndex === 3" type="text" [(ngModel)]="updateLockInterval" numbersOnly>
+                  </td>
+                
+                  <td>{{constants.intervalDescription}}</td>
+                  <td></td>
+                  <td>
+                    <a href="javascript:;"  *ngIf="updateIndex!== 3" (click)="editSetting(3)">{{constants.label_Update}}</a>
+                    <a href="javascript:;" *ngIf="updateIndex === 3" (click)="cancelUpdateLock()" class="version-update-cancel">{{constants.label_Cancel}}</a>
+                    <a href="javascript:;"  *ngIf="updateIndex==3" class=" resetColor" (click)="reset(3)">{{constants.label_Reset}}</a>
+                    <a href="javascript:;" *ngIf="updateIndex === 3" (click)="updateVersion()" class="version-update">{{constants.label_Save}}</a>
+                </td>
+                </tr>
+                <!-- // lock interval end-->
+              </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <!-- No Preview Block @PK -->
+  <!-- <div class="mx-auto d-flex justify-content-center flex-wrap" *ngIf="licenseList && !licenseList.length">
+    <img [src]="imageSrc" class="img-responsive">
+  </div> -->
+  

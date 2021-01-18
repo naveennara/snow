@@ -1,0 +1,11 @@
+<!-- <a class="btn btn-danger btn-sm btn-link" rel="publisher" [class.disabled]="!deleteDisable" href="javascript:;" (click)="deleteDevice()">
+  <span class="btn-label just-icon"><i class="far fa-trash-alt icon-color"></i></span>
+</a> -->
+
+<button class="btn btn-icon btn-xs" title="{{deviceKeys['label_Delete']}}" type="button" [class.disabled]="!deleteDisable" (click)="deleteDevice()">
+  <i class="far fa-trash-alt icon-color"></i>
+</button>
+<!-- <button class="btn btn-transparent btn-xs btn btn-icon" [disabled]="!deleteDisable" (click)="deleteDevice()" title="Delete">
+    <i class="far fa-trash-alt"></i>
+  </button> -->
+<app-delete-template (deleteOrCancel)="confirmDelete($event)"></app-delete-template>

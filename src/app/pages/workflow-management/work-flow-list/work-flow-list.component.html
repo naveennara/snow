@@ -1,0 +1,55 @@
+<div class="card full-height">
+  <div class="card-header">
+    <div class="card-head-row">
+      <p class="card-category" *ngIf="workflowList && workflowList.length">
+        Showing ({{(pageNumber -1) * limit + 1}} to {{limit * (pageNumber-1) + workflowList.length }}) out of
+        {{totalCount}} Workflows
+      </p>
+    </div>
+  </div>
+  <div class="card-body" *ngIf="workflowList  && workflowList.length >0">
+    <!-- WorkFlow List View -->
+    <div class="workflow-list"
+      *ngFor="let workflow of workflowList | paginate: { itemsPerPage: limit, currentPage: pageNumber,totalItems: totalCount }">
+      <div class="d-flex">
+        <div class="flex-1 ml-2 pt-1">
+          <h6 class="text-uppercase fw-bold mb-1">
+            {{workflow.workFlowInfo[0].workflowname || "N/A"}}
+          </h6>
+          <small class="text-muted">
+            <span title="Levels">
+                <i class="fas fa-list-alt icon-color"></i> {{(workflow.workflowList.length)-2 ||'N/A'}}
+            </span>
+          </small>
+        </div>
+        <!-- Task Action Bar -->
+        <div class="float-right workflow-ActionBar pt-3">
+          <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="gotoWorkflow(workflow)"
+            title="{{workflowKeys['label_Edit']}}" *ngIf="showButtons">
+            <i class="far fa-edit icon-color"></i>
+          </button>
+          <button class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="gotoWorkflow(workflow)"
+            title="{{workflowKeys['label_Preview']}}" *ngIf="!showButtons">
+            <i class="fas fa-eye icon-color"></i>
+          </button>
+
+          <app-workflow-delete [workflowId]='workflow._id' *ngIf="showButtons" (notifyParentOnUpdate)='onDeleteItem($event)'>
+          </app-workflow-delete>
+        </div>
+
+        <!-- End Task Action Bar -->
+      </div>
+      <div class="separator-dashed"></div>
+    </div>
+    <!-- End WorkFlow List View -->
+    
+
+    <div class="row m-15" *ngIf="workflowList && workflowList.length">
+      <pagination-controls (pageChange)="getWorkflows($event);pageNumber = $event"></pagination-controls>
+    </div>
+
+  </div>
+  <div *ngIf="workflowList  && !workflowList.length" align="center">
+    <img [src]="Imgsrc" class="img-responsive">
+  </div>
+</div>

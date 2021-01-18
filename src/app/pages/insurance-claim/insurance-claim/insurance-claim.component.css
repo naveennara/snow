@@ -1,0 +1,39 @@
+.bgimage{
+    background-image: linear-gradient(to top, #a3bded 0%, #6991c7 100%) !important;
+    height: 100vh;
+}
+
+.custom-row{
+    padding-left: 12px;
+    padding-bottom: -2px;
+    margin-bottom: -17px;
+    margin-top: 9px;
+   
+}
+/*bread crumb csss end*/
+
+
+.custom-card-assignment-list{
+    margin-left: 9px;
+    margin-right: 9px;
+}
+
+.hdrcolor{
+    color:white;
+    background-color: #61a3d7;
+}
+.caption{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  
+   }
+   .borderClass{
+    border-top:1px solid #ddd;
+   }
+.centered {
+    position: absolute;
+    top: -17%;
+    left: 45%;
+    opacity: 0.8;
+  }

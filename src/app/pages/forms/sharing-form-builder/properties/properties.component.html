@@ -1,0 +1,549 @@
+<div class="row">
+  <div class="card col-md-12">
+    <div class="card-body">
+
+      <div class="row" *ngIf="checkProperty(widgetKey.typeChange) && isChangeTypeEnable">
+        <div class="col-sm-12">
+          <label for="typeChange" >{{constants['label_selecte_change_type']}}</label>
+        </div>
+        <div class="col-sm-12 change-type-help-text">
+          {{constants['label_selecte_change_type_hel']}}
+        </div>
+
+        <div class="col-sm-12">
+          <ng-select [items]="typeChangeOptions" placeholder="Select type" [addTag]="addTag" bindLabel="name"
+            (change)="onItemSelect($event)" [(ngModel)]="changeTypeName"> 
+          </ng-select>
+        </div>
+      </div>
+      
+      <div class="separator-dashed" *ngIf="checkProperty(widgetKey.typeChange) && isChangeTypeEnable"></div>
+    
+      <label class="m-b-5"><span>{{constants['label_Properties']}}</span></label>
+
+      <form [formGroup]="form" [autocomplete]="autoCompleteForm">
+        <div class="form-group form-group-default"
+          *ngIf="checkProperty(widgetKey.label) && config[widgetKey.type] !== 'properties'">
+          <label for="Label" class="fon-label">{{constants['label_Label']}}<span class="required-label">*</span></label>
+          <input  [autocomplete]="autoCompleteField" name="fb-propertie-field" id="Label" type="text" class="form-control" [formControlName]="[widgetKey.label]"
+             placeholder="Enter label" (change)="labelCaseCheck(form.value[widgetKey.label])"
+           >
+           <!-- (change)="labelCaseCheck(form.value[widgetKey.label])" -->
+           <!-- [value]="form.get([widgetKey.label]).value | titlecase" -->
+          <span *ngIf="validateTB" class="required-label">{{constants['labelErrMasg']}}</span>
+        </div>
+        <div class="form-group form-group-default"
+          *ngIf="checkProperty(widgetKey.label) && config[widgetKey.type] == 'properties'">
+          <label for="Label">{{constants['label_Label']}}<span class="required-label">*</span></label>
+          <select class="form-control" [formControlName]="[widgetKey.label]">
+            <option [ngValue]="null" disabled></option>
+            <option [value]="entry" *ngFor="let entry of  userPropLabels">{{entry}}</option>
+          </select>
+        </div>
+        <div class="form-group form-group-default" *ngIf="checkProperty(widgetKey.minLength)">
+          <label for="Minimum">{{constants['label_Minimum']}}  </label>
+          <input [autocomplete]="autoCompleteField" name="fb-properties-minimum" id="Minimum" type="text" class="form-control" [formControlName]="[widgetKey.minLength]"
+            placeholder="Enter minimum length" numbersOnly>
+        </div>
+
+        <div class="form-group form-group-default" *ngIf="checkProperty(widgetKey.maxLength)">
+          <label for="Maximum">{{constants['label_Maximum']}}</label>
+          <input [autocomplete]="autoCompleteField" name="fb-properties-maximum" id="Maximum" type="text" class="form-control" [formControlName]="[widgetKey.maxLength]" (change)="checkingDefaultValue()"
+            placeholder="Enter maximum length" numbersOnly>
+          <span
+            *ngIf="form.controls[widgetKey.maxLength].dirty && checkMaxValidation(form.get([widgetKey.minLength]).value,form.get([widgetKey.maxLength]).value)"
+            class="required-label">{{constants['maximumLengthErrMsg']}}</span>
+           
+        </div>
+        <div class="form-group form-group-default" *ngIf="checkProperty(widgetKey.minTime)">
+          <label for="minTime">{{constants['label_MinimumTime']}}<span class="required-label">*</span></label>
+          <input  [autocomplete]="autoCompleteField" name="fb-properties-mintime" id="minTime" type="text" class="form-control" [formControlName]="[widgetKey.minTime]"
+            placeholder="In Hours" max="2" numbersOnly>
+        </div>
+
+        <div class="form-group form-group-default" *ngIf="checkProperty(widgetKey.maxTime)">
+          <label for="maxTime">{{constants['label_MaximumTime']}}<span class="required-label">*</span></label>
+          <input  [autocomplete]="autoCompleteField" name="fb-properties-maxtime" id="maxTime" type="text" class="form-control" [formControlName]="[widgetKey.maxTime]"
+            placeholder="In Hours" max="2" numbersOnly>
+          <span
+            *ngIf="form.controls[widgetKey.maxTime].dirty && checkMaxValidation(form.value[widgetKey.minTime],form.value[widgetKey.maxTime])"
+            class="required-label">{{constants['maximumTimeErrMsg']}}</span>
+        </div>
+        <div class="form-group form-group-default" *ngIf="checkProperty(widgetKey.timePeriod)">
+          <label for="timePeriod">{{constants['label_TimeInterval']}}</label>
+          <select class="form-control" [formControlName]="[widgetKey.timePeriod]">
+            <option [value]="entry" *ngFor="let entry of  timePeriodIntervals">{{entry}}</option>
+          </select>
+          <!-- <input id="timePeriod" type="text" class="form-control" [formControlName]="[widgetKey.timePeriod]"
+          [ngClass]="{'disabledList':true }"> -->
+        </div>
+        <div class="form-group form-group-default" *ngIf="checkProperty(widgetKey.defaultValue) && config[widgetKey.type] !== 'calendar'">
+          <label for="defaultValue">{{constants['label_DefaultValue']}}</label>
+          <input [placeholder]="constants['placeholder_defaultValue']" [autocomplete]="autoCompleteField" name="fb-properties-defalult" id="defaultValue" [maxlength]="form.value[widgetKey.maxLength]" type="text" class="form-control" [formControlName]="[widgetKey.defaultValue]">
+            <span *ngIf="form.controls[widgetKey.defaultValue].dirty"
+            class="required-label">{{defaultValueMessage}}</span>
+        </div>
+        <div class="form-group form-group-default" *ngIf="checkProperty(widgetKey.defaultValue) && form.get(widgetKey.typeOfDateSelected) && form.get(widgetKey.typeOfDateSelected).value == 'ManualEntry'">
+          <label for="defaultValue">{{constants['label_DefaultValue']}}</label>
+          <input appCalendar [autocomplete]="autoCompleteField" name="fb-properties-defalutdate" type="text"  class="form-control mb-3" bsDatepicker [formControlName]="[widgetKey.defaultValue]" 
+          [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }"
+           placement="top"  />
+           <!-- <input  type="text" 
+           class="form-control mb-3" [theme]="'dp-material'"
+           [formControlName]="[widgetKey.defaultValue]"   [dpDayPicker]="dayPickerConfig" />
+           -->
+          <!-- <input id="defaultValue" [maxlength]="form.value[widgetKey.maxLength]" type="text" class="form-control" [formControlName]="[widgetKey.defaultValue]"> -->
+        </div>
+
+        <!-- Adding Additional Inputs for Key & Values -->
+        <div class="row option-dropdown-div" *ngIf="checkProperty(widgetKey.options)">
+            <label class="my-2 fon-label" >{{constants['label_AddNewValue']}}
+  
+              </label>
+            <button class="btn btn-link add-new-value-btn" (click)="add()">
+              <span class="btn-label">
+                <i class="fa fa-plus"></i>
+              </span>
+              {{constants['label_Add']}}
+            </button>
+  
+            <ul class="list-group list-group-bordered list option-dropdown-list">
+              <li class="list-group-item" [formArrayName]="[widgetKey.options]"
+                *ngFor="let item of form.get('options').controls; let i = index;">
+                <div class="row" [formGroupName]="i">
+                  <div class="col-md-5">
+                    <input class="form-control form-control-sm" formControlName="displayValue" placeholder="Display name" >
+                  </div>
+                  <div class="col-md-5">
+                    <input class="form-control form-control-sm" formControlName="value" placeholder="Display value" (change)="checkingDefaultValue()">
+                  </div>
+                  <div class="col-md-1 p-0 offset-md-1">
+                    <button type="button" [hidden]="i==0" class="btn btn-icon btn-xs btn-danger" title="{{constants['label_RemoveEntry']}}"
+                      (click)="removeIndex(i)">
+                      <i class="far fa-trash-alt"></i>
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+  
+          </div>
+          <!-- ==================================== -->
+        <div class="form-group form-group-default" *ngIf="checkProperty(widgetKey.placeholder)">
+          <label for="placeholder">{{constants['label_PlaceHolder']}}</label>
+          <input [placeholder]="constants['placeholder_PlaceHolder']" [autocomplete]="autoCompleteField" name="fb-properties-placeholder" id="placeholder" type="text" class="form-control" [formControlName]="[widgetKey.placeholder]"
+            [ngClass]="{'disabledList':config[widgetKey.type] == 'time' }">
+        </div>
+        <div class="form-group form-group-default" *ngIf="checkProperty(widgetKey.minimum)">
+          <label for="minimum">{{constants['label_Minimum']}}<span class="required-label"> *</span></label>
+          <input  [autocomplete]="autoCompleteField" name="fb-properties-minimu1" id="minimum" type="text" class="form-control" [formControlName]="[widgetKey.minimum]"
+            placeholder="Enter Minimum" numbersOnly>
+          <span *ngIf="form.controls[widgetKey.minimum].dirty && form.value[widgetKey.minimum] ==''"
+            class="required-label">{{constants['minErrMsg']}}</span>
+        </div>
+
+        <div class="form-group form-group-default" *ngIf="checkProperty(widgetKey.maximum)">
+          <label for="maximum">{{constants['label_Maximum']}}<span class="required-label"> *</span></label>
+          <input  [autocomplete]="autoCompleteField" name="fb-properties-maximum1" id="maximum" type="text" class="form-control" [formControlName]="[widgetKey.maximum]"
+            placeholder="Enter Maximum" numbersOnly>
+          <span
+            *ngIf="form.controls[widgetKey.maximum].dirty && checkMaxValidation(form.value[widgetKey.minimum],form.value[widgetKey.maximum])"
+            class="required-label">{{constants['maximumLengthErrMsg']}}</span>
+            <!-- <span  class="required-label" *ngIf="maxValidation(form.value[widgetKey.maximum])">
+              Maximum limit should be less than  30
+            </span> -->
+        </div>
+
+          <div class="form-group form-group-default" *ngIf="checkProperty(widgetKey.imageSize)">
+            <label for="Size">{{constants['label_Size']}}</label>
+            <input  [autocomplete]="autoCompleteField" name="fb-properties-size" type="text" class="form-control" [formControlName]="[widgetKey.imageSize]"
+              aria-label="Text input with dropdown button" placeholder="Enter Size" numbersOnly>
+            <div class="input-group-append media-length">
+
+              <!-- <button class="btn btn-primary btn-border dropdown-toggle " type="button" 
+                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Bytes</button>
+                  <div class="dropdown-menu" x-placement="bottom-start">
+                    <a class="dropdown-item" href="javascript:;">MB</a>
+                    <a class="dropdown-item" href="javascript:;">KB</a>
+                  </div> -->
+
+              <div class="selectgroup w-100">
+
+                <label class="selectgroup-item fon-label" >
+                  <input  [autocomplete]="autoCompleteField" name="fb-properties-trans" type="radio" name="transportation" value="1" class="selectgroup-input"
+                    (change)="getImageCOnfig('MB')">
+                  <span class="selectgroup-button selectgroup-button-icon p-0"> {{constants['label_MB']}} </span>
+                </label>
+
+                <label class="selectgroup-item fon-label">
+                  <input [autocomplete]="autoCompleteField" name="fb-properties-trans2"type="radio" name="transportation" value="2" class="selectgroup-input"
+                    (change)="getImageCOnfig('KB')" checked="">
+                  <span class="selectgroup-button selectgroup-button-icon p-0"> {{constants['label_KB']}}</span>
+                </label>
+
+              </div>
+
+            </div>
+          </div>
+        
+        <!-- start geo tagging  -->
+        
+        <!-- <div class="form-group form-group-default" *ngIf="checkProperty(widgetKey.isGeotagginEnable)">
+          <label for="Size">Geo tagging</label>
+          <input  [autocomplete]="autoCompleteField" name="fb-properties-size" type="checkbox" class="form-control" [formControlName]="[widgetKey.isGeotagginEnable]"
+            aria-label="Text input with dropdown button" placeholder="Enter Size" numbersOnly>
+          
+        </div> -->
+       
+         <!-- end geo tagging  -->
+        
+         <div class="form-group form-group-default" *ngIf="checkProperty(widgetKey.typeOfDateSelected)">
+          <label for="Maximum">{{constants['label_TypeDate']}}</label>
+          <div class="col-lg-4 col-md-9 col-sm-8 d-flex align-items-center">
+
+            <div class="custom-control custom-radio">
+              <input [autocomplete]="autoCompleteField" name="fb-properties-sd" type="radio" id="SystemDate" value="SystemDate" class="custom-control-input"
+                [formControlName]="widgetKey.typeOfDateSelected" [name]="widgetKey.typeOfDateSelected" (change)="defaultCalendar('SystemDate')"> 
+              <label class="custom-control-label" for="SystemDate">{{constants['label_SystemDate']}}</label>
+            </div>
+
+            <div class="custom-control custom-radio">
+              <input  name="fb-properties-md" type="radio" id="ManualEntry" value="ManualEntry" class="custom-control-input"
+                [formControlName]="widgetKey.typeOfDateSelected" [name]="widgetKey.typeOfDateSelected"  checked="ManualEntry"  (change)="defaultCalendar('ManualEntry')">
+              <label class="custom-control-label" for="ManualEntry">{{constants['label_ManualEntry']}}</label>
+            </div>
+
+          </div>
+        </div>
+     
+
+        <!-- Check Box Rules -->
+        
+        <!-- CALCULATOR WIDGET -->
+        <div class=" p-0 "  *ngIf="checkProperty(widgetKey.formula)">
+          Set Formula
+          <p class="formula-help-text">You can set the formula </p>
+        </div>
+        <div class=" calculator"  *ngIf="checkProperty(widgetKey.formula)">
+
+            <!-- NUMERIC FIELDS -->
+            <label class="my-2 fon-label">{{constants['label_NumericFields']}}</label>
+            <div class="row m-0 p-10 numericField">
+              <button class="btn btn-primary btn-border btn-round btn-sm mr-2"
+                (click)="numericFieldsOperandsFun([field.key,field.value])" *ngFor="let field of numericFields| keyvalue"
+                [ngClass]="selectedFieldId == field.key ? 'btn btn-success  field-operator' : 'btn btn-primary  field-operator'">
+                {{field.value}}</button>
+            </div>
+            <!-- END  NUMERIC FIELDS-->
+  
+            <!-- FORMULA BLOCK -->
+            <label class="my-2 fon-label">{{constants['label_Formula']}}</label>
+            <span class="float-right text-muted my-2">
+              <a href="javascript:;" title="{{constants['label_Undo']}}" placement='bottom' (click)="formulaUndo()"><i
+                  class="fas fa-undo-alt"></i></a> |
+              <a href="javascript:;" title="{{constants['label_Clear']}}" placement='bottom' (click)="formulaClear()"><i
+                  class="fas fa-times"></i></a>
+            </span>
+            <div class="row m-0 p-10 numericField">
+              <!-- Formula Editor -->
+              <div class="row m-l-0 m-r-0" *ngFor="let  calc  of calculationsOperators">
+                <!-- --------------------------- -->
+                <div *ngFor="let operator of calc | keyvalue">
+                  <span
+                    *ngIf=" operator.key == 'add' || operator.key == 'sub' || operator.key == 'mul' || operator.key == 'avg' || operator.key =='div' || operator.key =='sqrt' || operator.key == 'inv' ">
+                    <button type="button" class="btn btn-outline-warning btn-sm m-5">{{operator.key}}</button>
+                    <button type="button" class="btn btn-outline-warning btn-sm m-5">(</button>
+                  </span>
+  
+                  <ng-container *ngIf="operator.key != 'numeric' && operator.key !='('">
+                    <span *ngFor="let item  of  operator.value.fieldList |keyvalue">
+                      <button type="button" class="btn btn-outline-info btn-sm m-5">{{item.value.name}}</button>
+                      <span class="calcElement calcText" contenteditable="true"
+                        (keydown)="editFormula($event,calc.highyIndex,'operand',item.key,operator.value,false,calculationsOperators)"
+                        (click)="clickedText(calc.highyIndex,'operand',item.key,operator.value,false,operator.key,calculationsOperators)"></span>
+                    </span>
+                  </ng-container>
+  
+                  <span *ngIf="operator.key == 'numeric'">
+                    <button *ngIf="operator.value.fieldList !='' " type="button"
+                      class="btn btn-outline-info btn-sm m-5">{{operator.value.fieldList}}</button>
+                    <span class="calcElement calcText" contenteditable="true"
+                      (keydown)="editFormula($event,calc.highyIndex,'operand',item.key,operator.value,false,calculationsOperators)"
+                      (click)="clickedText(calc.highyIndex,'operand',item.key,operator.value,false,operator.key,calculationsOperators)"></span>
+                  </span>
+  
+                  <span *ngIf="operator.key == '('">
+                    <button type="button" class="btn btn-outline-warning btn-sm m-5">(</button>
+  
+                    <span *ngFor="let field of operator.value.fieldList | keyvalue">
+                      <span *ngFor="let mathematicalObject of field.value  | keyvalue">
+  
+                        <span
+                          *ngIf="mathematicalObject.key == 'add' || mathematicalObject.key == 'sub' || mathematicalObject.key == 'mul' || mathematicalObject.key == 'avg' || mathematicalObject.key =='div' || mathematicalObject.key=='sqrt' || mathematicalObject.key == 'inv' ">
+                          <button type="button"
+                            class="btn btn-outline-warning btn-sm m-5">{{mathematicalObject.key}}</button>
+                          <button type="button" class="btn btn-outline-warning btn-sm m-5">(</button>
+                        </span>
+  
+                        <ng-container
+                          *ngIf="mathematicalObject.key == 'singleOperator' || mathematicalObject.key == 'add' || mathematicalObject.key == 'sub' || mathematicalObject.key == 'mul' || mathematicalObject.key == 'avg' || mathematicalObject.key =='div' || mathematicalObject.key=='sqrt' || mathematicalObject.key == 'inv'">
+                          <span *ngFor="let mathDependFieldObj of mathematicalObject.value.fieldList | keyvalue">
+  
+                            <button type="button"
+                              class="btn btn-outline-info btn-sm m-5">{{mathDependFieldObj.value.name}}</button>
+                            <span class="calcElement calcText" contenteditable="true"
+                              (keydown)="editFormula($event,highyIndex,'operand',mathDependFieldObj.key,mathematicalObject.value,false,operator.value.fieldList)"
+                              (click)="clickedText(highyIndex,'operand',mathDependFieldObj.key,mathematicalObject.value,false,mathematicalObject.key,operator.value.fieldList)"></span>
+                          </span>
+                        </ng-container>
+  
+                        <div *ngIf="mathematicalObject.key == 'numeric'">
+                          <button *ngIf="mathematicalObject.value.fieldList !=''" type="button"
+                            class="btn btn-outline-info btn-sm m-5">
+                            {{mathematicalObject.value.fieldList}} numeric</button>
+                          <div class="calcElement calcText" contenteditable="true"
+                            (keydown)="editFormula($event,highyIndex,'operand',mathDependFieldObj.key,mathematicalObject.value,false,operator.value.fieldList)">
+                          </div>
+                        </div>
+  
+                        <span
+                          *ngIf="mathematicalObject.key == 'add' || mathematicalObject.key == 'sub' || mathematicalObject.key == 'mul' || mathematicalObject.key == 'avg' || mathematicalObject.key =='div' || mathematicalObject.key=='sqrt' || mathematicalObject.key == 'inv'">
+                          <button type="button" class="btn btn-outline-warning btn-sm m-5">)</button>
+                        </span>
+  
+                        <span *ngIf="mathematicalObject.value.operator != ''">
+                          <button type="button"
+                            class="btn btn-outline-danger btn-sm m-5">{{mathematicalObject.value.operator}}</button>
+                          <span class="calcElement calcText" contenteditable="true"
+                            (keydown)="editFormula($event,highyIndex,'operator',undefined,mathematicalObject.value,false,operator.value.fieldList)"
+                            (click)="clickedText(highyIndex,'operator',undefined,mathematicalObject.value,false,mathematicalObject.key,operator.value.fieldList)"></span>
+                        </span>
+  
+                      </span>
+  
+                    </span>
+  
+                    <button type="button" class="btn btn-outline-warning btn-sm m-5"
+                      *ngIf="operator.value.isParaObjClosed">)</button>
+                    <span class="calcElement calcText" contenteditable="true"
+                      (keydown)="editFormula($event,calc.highyIndex,'operand',item.mathDependFieldObj.key,operator.value,true,calculationsOperators)"></span>
+                  </span>
+  
+                  <span
+                    *ngIf="operator.key == 'add' || operator.key == 'sub' || operator.key == 'mul' || operator.key == 'avg' || operator.key =='div' || operator.key=='sqrt' || operator.key == 'inv' ">
+                    <button type="button" class="btn btn-outline-warning btn-sm m-5">)</button>
+                    <span class="calcElement calcText" contenteditable="true"
+                      (keydown)="editFormula($event,calc.highyIndex,'operand',item.mathDependFieldObj.key,operator.value,true,calculationsOperators)"></span>
+                  </span>
+  
+                  <span *ngIf="operator.value.operator != ''">
+                    <button type="button" class="btn btn-outline-danger btn-sm m-5">
+                      {{operator.value.operator}}
+                    </button>
+                    <span class="calcElement calcText" contenteditable="true"
+                      (keydown)="editFormula($event,calc.highyIndex,'operator',undefined,operator.value,true,calculationsOperators)"
+                      (click)="clickedText(calc.highyIndex,'operator',undefined,operator.value,false,operator.key,calculationsOperators)"></span>
+                  </span>
+  
+                </div>
+                <!-- ---------------------------- -->
+              </div>
+              <!-- END Formula Editor -->
+            </div>
+            <!-- END FORMULA BLOCK -->
+  
+            <!-- CALCULATOR BLOCK -->
+            <div class="row m-l-0 m-r-0">
+              <div class="col-sm-12">
+                <div class="btn-group-vertical my-2" role="group" aria-label="Basic example">
+  
+                  <!-- Calculator view -->
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-outline-secondary border-bottom-0 rounded-0"
+                      (click)="numericFun('7')">7</button>
+                    <button type="button" class="btn btn-outline-secondary border-bottom-0"
+                      (click)="numericFun(8)">8</button>
+                    <button type="button" class="btn btn-outline-secondary border-bottom-0 rounded-0"
+                      (click)="numericFun(9)">9</button>
+                    <button type="button" class="btn btn-outline-secondary border-bottom-0 rounded-0"
+                      (click)="operatorFun('+')">&#43;</button>
+                    <button type="button" class="btn btn-outline-secondary border-bottom-0 rounded-0"
+                      (click)="operatorFun('add')">{{constants['label_Addition']}}</button>
+                  </div>
+  
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-outline-secondary border-bottom-0 rounded-0"
+                      (click)="numericFun('4')">4</button>
+                    <button type="button" class="btn btn-outline-secondary border-bottom-0 rounded-0"
+                      (click)="numericFun('5')">5</button>
+                    <button type="button" class="btn btn-outline-secondary border-bottom-0 rounded-0"
+                      (click)="numericFun('6')">6</button>
+                    <button type="button" class="btn btn-outline-secondary border-bottom-0 rounded-0"
+                      (click)="operatorFun('-')">&#8722;</button>
+                    <button type="button" class="btn btn-outline-secondary border-bottom-0 rounded-0"
+                      (click)="operatorFun('sub')">{{constants['label_Sub']}}</button>
+                  </div>
+  
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-outline-secondary rounded-0" (click)="numericFun('1')">1</button>
+                    <button type="button" class="btn btn-outline-secondary" (click)="numericFun('2')">2</button>
+                    <button type="button" class="btn btn-outline-secondary rounded-0" (click)="numericFun('3')">3</button>
+                    <button type="button" class="btn btn-outline-secondary border-bottom-0 rounded-0"
+                      (click)="operatorFun('*')">&times;</button>
+                    <button type="button" class="btn btn-outline-secondary border-bottom-0 rounded-0"
+                      (click)="operatorFun('mul')">{{constants['label_Mul']}}</button>
+                  </div>
+  
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-outline-secondary border-bottom-0 rounded-0"
+                      (click)="numericFun('.')">&#183;</button>
+                    <button type="button" class="btn btn-outline-secondary border-bottom-0"
+                      (click)="numericFun('0')">0</button>
+                    <button type="button" class="btn btn-outline-secondary border-bottom-0 rounded-0"
+                      (click)="operatorFun('sqrt')"> &#8730;</button>
+                    <button type="button" class="btn btn-outline-secondary border-bottom-0 rounded-0"
+                      (click)="operatorFun('%')"> &#x25;</button>
+                    <button type="button" class="btn btn-outline-secondary border-bottom-0 rounded-0"
+                      (click)="operatorFun('div')">{{constants['label_Div']}}</button>
+                  </div>
+  
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-outline-secondary rounded-0" (click)="operatorFun('(')">
+                      &#40;</button>
+                    <button type="button" class="btn btn-outline-secondary rounded-0" (click)="operatorFun(')')">
+                      &#41;</button>
+                    <button type="button" class="btn btn-outline-secondary rounded-0" (click)="operatorFun('/')">
+                      /</button>
+                    <button type="button" class="btn btn-outline-secondary rounded-0"
+                      (click)="operatorFun('avg')">&#10767;</button>
+                    <button type="button" class="btn btn-outline-secondary rounded-0" (click)="operatorFun('inv')">{{constants['label_Inv']}}
+                    </button>
+                  </div>
+                  <!-- End Calculator View -->
+  
+                </div>
+              </div>
+            </div>
+            <!-- END CALCULATOR BLOCK -->
+          </div>
+          <!-- END CALCULATOR WIDGET -->
+        
+          <div class="row referencelist-div" *ngIf="checkProperty(widgetKey.dynamicDropdownTable)">
+              <div class="col-md-6">
+                <label for="dynamicDropdownTable" class="fon-label">{{constants['label_ReferenceList']}}<span class="required-label" *ngIf="loginDetails.type!=0">*</span>
+                </label>
+              </div>
+              <div class="col-md-6">
+                <select class="form-control" [formControlName]="[widgetKey.dynamicDropdownTable]"
+                  (change)="dropdownTable($event.target.value)">
+                  <option [ngValue]="null" disabled>{{dropdownMsg}}</option>
+                  <option [value]="entry" *ngFor="let entry of  collectionList">{{entry}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row m-t-5 referencelist-div" *ngIf="checkProperty(widgetKey.columnName)">
+              <div class="col-md-6">
+                <label for="dynamicDropdownTable" class="fon-label">{{constants['label_ColumnName']}}<span class="required-label" *ngIf="loginDetails.type!=0">*</span></label>
+              </div>
+              <div class="col-md-6">
+                <select class="form-control" [formControlName]="[widgetKey.columnName]"
+                  >
+                  <option [ngValue]="null" disabled>{{coldropdownMsg}}</option>
+                  <option [value]="entry" *ngFor="let entry of  columnsList">{{entry}}</option>
+                </select>
+              </div>
+            </div>
+
+        <div class="set-rules-div">
+            <div  *ngIf="checkProperty(widgetKey.isRequired)"> {{constants['label_SetRules']}}</div>
+            
+            <div class="row form-check form-check-inline">
+                <div class="custom-control custom-checkbox" *ngIf="checkProperty(widgetKey.isRequired)">
+                  <input type="checkbox" class="custom-control-input" id="customCheck1"
+                    [formControlName]="[widgetKey.isRequired]" value="1">
+                  <label class="custom-control-label fon-label" for="customCheck1">{{constants['label_Required']}}</label>
+                </div>
+      
+                <div class="custom-control custom-checkbox" *ngIf="checkProperty(widgetKey.isGeotagginEnable)">
+                    <input type="checkbox" class="custom-control-input" id="geoTagging"
+                      [formControlName]="[widgetKey.isGeotagginEnable]" value="1">
+                    <label class="custom-control-label fon-label" for="geoTagging">{{constants['label_GeoTagging']}} </label>
+                </div>
+      
+                <div class="custom-control custom-checkbox" *ngIf="checkProperty(widgetKey.disabled)">
+                  <input type="checkbox" class="custom-control-input" id="customCheck2"
+                    [formControlName]="[widgetKey.disabled]" value="2">
+                  <label class="custom-control-label fon-label" for="customCheck2">{{constants['label_ReadOnly']}}</label>
+                </div>
+                <div class="custom-control custom-checkbox" *ngIf="checkProperty(widgetKey.isAllowMultiselection)">
+                  <input type="checkbox" class="custom-control-input" id="customCheck3"
+                    [formControlName]="[widgetKey.isAllowMultiselection]" value="1">
+                  <label class="custom-control-label fon-label" for="customCheck3">{{constants['label_AllowMutliple']}}</label>
+                </div>
+              </div>
+        </div>
+        <!-- <div class="clearfix"></div> -->
+
+        
+
+        <!-- <div class="separator-dashed"></div> -->
+        <!-- End CheckBox -->
+        <!-- Dynamic Dropdown -->
+        
+        <!--End Dynamic Dropdown -->
+        
+        <!-- End Additional Inputs Block -->
+
+
+        <!-- Type change -->
+        <div class="separator-dashed" *ngIf="checkProperty(widgetKey.typeChange)"></div>
+
+        <!-- <label class="my-2 fon-label" *ngIf="checkProperty(widgetKey.typeChange) && isChangeTypeEnable"> 
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="changeType" name="changeType" [formControlName]="[widgetKey.changeType]">
+            <label class="custom-control-label" for="changeType">{{constants['label_ChangeFieldType']}}</label>
+          </div>
+        </label> -->
+
+        <!-- <div class="clearfix"></div> -->
+
+        <!-- <div class="row" *ngIf="checkProperty(widgetKey.typeChange) && isChangeTypeEnable">
+          <div class="col-md-5">
+            <label for="typeChange" class="fon-label">{{constants['label_AvailableType']}}</label>
+          </div>
+          <div class="col-md-5">
+            <ng-select [items]="typeChangeOptions" placeholder="Select type" [addTag]="addTag" bindLabel="name"
+              (change)="onItemSelect($event)">
+            </ng-select>
+          </div>
+        </div> -->
+        <!-- End Type Change -->
+
+        <!-- ============================================ -->
+        <!-- <div class="separator-dashed"></div> -->
+        <!-- Property Action -->
+        <div class="form-group float-right">
+          <button type="button" (click)="saveProperties()" class="btn btn-icon btn-xs btn-round btn-success mr-2"
+            [disabled]="!form.valid ||validateTB" title="{{constants['label_Save']}}">
+            <i class="fa fa-check"></i>
+          </button>
+          <button type="button" class="btn btn-icon btn-xs btn-round btn-danger" (click)="cancel()" title="{{constants['label_Cancel']}}">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <!-- End Property Action Block -->
+
+        <!-- <div class="form-group form-group-default" *ngIf="checkProperty(widgetKey.typeChange)">
+          Change Type
+          <ng-multiselect-dropdown class="form-control" 
+                        [placeholder]="'select type'" 
+                        [data]="typeChangeOptions"
+                        [settings]="dropdownSettings"
+                        (onSelect)="onItemSelect($event)">
+          </ng-multiselect-dropdown>
+        </div> -->
+      </form>
+
+    </div>
+  </div>
+</div>

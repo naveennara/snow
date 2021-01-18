@@ -1,0 +1,147 @@
+/*bread crumb csss start*/
+.custom-page-title{
+    font-size: 18px;
+    font-weight: 400;
+    color: #6e5ad4;
+    line-height: 30px;
+}
+.custom-bread-crumbs{
+    list-style: none;
+    display: inline;
+    border-left: 1px solid #efefef;
+    margin-left: 25px;
+    padding-left: 25px;
+    padding-top: 11px;
+    /* padding-top: 8px;
+    padding-bottom: 8px; */
+
+}
+.custom-bread-crumbs li {
+    display: inline-block;
+}
+
+.breadcrumbs li.separator {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 12px;
+}
+/*bread crumb csss end*/
+
+
+
+
+
+
+
+
+
+
+/* //assignmnet Listing styles */
+
+
+
+.assigned-class{
+    border-left: 2px solid green;
+}
+.reassigned-class{
+    border-left: 2px solid red;
+}
+
+.webuser-assignment-card {
+    max-width: 100%;
+}
+.webuser-assignment-card .card-text {
+    word-wrap: break-word;
+}
+
+.search-results {
+  height: 100%;
+  overflow: scroll;
+}
+
+
+#scroller {
+  height: 100vh;
+  width: 700px;
+  overflow: scroll;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.news {
+  padding: 30px;
+}
+
+
+p {
+  font-family: Lato;
+}
+.search-results {
+  height: 100%;
+}
+.title {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-70%);
+  left: 0;
+  background-color: rgba(212, 6, 6, 0.5);
+  color: white;
+  width: 100%;
+}
+.title small {
+  color: #eaeaea;
+}
+
+.assigmnet-name:hover{
+  text-decoration: underline;
+  color: blue;
+  cursor: pointer;
+}
+
+/* New UI Styles */
+/* Author: PK */
+.task-ActionBar {
+  opacity: 0;
+  width: auto;
+  transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+}
+
+.task-list:hover {
+  background-color: #E9ECEF;
+}
+
+.task-list:hover .task-ActionBar {
+  opacity: 1;
+  transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+}
+
+
+ .wu-header-text{
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.wu-no-data-found{
+  text-align: center;
+}
+ .dropdown-menu {
+   position: absolute !important;
+ }
+
+ .wu-list-item{
+  list-style: none;
+  padding-bottom: 10px;
+  padding-left: 0px;
+ 
+}
+.wu-list-item-ul {
+  padding-left: 0px
+}

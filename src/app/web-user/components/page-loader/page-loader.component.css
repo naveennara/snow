@@ -1,0 +1,12 @@
+.page-loader-centered {
+  position: fixed;
+  left: 43%;
+  /* height: 378px; */
+  top: 47%;
+}
+.page-loader-text {
+  position: fixed;
+  left: 47%;
+  top: 55%;
+  font-size: 27px;
+}

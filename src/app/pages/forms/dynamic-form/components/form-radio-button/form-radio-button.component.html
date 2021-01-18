@@ -1,0 +1,38 @@
+<div class="row p-5 animated fadeIn">
+  <div class="kanban-board col-md-12" [ngStyle]="{'background-color':setColor()}">
+    <header class="kanban-board-header success">
+      <div class="kanban-title-board">
+          <app-common-form-labels [widget]="config"></app-common-form-labels>
+        <!-- <img [src]='WidgetInfo.displayIcon' alt="{{WidgetInfo.displayText}}" class="dragged_Widget_Img">
+        {{WidgetInfo.displayText}}  -->
+      </div>
+      <app-common-formaction-view [config]="config" *ngIf="ispreview!='preview' &&  ispreview != 'Edit'"></app-common-formaction-view>
+    </header>
+    <form [formGroup]="group" >
+      <div class="form-group form-group-default setHeight" *ngIf="ispreview == 'preview'|| ispreview == 'Edit'">
+        <!-- <label class="p-5">{{config[widgetKey.label]}}
+          <span class="required-label" *ngIf="config[widgetKey.isRequired]">*</span>
+        </label> -->
+        <div class="custom-control custom-radio"  *ngFor="let entry of config[widgetKey.options]">
+          <input type="radio" id="{{entry.value}}" [value] ="entry.value"  class="custom-control-input"
+          [formControlName]="config[widgetKey._id]"  [ngClass]="{'disabledEvent':ispreview == 'preview' }">
+          <label class="custom-control-label" for="{{entry.value}}" [ngClass]="{'disabledEvent':ispreview == 'preview' }">{{entry[widgetKey.optionDisplayName]}}</label>
+        </div>
+        <app-validation [dynamicFormControlRef]="group.get(config[widgetKey._id])">
+
+        </app-validation>
+        <!-- <div class="selectgroup w-100" >
+          
+          <label class="selectgroup-item" *ngFor="let entry of config[widgetKey.options]" [ngClass]="{'disabledEvent':ispreview == 'preview' }">
+            <input type="radio"  [value] ="entry.value"  
+              class="selectgroup-input" [ngClass]="{'disabledEvent':ispreview == 'preview' }" [formControlName]="config[widgetKey._id]">
+            <span class="selectgroup-button selectgroup-button-icon">{{entry[widgetKey.optionDisplayName]}}</span>
+          </label>
+          <app-validation [dynamicFormControlRef]="group.get(config[widgetKey._id])">
+
+            </app-validation>
+        </div> -->
+      </div>
+    </form>
+  </div>
+</div>

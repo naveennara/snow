@@ -1,0 +1,114 @@
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <div class="card-head-row">
+          <!-- <div class="card-title" *ngIf="loginDetails['type']==3">Preview</div> -->
+          <!-- <div class="card-title" *ngIf="loginDetails['type']!=3">Edit</div> -->
+          <div class="card-tools">
+            <div class="btn-group">
+              <div class="float-right padding">
+                <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+                 (click)="back()" title="{{userkeys['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+                 </button>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <div class="card-body mx-4">
+        <form [formGroup]="updateuser" (ngSubmit)="updateUser(updateuser.valid)" [autocomplete]="autoCompleteForm">
+
+            <div class="form-group form-group-default">
+              <label for="name" class="placeholder">{{userkeys['label_Username']}}<span class="required-label">*</span></label>
+              <input type="text" id="username" class="form-control" [formControlName]="userkeys['username']" [readonly]="true" required />
+              
+            </div>
+
+            <div class="form-group form-group-default">
+                <label for="name" class="placeholder">{{userkeys['label_FirstName']}}<span class="required-label">*</span></label>
+                <input name="user-edit-name" [autocomplete]="autoCompleteField" type="text" id="name" *ngIf="loginDetails.type==1" class="form-control" [formControlName]="userkeys['name']"  [ngClass]="{ 'is-invalid': submitted && f[userkeys['name']].errors }" appTrimValues required />
+                <input  [autocomplete]="autoCompleteField" type="text" id="name" *ngIf="loginDetails.type==0 || loginDetails.type==3" [readonly]="true" class="form-control" [formControlName]="userkeys['name']"  [ngClass]="{ 'is-invalid': submitted && f[userkeys['name']].errors }" required />
+                <div *ngIf="submitted && f[userkeys['name']].errors" class="invalid-feedback">
+                  <span *ngIf="f[userkeys['name']].errors.required" class="form-text text-red">{{userkeys['required_Name']}}</span>
+              </div>
+            </div>
+            <div class="form-group form-group-default">
+              <label for="name" class="placeholder">{{userkeys['label_LastName']}}<span class="required-label">*</span></label>
+              <input name="user-edit-lname" [autocomplete]="autoCompleteField" type="text" id="lastname" *ngIf="loginDetails.type==1" class="form-control" [formControlName]="userkeys['lastname']"  [ngClass]="{ 'is-invalid': submitted && f[userkeys['lastname']].errors }" appTrimValues required />
+              <input  [autocomplete]="autoCompleteField" type="text" id="lastname" *ngIf="loginDetails.type==0 || loginDetails.type==3" [readonly]="true" class="form-control" [formControlName]="userkeys['lastname']"  [ngClass]="{ 'is-invalid': submitted && f[userkeys['lastname']].errors }" required />
+              <div *ngIf="submitted && f[userkeys['lastname']].errors" class="invalid-feedback">
+                <span *ngIf="f[userkeys['lastname']].errors.required" class="form-text text-red">{{userkeys['required_LastName']}}</span>
+            </div>
+          </div>
+      
+            <div class="form-group form-group-default">
+              <label for="name" class="placeholder">{{userkeys['label_Email']}}<span class="required-label">*</span></label>
+              <input  name="user-edit-email" type="email" id="email" *ngIf="loginDetails.type==1" class="form-control"  myNoSpaces appTrimValues [formControlName]="userkeys['email']" [ngClass]="{ 'is-invalid': submitted && f[userkeys['email']].errors }"  required />
+              <input  name="user-edit-email" type="email" id="email" *ngIf="loginDetails.type==0 || loginDetails.type==3" class="form-control" [readonly]="true" [formControlName]="userkeys['email']" [ngClass]="{ 'is-invalid': submitted && f[userkeys['email']].errors }" required />
+              <span *ngIf="f[userkeys['email']].dirty && f[userkeys['email']].invalid && f[userkeys['email']].value.length>0 && !submitted" class="emailText">{{userkeys['validation_Email']}}</span>
+              <span *ngIf="f[userkeys['email']].dirty && f[userkeys['email']].value.length==0 && !submitted" class="emailText">{{userkeys['required_Email']}}</span>
+              <div *ngIf="submitted && f[userkeys['email']].errors" class="invalid-feedback">
+                <span *ngIf="f[userkeys['email']].errors.required" class="form-text text-red">{{userkeys['required_Email']}}</span>
+                <span *ngIf="f[userkeys['email']].errors.email">{{userkeys['validation_Email']}}</span>
+              </div>
+            </div>
+
+            <div class="form-group form-group-default">
+                <label for="name" class="placeholder fon-label">{{userkeys['label_Contact']}}<span class="required-label">*</span></label>
+                <input  name="user-edit-phone" type="text"  *ngIf="loginDetails.type==1" id="phone" class="form-control" appTrimValues [formControlName]="userkeys['phone']" [ngClass]="{ 'is-invalid': submitted && f[userkeys['phone']].errors }" minlength='10' maxlength='12' numbersOnly/>
+                <input  name="user-edit-phone" type="text" *ngIf="loginDetails.type==0 || loginDetails.type==3" id="phone" class="form-control" [readonly]="true" [formControlName]="userkeys['phone']"/>
+                <div *ngIf="submitted && f[userkeys['phone']].errors" class="invalid-feedback">
+                    <span *ngIf="f[userkeys['phone']].errors.required" class="form-text text-red">{{userkeys['required_Phone']}}</span>
+                    <span *ngIf="f[userkeys['phone']].errors.minlength" class="form-text text-red">{{userkeys['validation_Phone_MinL']}}</span>
+                    <span *ngIf="f[userkeys['phone']].errors.maxlength" class="form-text text-red">{{userkeys['validation_Phone_MaxL']}}</span>
+                    <span *ngIf="f[userkeys['phone']].errors.pattern" class="form-text text-red">{{userkeys['onlyNumbers']}}</span>
+                </div>
+            </div>
+            
+              <div  *ngIf="loginDetails.type==0">
+                  <label for="accounts" class="placeholder fon-label" >{{userkeys['Accounts']}}</label>
+                  <ng-select [items]="selectedDepartments"
+                            [addTag]="addTag"
+                            [hideSelected]="true"
+                            multiple="true"
+                            bindLabel="name" [formControlName]="userkeys['accounts']">
+                 </ng-select>
+             </div>
+             <div  *ngIf="loginDetails.type==3">
+              <label for="accounts" class="placeholder fon-label" >{{userkeys['Accounts']}}</label>
+              <ng-select [items]="selectedDepartments"
+                        [addTag]="addTag"
+                        [hideSelected]="true"
+                        multiple="true"
+                        bindLabel="name" [formControlName]="userkeys['accounts']" [ngClass]="{
+                          'disabledList':true}">
+             </ng-select>
+         </div>
+      
+
+            <div class="form-group" style="margin-left: -9px;">
+                <label>{{userkeys['label_Image']}}</label>
+                <div class="input-file input-file-image">
+                  <img class="img-upload-preview img-circle" width="100" height="100"
+                    *ngIf="updateuser.value.imageurl && !imageUploaded"
+                    src="{{imgUrldataUser+updateuser.value.imageurl}}" alt="preview">
+                  <img class="img-upload-preview img-circle" width="100" height="100" *ngIf="imgURL" [src]="imgURL"
+                    alt="preview">
+                  <input type="file" (change)="onFileChange($event)" class="form-control form-control-file"
+                    id="uploadImg" name="uploadImg"accept="image/x-png,image/jpeg" >
+                  <label for="uploadImg" *ngIf="loginDetails.type==1 && showButton" class=" label-input-file btn btn-primary fon-label">{{userkeys['changeAvtar']}}</label>
+                  <label for="uploadImg" *ngIf="loginDetails.type==0 || loginDetails.type==3" class=" label-input-file btn btn-primary fon-label"  [ngClass]="{'disabledList':true }">{{userkeys['changeAvtar']}}</label>
+                </div>
+              </div>
+
+      
+            <div class="form-group" *ngIf="loginDetails['type']!=3">
+              <div class="col-md-3 offset-md-5">
+                <button type="submit" [disabled] = "!imageChange && !updateuser.dirty" class="btn btn-outline-primary btn-rounded btn-sm mr-3">{{userkeys['label_Update']}}</button>
+                <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+                  [routerLink]="['/mainLayout','users']">{{userkeys['label_Cancel']}}</button>
+              </div>
+            </div>
+        </form>
+    </div>
+</div>

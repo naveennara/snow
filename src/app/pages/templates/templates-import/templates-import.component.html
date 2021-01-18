@@ -1,0 +1,128 @@
+<!-- <ngx-smart-modal #myModal identifier="myModal"> -->
+
+  <div class="card shadow mb-4 wizard-container wizard-round col-md-8">
+    <div class="card-header">
+      <div class="card-head-row">
+        <div class="card-tools">
+          <div class="btn-group">
+            <div class="float-right padding">
+              <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent"
+              [routerLink]="['/mainLayout','templates']" title="Back"><i class="fas fa-arrow-left icon-color"></i>
+               </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="card-head-row card-tools-still-right">
+        <h4 class="card-title font-weight-bold text-primary">Import template as form</h4>
+        <div class="card-tools">
+         
+        </div>
+      </div> -->
+    </div>
+    <div class="card-body">
+      <form class="m-l-20 m-r-20" [formGroup]="importFormfromTemplate" (ngSubmit)="importTemplate()"  [autocomplete]="autoCompleteForm">
+  
+        <!-- <div *ngIf="loginDetails.type!=='0'"> -->
+  
+          <!-- Form Name  -->
+          <div class="form-group form-group-default">
+            <label>{{formKeys['label_Formname']}}<span class="required-label">*</span></label>
+            <input [autocomplete]="autoCompleteField" name="import-template-name" type="text" class="form-control" name="name" placeholder="Enter Form Name" [formControlName]="formKeys['name']"
+              [ngClass]="{ 'is-invalid': submitted && f[formKeys['name']].errors }">
+            <div *ngIf="submitted && f[formKeys['name']].errors" class="invalid-feedback">
+              <span *ngIf="f[formKeys['name']].errors.required" class="form-text text-red">{{formKeys['required_FormName']}}</span>
+            </div>
+            <small class ="required-label" *ngIf="submitted && isFromExist">
+              {{formKeys['formnameExists']}} 
+            </small>
+          </div>
+  
+          <div class="form-group form-group-default">
+            <label> {{formKeys['label_OwnerMail']}}<span class="required-label">*</span></label>
+            <input type="text" class="form-control" name="ownerMail" placeholder="Enter EmailId" [formControlName]="formKeys['alternativeMailid']" 
+              disabled>
+          </div>
+  
+          <div class="form-group form-group-default">
+            <label>{{formKeys['label_OwnerName']}}<span class="required-label">*</span></label>
+            <input type="text" class="form-control" name="ownerName" placeholder="Enter Owner Name" [formControlName]="formKeys['createdBy']"
+              disabled>
+          </div>
+  
+          <div class="form-group form-group-default">
+            <label>{{formKeys['label_AccName']}}<span class="required-label">*</span></label>
+            <input type="text" class="form-control" name="ownerDept" placeholder="Enter Owner Account Name"
+            [formControlName]="formKeys['department']" disabled>
+          </div>
+  
+          <div class="form-group form-group-default">
+            <label>{{formKeys['label_formCat']}}<span class="required-label">*</span></label>
+            
+              <ng-multiselect-dropdown class="form-control" 
+                  [placeholder]="'select category'" 
+                  [settings]="dropdownSettings"
+                  [data]="categoriesList"
+                  [formControlName]="formKeys['formzCategory']" 
+                  name="formzCategory" 
+                  
+                  [ngClass]="{ 'is-invalid': submitted && f[formKeys['formzCategory']].errors }">
+              </ng-multiselect-dropdown>
+              <div *ngIf="submitted && f[formKeys['formzCategory']].errors" class="invalid-feedback">
+                  <span *ngIf="f[formKeys['formzCategory']].errors.required" class="form-text text-red">{{formKeys['required_category']}}</span>
+                </div>
+          </div>
+          <div class="form-group form-group-default">
+              <label>{{formKeys['label_formType']}}<span class="required-label">*</span></label>
+              
+              <select  [formControlName]="formKeys['category']" class="form-control"  name="category">
+                  <option value="Public">{{formKeys['Public']}}</option> 
+                  <option value="Private">{{formKeys['Private']}}</option>
+              </select>
+            </div>
+            <div class="form-group form-group-default" *ngIf="importFormfromTemplate.value.category=='Private'">
+                <label>{{formKeys['label_Users']}}</label>
+                  <ng-multiselect-dropdown class="form-control" 
+                      [placeholder]="'select Users'" 
+                      [settings]="dropdownSettings3"
+                      [data]="usersListForMap"
+                      [formControlName]="formKeys['allocatedUsers']" 
+                      name="allocatedUsers" 
+                    
+                      >
+                  </ng-multiselect-dropdown>
+                  <span *ngIf="submitted && isErr && !importFormfromTemplate.value.allocatedUsers.length>0" class="errorText">{{formKeys['required_Users']}}</span>
+              </div>
+  
+          <div class="form-group form-group-default">
+              <label>{{formKeys['label_Description']}}</label>
+              <textarea class="form-control" name="description" placeholder="Enter Form Description" rows="3" [formControlName]="formKeys['description']">
+                  
+              </textarea>
+          </div>
+  
+          <div class="form-group form-group-default">
+              <label>{{formKeys['label_Instructions']}}</label>
+              <textarea class="form-control" name="workInstruction" placeholder="Provide workInstruction" rows="3" [formControlName]="formKeys['workInstruction']">
+  
+              </textarea>
+          </div>
+  
+          <div class="form-group">
+              <div class="col-md-3 offset-md-4">
+                  <button class="btn btn-outline-primary btn-rounded btn-sm mr-2" type="submit">{{formKeys['label_Go']}}</button>
+                  <button class="btn btn-outline-danger btn-rounded btn-sm" type="button" [routerLink]="['/mainLayout','templates']"> {{formKeys['label_Cancel']}}</button>
+              </div>
+          </div>
+  
+        <!-- </div> -->
+  
+  
+      </form>
+    </div>
+  </div>
+  
+  
+  <!-- <button (click)="myModal.close()">Close</button>
+    </ngx-smart-modal> -->
+  

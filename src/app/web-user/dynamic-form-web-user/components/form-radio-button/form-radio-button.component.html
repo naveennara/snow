@@ -1,0 +1,20 @@
+<span *ngIf="derivedFields.indexOf(config[widgetKey._id]) > -1 ? false : isTable ? true : config[widgetKey.isUnderHeading].length==0?true:config[widgetKey.isUnderHeading]== expendedHeaderId?true:false">
+    <div class="form-group" >
+        <label>{{config[widgetKey.label]}}</label> <span *ngIf="config[widgetKey.isRequired] == true" class="webuser-mandatory-indicator-color"> *</span>
+       <span class="row options-border-box web-user-widget" [formGroup]="group"  [ngClass]="{'webuseer-formcontroll-error':group.get(config[widgetKey._id]).invalid === true && group.get(config[widgetKey._id]).dirty === true,
+       'webuser-formcontroll-sucess':group.get(config[widgetKey._id]).valid === true &&  group.get(config[widgetKey._id]).dirty === true
+       }">
+         <span class="col-md-2 " *ngFor="let entry of config[widgetKey.options];let i=index">
+             <div class="custom-control custom-radio">
+                 <input type="radio" id="{{config[widgetKey.label]}} -{{entry[widgetKey.optionDisplayName]}}" (change)="selectValueChanged(group.get(config[widgetKey._id]),config)"  [value] ="entry.value" class="custom-control-input" [formControlName]="config[widgetKey._id]">
+                 <label class="custom-control-label" for="{{config[widgetKey.label]}} -{{entry[widgetKey.optionDisplayName]}}">{{entry[widgetKey.optionDisplayName]}}</label>
+             </div>
+         </span>
+
+       </span>
+       <app-validation [dynamicFormControlRef]="group.get(config[widgetKey._id])">
+
+       </app-validation>
+   </div>
+
+</span>

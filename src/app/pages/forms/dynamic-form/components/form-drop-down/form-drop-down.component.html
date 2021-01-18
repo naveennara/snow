@@ -1,0 +1,27 @@
+<div class="row p-5 animated fadeIn">
+  <div class="kanban-board col-md-12" [ngStyle]="{'background-color':setColor()}">
+    <header class="kanban-board-header success">
+      <div class="kanban-title-board">
+          <app-common-form-labels [widget]="config"></app-common-form-labels>
+        <!-- <img [src]='WidgetInfo.displayIcon' alt="{{WidgetInfo.displayText}}" class="dragged_Widget_Img">
+        {{WidgetInfo.displayText}}  -->
+      </div>
+      <app-common-formaction-view [config]="config" *ngIf="ispreview!='preview' &&  ispreview != 'Edit'"></app-common-formaction-view>
+    </header>
+    <form [formGroup]="group" >
+      <div class="form-group form-group-default" cancelText="Dismiss"  *ngIf="ispreview == 'preview' || ispreview == 'Edit'">
+        <!-- <label for="form-dropdown" class="p-5">{{config[widgetKey.label] || "DropDown" }}
+          <span class="required-label" *ngIf="config[widgetKey.isRequired]">*</span>
+        </label> -->
+        <select class="form-control" *ngIf="ispreview == 'Edit'" [ngClass]="{'disabledEvent':ispreview == 'preview' }"  [formControlName]="config[widgetKey._id]">
+          <option [value]="entry.value" *ngFor="let entry of  config[widgetKey.options]"  >{{entry[widgetKey.optionDisplayName]}}</option>
+        </select>
+        <input  type="text" id="{{config[widgetKey._id]}}" *ngIf="ispreview == 'preview'" class="form-control"  [formControlName]="config[widgetKey._id]" [readonly]="ispreview == 'preview'">
+
+        <app-validation [dynamicFormControlRef]="group.get(config[widgetKey._id])">
+
+          </app-validation>
+      </div>
+    </form>
+  </div>
+</div>

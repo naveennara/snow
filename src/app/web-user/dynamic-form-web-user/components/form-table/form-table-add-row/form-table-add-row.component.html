@@ -1,0 +1,27 @@
+<div>
+      <div class="modal-header ">
+        <h4 class="modal-title pull-left">{{tableLable}}</h4>
+        <div class=" pull-right" >
+            <div class="btn-group" role="group" >
+                <button (click)="modalRef.hide()" type="button" class="btn btn-info btn-group-button-padding"> <i class="fa fa-times fa-md" aria-hidden="true"></i></button>
+                <button [hidden]="isHistoryView" (click)="getFormFilledData()" type="button" class="btn btn-secondary"><i class="fa fa-check fa-md" aria-hidden="true"></i></button>
+            </div>
+        </div>
+
+      </div>
+      <div class="modal-body question-modal-body" style="padding-bottom: 300px">
+          <div>
+              <form class="dynamic-form" [formGroup]="form">
+
+                  <ng-container *ngFor="let field of config;" dynamicField [config]="field" [group]="form" [data]="recordData"  [isHistoryView]="isHistoryView" [derivedFields]="derivedFields"
+                  [isTable]=true >
+                  </ng-container>
+              </form>
+          </div>
+
+    </div>
+
+</div>
+
+
+

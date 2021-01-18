@@ -1,0 +1,127 @@
+<div class="row">
+  <div class="col-md-8">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary"></h6>
+        <div class="card-tools">
+            
+            <button type="button" class="btn btn-icon btn-border btn-round mr-2 btn-xs btn-transparent" (click)="cancel()"
+                  title="{{constants['label_Back']}}"><i class="fas fa-arrow-left icon-color"></i>
+            </button>
+          
+          </div>
+      </div>
+
+      <div class="card-body">
+        <form [formGroup]="profile" (ngSubmit)="onUpdate()" [autocomplete]="autoCompleteForm">
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <div class="form-group form-group-default">
+                <label for="name">{{constants['label_FirstName']}}</label>
+                <input type="text" name="create-profile-first"  autocomplete="no-auto"  [formControlName]="constants['name']" id="name"
+                  class="form-control input-border-bottom" [ngClass]="{ 'is-invalid': submitted && f.name.errors}" />
+                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                  <span *ngIf="f.name.errors.required" class="form-text text-red">
+                    {{constants['required_Name']}}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group form-group-default">
+                <label>{{constants['label_LastName']}}</label>
+                <input autocomplete="no-auto" type="text" class="form-control" name="create-profile-lname" placeholder="Name" [formControlName]="constants['lastname']" [ngClass]="{ 'is-invalid': submitted && f.lastname.errors}">
+                <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
+                  <span *ngIf="f.lastname.errors.required" class="form-text text-red">
+                    {{constants['required_LastName']}}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <div class="form-group form-group-default">
+                <label>{{constants['label_Email']}}</label>
+                <input name="create-profile-email"  autocomplete="no-auto"  type="email" [formControlName]="constants['email']" class="form-control input-border-bottom"
+                  id="email" appTrimValues
+                  [ngClass]="{ 'is-invalid': submitted && f.email.errors}" />
+                <span *ngIf="f.email.dirty && f.email.invalid && f.email.value.length>0 && !submitted" 
+                  class="emailText">{{constants['validation_Email']}}</span>
+                <span *ngIf="f.email.dirty && f.email.value.length==0 && !submitted"
+                  class="emailText">{{constants['required_Email']}}</span>
+                <div *ngIf="submitted && f.email.errors " class="invalid-feedback">
+                  <span *ngIf="f.email.errors.invalid"
+                    class="form-text text-red">{{constants['validation_Email']}}</span>
+                  <span *ngIf="f.email.errors.required"
+                    class="form-text text-red">{{constants['required_Email']}}</span>
+
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group form-group-default">
+                <label>{{constants['label_Contact']}}</label>
+                <input  autocomplete="no-auto"  name="create-profile-mobile" type="text" [formControlName]="constants['phone']" (keypress)="keyPress($event)" minlength='10'
+                  maxlength='12' id="phone" class="form-control input-border-bottom"
+                  [ngClass]="{ 'is-invalid': submitted && f.phone.errors }" numbersOnly />
+                <div *ngIf="submitted && f.phone.errors " class="invalid-feedback">
+                  <span *ngIf="f.phone.errors.required"
+                    class="form-text text-red">{{constants['required_Phone']}}</span>
+                  <span *ngIf="f.phone.errors.minlength"
+                    class="form-text text-red">{{constants['validation_Phone_MinL']}}</span>
+                  <span *ngIf="f.phone.errors.maxlength"
+                    class="form-text text-red">{{constants['validation_Phone_MaxL']}}</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+         
+          <div class="text-right mt-3 mb-3">
+            <button type="submit" class="btn btn-success mr-2" >Save</button>
+            <button type="button" class="btn btn-danger mr-2" (click)="cancel()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+  <div class="col-md-4">
+      <form [formGroup]="profile">
+
+    <div class="card card-profile">
+      <div class="card-header backgroundImg">
+        <div class="profile-picture">
+          <div class="avatar avatar-xl imagehover">
+              <img class="avatar-img rounded-circle" width="100" height="100"
+              *ngIf="profile.value.imageurl && !imageUploaded"
+              src="{{imgUrldataAdmin+profile.value.imageurl}}" alt="preview">
+            <img class="avatar-img rounded-circle" width="100" height="100" *ngIf="imageUploaded"
+              [src]="imgURL" alt="preview">
+              <div class="overlay">
+                
+                  <!-- <button class="btn btn-icon btn-border btn-round my-4 btn-sm" (click)="onFileChange($event)" title="Edit"> -->
+                      <input #profileFile type="file" id="uploadImg" name="uploadImg" accept="image/*" (change)="onFileChange($event)" style="display:none"  title="{{constants['label_Edit']}}"/>
+                      <!-- <input type="file" (change)="onFileChange($event)" class="form-control form-control-file"
+                      id="uploadImg" name="uploadImg" accept="image/*"> -->
+                      <label for="uploadImg" class="label-input-file my-4"> <i class="fas fa-camera fa-2x icon-color"></i></label>
+                  <!-- </button> -->
+                <!-- <i class="fas fa-camera fa-2x"></i> -->
+              </div>
+            <!-- <img src="../assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle"> -->
+          </div>
+        </div>
+      </div>
+      <div class="card-body ">
+        <div class="user-profile text-center setHeight" *ngIf="viewAdminData">
+          <div class="name" title="{{constants['label_Username']}}">{{viewAdminData.username}}</div>
+          <div class="job" title="{{constants['label_Department']}}">{{viewAdminData.accounts[0]?viewAdminData.accounts[0].name :'N/A'}}</div>
+         
+        </div>
+      </div>
+      
+    </div>
+    </form>
+  </div>
+</div>

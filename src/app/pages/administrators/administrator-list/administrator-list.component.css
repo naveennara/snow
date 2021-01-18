@@ -1,0 +1,153 @@
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: #108d6f;
+    border-color: #108d6f;
+    box-shadow: none;
+    outline: none;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #007b5e;
+    border-color: #007b5e;
+}
+
+
+/* NEw UI css */
+.card-flip > div {
+    backface-visibility: hidden;
+    transition: transform 300ms;
+    transition-timing-function: linear;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: flex;
+  }
+  
+  .card-front {
+    transform: rotateY(0deg);
+  }
+  
+  .card-back {
+    transform: rotateY(180deg);
+    position: absolute;
+    top: 0;
+  }
+  
+  .card-flip:hover .card-front {
+    transform: rotateY(-180deg);
+  }
+    
+  .card-flip:hover .card-back {
+    transform: rotateY(0deg);
+  }
+
+  .legend {
+      list-style: none;
+      cursor: pointer;
+      padding-left: 0;
+      text-align: left !important;
+      margin-top: 1rem;
+  }
+
+  /* @PK Highlight selected Template */
+.adminsLi a.active .html-legend li {
+  display: inline-block;
+   vertical-align: middle;
+   padding: 0 5px;
+   margin-right: 5px;
+   margin-bottom: 6px;
+   color: #8d9498;
+ }
+ 
+
+ .ribbon {
+  position: absolute;
+  left: -5px; top: -5px;
+  z-index: 1;
+  overflow: hidden;
+  width: 75px; height: 75px;
+  text-align: left;
+}
+
+.ribbon span {
+  font-size: 8px;
+  font-weight: bold;
+  /* color: #FFF; */
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 20px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  width: 100px;
+  display: block;
+  /* background: #79A70A;
+  background: linear-gradient(#9BC90D 0%, #79A70A 100%); */
+  box-shadow: 0 3px 10px -5px rgba(0, 0, 0, 1);
+  position: absolute;
+  top: 19px; left: -21px;
+}
+
+.ribbon span::before {
+  content: "";
+  position: absolute; left: 0px; top: 100%;
+  z-index: -1;
+  /* border-left: 3px solid #79A70A; */
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid transparent;
+  /* border-top: 3px solid #79A70A; */
+}
+
+.ribbon span::after {
+  content: "";
+  position: absolute; right: 0px; top: 100%;
+  z-index: -1;
+  border-left: 3px solid transparent;
+  /* border-right: 3px solid #79A70A; */
+  border-bottom: 3px solid transparent;
+  /* border-top: 3px solid #79A70A; */
+}
+
+
+.avatar .notification {
+  position: absolute;
+  text-align: center;
+  border-radius: 10px;
+  min-width: 30px;
+  height: 22px;
+  color: #fff;
+  font-weight: 500;
+  line-height: 20px;
+  top: 32px;
+  right: -7px;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.avatarBorder {
+  border: 3px solid #c2e7f7;
+}
+
+.card-desc {
+  color: #83848a;
+  font-size: 12px;
+}
+.card-shadow {
+  position: relative;
+  overflow: hidden; 
+}
+.card-shadow:before {
+  content: '';
+  position: absolute;
+  /* background: rgba(255, 255, 255, 0.1); */
+  /* background: rgba(170, 236, 239, 0.41); */
+  background: #c2e7f7;
+  width: 50%;
+  min-width: 150px;
+  height: 100%;
+  top: 0;
+  /* right: -45%;
+  transform: skewX(-45.5deg);  */
+  right: -40%;
+  transform: skewX(-137deg);
+}

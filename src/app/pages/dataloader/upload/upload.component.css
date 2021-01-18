@@ -1,0 +1,12 @@
+button{
+    margin-left: 20px;
+    background-color: #3F51B5;
+    color: white;
+}
+
+p{   font-weight: bold; color :black;
+    font-size: 20px; font-weight: normal; line-height: 48px; margin: 0; 
+}
+
+div{display: inline; margin: 20px;;}
+

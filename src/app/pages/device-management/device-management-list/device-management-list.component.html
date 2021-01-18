@@ -1,0 +1,231 @@
+    <h5 class="op-7 mb-2"><span *ngIf="deptName.length">Filtered results of Account: {{deptName}}</span></h5>
+    <div class="row">
+        <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="float-right" *ngIf="!staticTabs.tabs[1].active">
+          <button type="button" class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2" data-toggle="dropdown"
+            aria-expanded="false" title="{{deviceKeys['label_Filter']}}">
+            <i class="fas fa-filter icon-color"></i>
+          </button>
+  
+          <ul class="dropdown-menu dropdown-menu-right animated fadeIn" x-placement="bottom-end">
+            <li *ngFor="let i of deviceStatusList;let k of index;" class="deviceManagementFilter">
+              <a href="javascript:;" class="dropdown-item p-l-10" (click)="filterDeviceStatus(i,k)"
+                [class.active]='k == selectedRow'>
+                <ul class="html-legend">
+                  <li class="text-left">
+                    {{i}}
+                  </li>
+  
+                </ul>
+              </a>
+            </li>
+          </ul>
+          <button class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2" (click)="getDevicesData(1)">
+            <span class="fa fa-sync-alt icon-color" title="{{deviceKeys['label_Refresh']}}"></span>
+          </button>
+        </div>
+        <tabset #staticTabs>
+          <tab heading="Device Details" class="tabWidth" (selectTab)="onSelect($event)">
+  
+            <div class="row m-10">
+              <p class="card-category m-b-0" *ngIf="devicesList && devicesList.length">
+                Showing ({{(pageNumber -1) * paginationLimit + 1}} to
+                {{paginationLimit * (pageNumber-1) + devicesList.length }}) out of {{total_count}} {{selectedStatus}}
+                Devices
+              </p>
+            </div>
+  
+            <!-- <div class="row"> -->
+              <!-- <div class="col-md-12"> -->
+                <div class="card-body">
+                  <div class="table-responsive scroll">
+                    <table [hidden]="!devicesList?.length" class="table table-bordered table-condensed table-hover">
+                      <thead  class="thead-light">
+                        <tr>
+                          <th *ngFor="let i = index; let feilds of tableFeilds">
+                            {{feilds}}
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody style="height: 2px">
+                        <tr
+                          *ngFor="let i = index;let info of devicesList | paginate: { itemsPerPage: paginationLimit, currentPage: pageNumber,totalItems: total_count, id:'first' }">
+                          <th scope="row">{{ i + 1 + (pageNumber - 1) * paginationLimit}}</th>
+                          <td>{{info.Manufacturer}}</td>
+                          <td>{{info.Model}}</td>
+                          <td>{{info.platform }}</td>
+                          <td>{{info.version}}</td>
+                          <td >
+                              {{info.appVersion?info.appVersion: 'NA'}}
+                            <!-- <button *ngIf="!info.appVersion" type="button" class="btn btn-link" >  
+                               NA
+                              </button>
+                            <button *ngIf="info.appVersion" triggers="focus"  placement="top" type="button" class="btn btn-link" [tooltip]="tolTemplate">  
+                              {{info.appVersion}}
+                            </button> -->
+                            <!-- <ng-template #tolTemplate >
+                              <table style=" margin-left: -10px ; margin-right:10px" class="table bg-dark">
+                                <thead>
+                                    <tr>
+                                        <th class="text-primary">Version</th>
+                                        <th class="text-primary">Date</th>
+                                      </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let versionRef of info.previousVersions">
+                                        <th class="text-white">{{versionRef.version}}</th>
+                                        <th style="padding-right: -10px" class="text-white">{{versionRef.updatedOn | date: "MM/dd/yyyy"}}</th>
+                                      </tr>
+                                </tbody>
+                               
+                               
+                              </table>
+                            </ng-template> -->
+  
+  
+                          </td>
+                          <!-- <td>{{info.MacAddress}}</td> -->
+                          <td>{{info.UUID}}</td>
+                          <td>{{info.requestedUser}}</td>
+                       
+                          <td>
+                            <div class="dropdown">
+                              <button title="{{info.status}}" class="btn btn-primary btn-sm dropdown-toggle setWidth"
+                                type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" (click)="getDevicesStatus(info.status)" [ngClass]="{
+                                  'disabledList':privilegeEdit}">
+                                {{info.status}}
+                                <!-- <span *ngIf="info.status.length>7">...</span> -->
+                              </button>
+                              <div class="dropdown-menu" [hidden]="hideUnauthoisedElement"
+                                aria-labelledby="dropdownMenuButton">
+                                <a *ngFor="let options of deviceOptionsList;" class="dropdown-item" href="javascript:;"
+                                  (click)="deviceRequest(options,info._id,template)">{{options}}
+                                  <ng-template #template>
+                                    <div class="modal-body text-center">
+                                      <p>{{popupMessage}}</p>
+                                      <button type="button" class="btn btn-sm btn-primary"
+                                        (click)="updateDeviceStatus(options,info._id)">Yes</button>
+                                      <button type="button" class="btn btn-sm btn-error"
+                                        (click)="cancelPopup(options)">No</button>
+                                    </div>
+                                  </ng-template>
+                                </a>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <app-devices-delete [deviceInfo]='info'  (notifyParentOnUpdate)='onDeleteItem($event)'>
+                            </app-devices-delete>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <pagination-controls (pageChange)="pageNumber = $event;getDevicesData($event)" id="first"
+                  *ngIf="devicesList && devicesList.length"></pagination-controls>
+                <!-- </div> -->
+                <div *ngIf=" !devicesList?.length" align="center">
+                  <img [src]="Imgsrc" class="img-responsive">
+                </div>
+                <!-- End Table-0 -->
+              <!-- </div> -->
+            <!-- </div> -->
+          </tab>
+          <tab heading="Activity" class="tabWidth" (selectTab)="onSelect($event)">
+            <div class="card-body">
+              <form [formGroup]="activity">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group form-group-default">
+                      <label for="name" class="placeholder">{{deviceKeys['FromDate']}}</label>
+                      <input type="text" placeholder="Select Date" class="form-control" bsDatepicker
+                        [formControlName]="deviceKeys['fromdate']" (bsValueChange)="bsValueChange($event)"
+                        [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }"
+                        [minDate]="startMinDate" [maxDate]="startMaxDate" appCalendar
+                        [ngClass]="{ 'is-invalid': submitted && f.fromdate.errors }" required>
+                      <div *ngIf="submitted && f.fromdate.errors" class="invalid-feedback">
+                        <span *ngIf="f.fromdate.errors.required"
+                          class="form-text text-red">{{deviceKeys['fromdateRequired']}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group form-group-default">
+                      <label for="name" class="placeholder">{{deviceKeys['ToDate']}}</label>
+                      <input type="text" placeholder="Select Date" class="form-control" bsDatepicker
+                        [formControlName]="deviceKeys['todate']" appCalendar
+                        [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }"
+                        [minDate]="endMinDate" [maxDate]="endMaxDate" (bsValueChange)="endValueChange($event)"
+                        [ngClass]="{ 'is-invalid': submitted && f.todate.errors }" required>
+                      <div *ngIf="submitted && f.todate.errors" class="invalid-feedback">
+                        <span *ngIf="f.todate.errors.required"
+                          class="form-text text-red">{{deviceKeys['todateRequired']}}</span>
+                      </div>
+  
+                    </div>
+                  </div>
+                  <div class="col-md-4" *ngIf="loginDetails['type']==0">
+                    <label for="accounts" class="placeholder">{{deviceKeys['Accounts']}}</label>
+                    <div class="row" style="margin-top:2px;">
+                      <div class="col-sm-8">
+                        <ng-select [items]="departmentList" placeholder="Select Account" 
+                          bindLabel="name" formControlName="accounts">
+                        </ng-select>
+  
+                      </div>
+                    </div>
+                  </div>
+                  <div style="margin-top:1%">
+                    <button type="button" class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2"
+                      [hidden]="loginDetails['type']!=0"
+                      (click)="filterDeviceactivity(activity.value,defaultPage,activity.valid)"><i
+                        class="fas fa-filter icon-color"></i></button>
+                    <button type="button" class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2"
+                      [hidden]="loginDetails['type']==0"
+                      (click)="filterDeviceactivity(activity.value,defaultPage,activity.valid)"><i
+                        class="fas fa-filter icon-color"></i></button>
+                  </div>
+                </div>
+              </form>
+              <div class="card-body">
+                <div class="table-responsive">
+  
+                  <table class="table table-bordered" *ngIf="activityData && activityData?.length">
+                    <thead>
+                      <tr>
+  
+                        <th *ngFor="let feilds of tableActivityFeilds">
+                          <label class="activityLog">{{feilds}}</label>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tr
+                      *ngFor="let i = index;let user of activityData | paginate: { itemsPerPage: activityLimit, currentPage: activityPageNumber,totalItems: totalValues,id:'second'}">
+                      <td scope="row">{{ i + 1 + (activityPageNumber - 1) * activityLimit}}</td>
+                      <td>{{user.deviceModel}}</td>
+                      <td>{{user.activity}}</td>
+                      <td>{{user.deviceUUID}}</td>
+                      <td>{{user.timestamp | date : 'mediumDate'}}</td>
+                      <td>{{user.timestamp | date : 'shortTime'}}</td>
+                    </tr>
+                  </table>
+                </div>
+                <pagination-controls (pageChange)="activityPageNumber = $event" id="second"
+                  *ngIf="activityData && activityData.length>0"></pagination-controls>
+              </div>
+            </div>
+            <!-- <div *ngIf=" !activityData?.length" align="center">
+                      <img [src]="Imgsrc" class="img-responsive">
+                    </div> -->
+          </tab>
+        </tabset>
+      </div>
+  
+    </div>
+  
+  </div>
+    </div>

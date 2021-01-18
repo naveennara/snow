@@ -1,0 +1,28 @@
+ <div class="row p-5 animated fadeIn">
+   <div class="kanban-board col-md-12" [ngStyle]="{'background-color':setColor()}">
+     <header class="kanban-board-header success">
+      <div class="kanban-title-board">
+          <app-common-form-labels [widget]="config"></app-common-form-labels>
+        <!-- <img [src]='WidgetInfo.displayIcon' alt="{{WidgetInfo.displayText}}" class="dragged_Widget_Img">
+        {{WidgetInfo.displayText}}  -->
+      </div>
+       <app-common-formaction-view [config]="config" *ngIf="ispreview!='preview' &&  ispreview != 'Edit'"></app-common-formaction-view>
+     </header>
+     <form  [formGroup]="group">
+       <div class="form-group form-group-default" *ngIf="ispreview == 'preview' || ispreview == 'Edit'">
+         <!-- <label for="form-number" class="p-5">{{config[widgetKey.label] || "Signature" }}
+           <span class="required-label" *ngIf="config[widgetKey.isRequired]">*</span>
+         </label> -->
+         <div class="input-file input-file-image" >
+            <div class="m-t-5 m-l-5 m-b-5" *ngIf="ispreview == 'preview' && !signatureDataValue && !group.value[config[widgetKey._id]]"><i class="fas fa-file-signature fa-4x icon-color"></i></div>
+           <img class="avatar-lg zoom" width="100" height="100" [hidden]="!signatureDataValue"
+             [src]="signatureDataValue" alt="preview">
+             <img src="{{signature}}"  alt="..." class="avatar-lg zoom" *ngIf="(ispreview == 'preview' ||ispreview == 'Edit') && group.value[config[widgetKey._id]] && !signatureDataValue">
+           <input type="file" (change)="openSignatureModal($event)" class="form-control form-control-file"
+             id="uploadImg" name="uploadImg" accept="image/*">
+           <label for="uploadImg" class=" label-input-file btn btn-primary" *ngIf="ispreview=='Edit' && showButton">Sign Here</label>
+         </div>
+       </div>
+     </form>
+   </div>
+ </div>

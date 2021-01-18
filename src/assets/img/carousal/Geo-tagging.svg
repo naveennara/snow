@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="716" height="296.014" viewBox="0 0 716 296.014">
+  <g id="Group_484" data-name="Group 484" transform="translate(-226 -446.986)">
+    <text id="Geo_-_Tagging" data-name="Geo - Tagging" transform="translate(454 631)" fill="#fff" font-size="42" font-family="Roboto-Regular, Roboto"><tspan x="0" y="0">Geo - Tagging</tspan></text>
+    <text id="you_can_easily_keep_track_of_your_location_with_detailed_geo-tagging._You_can_get_Real-time_user_tracking._" data-name="you can easily keep track of your location with detailed geo-tagging. 
+You can get Real-time user tracking. " transform="translate(584 704)" fill="#fff" font-size="24" font-family="Roboto-Light, Roboto" font-weight="300"><tspan x="-357.914" y="0">you can easily keep track of your location with detailed geo-tagging. </tspan><tspan x="-192.832" y="32">You can get Real-time user tracking. </tspan></text>
+    <g id="location-on-map" transform="translate(518.999 429.979)">
+      <path id="Path_826" data-name="Path 826" d="M109.06,90.827a4.36,4.36,0,0,0,5.761,0c1.043-.919,25.537-22.751,25.537-45.393a28.417,28.417,0,1,0-56.835,0C83.522,68.077,108.017,89.909,109.06,90.827Zm2.881-52.82a7.428,7.428,0,1,1-7.368,7.428A7.4,7.4,0,0,1,111.94,38.007Z" transform="translate(-46.995)" fill="#fff"/>
+      <path id="Path_827" data-name="Path 827" d="M132.04,166.862l-3.292-11.536a4.359,4.359,0,0,0-4.191-3.163H101.064q-1.274,1.894-2.693,3.8a108.813,108.813,0,0,1-14.021,15.486,10.462,10.462,0,0,1-13.828,0A108.82,108.82,0,0,1,56.5,155.968q-1.422-1.912-2.693-3.8H30.313a4.359,4.359,0,0,0-4.191,3.163L22.2,169.075l87.7,16.063Z" transform="translate(-12.49 -76.048)" fill="#fff"/>
+      <path id="Path_828" data-name="Path 828" d="M232.112,229.37l-8.41-29.475-41.727,35.03h45.947a4.358,4.358,0,0,0,4.191-5.555Z" transform="translate(-102.39 -102.904)" fill="#fff"/>
+      <path id="Path_829" data-name="Path 829" d="M21.339,206.751,8.027,204.312.168,231.855a4.358,4.358,0,0,0,4.191,5.555H21.339Z" transform="translate(0 -105.389)" fill="#fff"/>
+      <path id="Path_830" data-name="Path 830" d="M62.746,212.445v29.541H105.4l21.248-17.837Z" transform="translate(-35.304 -109.966)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

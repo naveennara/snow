@@ -1,0 +1,21 @@
+.header-break{
+    height: 1px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    margin-bottom: 1px;
+    padding-left: 10px;
+    padding-right: 10px;
+
+
+}
+.open-header{
+  border-left: 6px solid gray !important;
+    border-top: 6px solid gray !important;
+    border-right: 6px solid gray !important;
+    border-radius: 6px !important;
+}
+
+.header-card{
+    position: relative;
+    left: 6px;
+}

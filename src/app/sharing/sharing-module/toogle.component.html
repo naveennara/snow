@@ -1,0 +1,8 @@
+<input type="checkbox" id="{{idfor}}"
+(change)="changed.emit({'value':$event.target.checked,'id':idfor})" [(ngModel)]="value" [ngClass]="{'disabledEvent':disableList.includes(idfor) }">
+<label class="toggle-button-switch"  
+for="{{idfor}}" [ngClass]="{'disabledEvent':disableList.includes(idfor) }"></label>
+<div class="toggle-button-text" [ngClass]="{'disabledEvent':disableList.includes(idfor) }">
+<div class="toggle-button-text-on" [ngClass]="{'disabledEvent':disableList.includes(idfor) }">{{labels.on}}</div>
+<div class="toggle-button-text-off" [ngClass]="{'disabledEvent':disableList.includes(idfor) }">{{labels.off}}</div>
+</div>

@@ -1,0 +1,247 @@
+<h5 class="op-7 mb-2">
+  <span *ngIf="deptName.length">Filtered results of Account: {{deptName}}</span></h5>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-body">
+        <tabset #staticTabs class="tabset">
+          <tab heading="{{userkeys['UsersList']}}" class="tabWidth" (selectTab)="onSelect($event)">
+            <div class="row m-10">
+                <p class="card-category m-b-0" *ngIf="Users && Users.length">
+                    Showing ({{(pageNumber -1) * paginationLimit + 1}} to {{paginationLimit * (pageNumber-1) + Users.length }}) out of {{total_count}} Users
+                </p>
+            </div>
+            <div class="row m-t-15" *ngIf="Users && Users.length">           
+              <!-- new UI -->
+              <div class="col-md-3 my-2"
+              *ngFor="let  user of Users | paginate: { itemsPerPage: paginationLimit, currentPage: pageNumber,totalItems: total_count,id:'first' }">
+                <div class="card card-flip h-100">
+                  <div class="card-front">
+                    <div class="card-body card-shadow">
+
+                      <div class="avatar avatar-md  mt-1 float-right" *ngIf="user.imageurl">
+                        <img src="{{imgUrldataUser+user.imageurl}}" 
+                            (error)="errorHandler($event)" alt="..."
+                            class="avatar-img rounded-circle avatarBorder">
+                            <span class="notification" *ngIf="user.isAccountLocked">
+                              <i class="fas fa-lock" style="color: #dc3545d1;text-shadow: 0 0 4px #dcf7f8;"></i>
+                            </span>
+                      </div>
+                      <div class="avatar avatar-md mt-1 float-right" *ngIf="!user.imageurl">
+                        <span class="avatar-img rounded-circle">
+                          <ngx-avatar name="{{user.username}}"></ngx-avatar>
+                        </span>
+                      </div>
+                      <h4 class="card-title" title="{{user.name+' '+user.lastname}}">{{user.name || 'User Name' | shortText :18}} {{user.lastname}}</h4>
+                      <!-- <div class="d-flex justify-content-md-start">
+                        <p class="card-category my-0">{{user.name || 'NA' | shortText :15}}</p>
+                        <button type="button" title="Unlock" *ngIf="user.isAccountLocked"
+                        class="btn btn-icon btn-round btn-xs btn-transparent mr-2" (click)="unlockUser(user)">
+                        <i class="fas fa-lock icon-color"></i>
+                      </button></div> -->
+
+                    </div>
+                  </div>
+                  <div class="card-back">
+                    <div class="card-body card-shadow">
+                           
+                  <div class="avatar avatar-md mt-1 float-right">
+                    <img src="{{imgUrldataUser+user.imageurl}}" (error)="errorHandler($event)" alt="..." class="avatar-img rounded-circle avatarBorder">
+                    <span class="notification" tooltip="Account Locked" placement="bottom" *ngIf="user.isAccountLocked">
+                      <i class="fas fa-lock" style="color: #dc3545d1;text-shadow: 0 0 4px #dcf7f8;"></i>
+                    </span>
+                  </div>
+                  <h3 class="card-title" title="{{user.username}}">{{user.username || 'Username' | shortText :24}}</h3>
+                  <div class="btn-group" style="margin-top:0px;margin-left:-5px;">
+                    <button type="button" title="Unlock" placement="bottom" 
+                    class="btn btn-icon btn-xs" 
+                    (click)="unlockUser(user)" *ngIf="user.isAccountLocked">
+                    <i class="fas fa-unlock-alt icon-color"></i>
+                  </button>
+                    <button type="button" title="{{userkeys['label_Edit']}}" 
+                        class="btn btn-icon btn-xs"
+                        *ngIf="loginDetails['type']==0 || (loginDetails['type']==1 && showButtons)" 
+                        (click)="editUser(user)">
+                          <i class="far fa-edit icon-color"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-icon btn-xs" 
+                        *ngIf="loginDetails['type']==3 || (loginDetails['type']==1 && !showButtons)" (click)="editUser(user)" title="{{userkeys['label_Preview']}}">
+                          <i class="fas fa-eye icon-color"></i>
+                        </button>
+            
+                        <span *ngIf="loginDetails['type']==1 && showButtons">
+                            
+                            <button type="button" class="btn btn-icon btn-xs" (click)="deleteUser(user._id)" title="{{userkeys['label_Delete']}}">
+                                <i class="far fa-trash-alt icon-color"></i>
+                            </button>
+                        </span>
+                        <button type="button" class="btn btn-icon btn-xs" *ngIf="loginDetails['type']==1 && showButtons" (click)="openConfirmation(user)" title="{{userkeys['label_resetPassword']}}">
+                          <i class="fa fa-sync-alt icon-color"></i>
+                      </button>
+                   
+                  </div>
+                      <!-- <div class="d-flex justify-content-md-start">
+                        <h3 class="card-title" title="{{user.name}}">{{user.name || 'Username' | shortText :15}}</h3>
+                        <button type="button" title="Unlock" *ngIf="user.isAccountLocked"
+                        class="btn btn-icon btn-round btn-xs btn-transparent mr-2 m-l-10" (click)="unlockUser(user)">
+                        <i class="fas fa-lock icon-color"></i>
+                      </button></div>
+                      <p class="card-category my-0" title="{{user.email}}">{{user.email || 'NA' | shortText :15}}</p>
+                      <div class="btn-group float-right" style="margin-top: -25px;">
+
+                        <button type="button" title="Edit" 
+                        class="btn btn-icon btn-round btn-xs btn-transparent mr-2"
+                        *ngIf="loginDetails['type']==0 || (loginDetails['type']==1 && showButtons)" 
+                        (click)="editUser(user)">
+                          <i class="far fa-edit icon-color"></i>
+                        </button>
+
+                        <button type="button" class="btn btn-icon btn-round btn-xs btn-transparent mr-2" 
+                        *ngIf="loginDetails['type']==3 || (loginDetails['type']==1 && !showButtons)" (click)="editUser(user)" title="Preview">
+                          <i class="fas fa-eye icon-color"></i>
+                        </button>
+            
+                        <span *ngIf="loginDetails['type']==1 && showButtons">
+                            
+                            <button type="button" class="btn btn-icon btn-round btn-xs btn-transparent" (click)="deleteUser(user._id)" title="Delete">
+                                <i class="far fa-trash-alt icon-color"></i>
+                            </button>
+                        </span>
+            
+                      </div> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End New UI -->
+
+            </div>
+            <app-delete-template  (deleteOrCancel)="confirmDelete($event)"></app-delete-template>
+
+            <div class="card-body" *ngIf="Users && !Users.length" align="center">
+              <img [src]="noDataImg" class="img-responsive">
+            </div>
+            <div class="row m-15" *ngIf="Users && Users.length">
+              <pagination-controls (pageChange)="getUsers($event);pageNumber = $event" id="first"></pagination-controls>
+            </div>
+          </tab>
+          <tab heading="{{userkeys['Activity']}}" class="tabWidth" *ngIf="loginDetails['type']==1 || loginDetails['type']==0" (selectTab)="onSelect($event)">
+            <div class="card-body">
+              <form [formGroup]="usersActivity">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group form-group-default">
+                      <label for="name" class="placeholder">{{userkeys['FromDate']}}</label>
+                      <input type="text" placeholder="Select Date" class="form-control" bsDatepicker
+                        [formControlName]="userkeys['startDate']" (bsValueChange)="bsValueChange($event)"
+                        [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }"
+                        [minDate]="startMinDate" [maxDate]="startMaxDate" appCalendar
+                        [ngClass]="{ 'is-invalid': submitted && f.startDate.errors }" required>
+                      <div *ngIf="submitted && f.startDate.errors" class="invalid-feedback">
+                        <span *ngIf="f.startDate.errors.required"
+                          class="form-text text-red">{{userkeys['fromdateRequired']}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group form-group-default">
+                      <label for="name" class="placeholder">{{userkeys['ToDate']}}</label>
+                      <input type="text" placeholder="Select Date" class="form-control" bsDatepicker
+                        [formControlName]="userkeys['endDate']"
+                        [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }"
+                        [minDate]="endMinDate" [maxDate]="endMaxDate"
+                        (bsValueChange)="endValueChange($event)" appCalendar
+                        [ngClass]="{ 'is-invalid': submitted && f.endDate.errors }" required>
+                      <div *ngIf="submitted && f.endDate.errors" class="invalid-feedback">
+                        <span *ngIf="f.endDate.errors.required"
+                          class="form-text text-red">{{userkeys['todateRequired']}}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4" *ngIf="loginDetails['type']==0">
+                    <label for="accounts" class="departmentLabel">{{userkeys['Accounts']}}</label>
+                    <div class="row" class="department">
+                      <div class="col-sm-8">
+                       
+                        <ng-select [items]="departmentList"
+                            placeholder="Select Account"
+                            [addTag]="addTag"
+                            bindLabel="name" [formControlName]="userkeys['accounts']">
+                        </ng-select>
+                        <div *ngIf="submitted && f.accounts.errors">
+                          <span *ngIf="submitted && f.accounts.errors.required"
+                            class="errorText">{{userkeys['departmentRequired']}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="filterbutton">
+                    <button type="button" class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2" title="{{userkeys['label_Filter']}}" *ngIf="loginDetails['type']!=0"
+                      (click)="filterUseractivity(usersActivity.value,defaultPage,true)"><i
+                        class="fas fa-filter icon-color"></i></button>
+                    <button type="button" class="btn btn-icon btn-rounded btn-transparent btn-sm mr-2" title="{{userkeys['label_Filter']}}" *ngIf="loginDetails['type']==0"
+                      (click)="filterUseractivity(usersActivity.value,defaultPage,usersActivity.valid)"><i
+                        class="fas fa-filter icon-color"></i></button>
+                  </div>
+                </div>
+              </form>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered table-condensed" *ngIf="activityData && activityData.length">
+                    <thead>
+                      <tr>
+                        <th><label class="activityLog">{{userkeys['Activity']}}</label></th>
+                        <th><label class="activityLog">{{userkeys['Username']}}</label></th>
+                        <th><label class="activityLog">{{userkeys['Date']}}</label></th>
+                        <th><label class="activityLog">{{userkeys['DeviceModel']}}</label></th>
+                        <th><label class="activityLog">{{userkeys['Version']}}</label></th>
+                      </tr>
+                    </thead>
+                    <tr *ngFor=" let i = index;let user of activityData | paginate: { itemsPerPage: activityLimit, currentPage: activityPageNumber,totalItems: totalValues,id:'second'}">
+                      <td>{{user.activity}}</td>
+                      <td>{{user.username}}</td>
+                      <td>{{user.timestamp | date : 'mediumDate'}}</td>
+                      <td>{{user.deviceModel}}</td>
+                      <td>{{user.version}}</td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="row m-15" *ngIf="activityData && activityData.length">
+                    <pagination-controls (pageChange)="activityPageNumber = $event" id="second"></pagination-controls>
+                </div>
+              </div>
+            </div>
+          </tab>
+        </tabset>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-smart-modal #passwordModel [closable]="false" [identifier]="'passwordModel'">
+  <div class="modal-header">
+      <h5 class="modal-title"  *ngIf="!resetSuccessfull">{{userkeys['confirmActionMsg']}}</h5>
+      <h5 class="modal-title"  *ngIf="resetSuccessfull">{{userkeys['informationHeader']}}</h5>
+
+      <button aria-label="Close" class="close btn-lg" data-dismiss="modal" type="button" (click)="passwordModel.close()">
+          <span aria-hidden="true"><i class="fas fa-times icon-color"></i></span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <p class="m-b-5" *ngIf="!resetSuccessfull">{{userkeys['resetPasswordMsg']}}</p>
+      <p class="m-b-5" *ngIf="resetSuccessfull">{{userkeys['pwdChangedMsg']}} <b>{{password}}</b></p>
+
+  </div>
+  <div class="modal-footer p-10" *ngIf="!resetSuccessfull">
+      <button type="button" 
+          class="btn btn-outline-primary btn-rounded btn-sm mr-2" 
+          (click)="resetPassword()">{{userkeys['label_Yes']}}
+      </button>
+  
+      <button type="button" class="btn btn-outline-danger btn-rounded btn-sm" (click)="passwordModel.close()">
+        {{userkeys['label_No']}}
+      </button>
+  </div>
+
+ 
+</ngx-smart-modal>

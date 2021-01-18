@@ -1,0 +1,35 @@
+
+<span *ngIf="derivedFields.indexOf(config[widgetKey._id]) > -1 ? false : isTable ? true : config[widgetKey.isUnderHeading].length==0?true:config[widgetKey.isUnderHeading]== expendedHeaderId?true:false">
+  <div  [formGroup]="group" class="form-group" >
+      <label  [for]="config[widgetKey._id]" class="web-user-widget-label">{{config[widgetKey.label]}} </label><span *ngIf="config[widgetKey.isRequired] == true" class="webuser-mandatory-indicator-color"> *</span>
+      <div class="input-group mb-3 " >
+        <input [hidden]="historyView" [ngClass]="{'webuseer-formcontroll-error':group.get(config[widgetKey._id]).invalid === true && group.get(config[widgetKey._id]).dirty === true,
+        'webuser-formcontroll-sucess':group.get(config[widgetKey._id]).valid === true &&  group.get(config[widgetKey._id]).dirty === true
+       }"
+        type="text"
+        class="form-control web-user-widget"
+        #datepickerYMD="bsDatepicker"
+        bsDatepicker [formControlName]="config[widgetKey._id]" appCalendar
+
+        [bsConfig]="{ dateInputFormat: dateFormat.ddmmyyyy, containerClass: 'theme-dark-blue' }" [minDate]="config[widgetKey.minDate]" [maxDate]="config[widgetKey.maxDate]"
+        />
+
+        <div class="input-group-append" [hidden]="historyView">
+          <span class="input-group-text">
+            <button class="btn btn-primary btn-sm calculeation-btn-over" (click)="datepickerYMD.toggle()">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+      <div  [formGroup]="group" class="form-group" [hidden]="!historyView">
+        <input disabled type="text" class="form-control web-user-widget" value=" {{group.get(config[widgetKey._id]).value | date:'MM-dd-yyyy'}}">
+      </div>
+
+  </div>
+
+  <app-validation [dynamicFormControlRef]="group.get(config[widgetKey._id])" >
+
+  </app-validation>
+</span>
+

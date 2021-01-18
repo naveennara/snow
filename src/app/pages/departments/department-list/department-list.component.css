@@ -1,0 +1,209 @@
+.deptcard-demo {
+    vertical-align: top;
+    max-width: 450px;
+    width: 100%;
+    margin: 0 30px 0 0;
+    display: inline-block;
+}
+.deptcard:not([class*=border-]) {
+    border: 0;
+}
+
+.deptcard {
+    box-shadow: 0 1px 2px rgba(0,0,0,.075);
+    margin-bottom: 2.3rem;
+}
+
+.deptcard-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.5rem;
+}
+.deptcard-title {
+    font-size: 1.25rem;
+    font-weight: 400;
+    line-height: 140%;
+    margin-top: -.35rem;
+    margin-bottom: 2.1rem;
+}
+
+.deptcard-subtitle:not(:last-child) {
+    margin-bottom: 2rem;
+}
+.deptcard-subtitle {
+    color: #9c9c9c;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-top: -1.5rem;
+    line-height: 1.5;
+}
+
+.deptcard-body>.actions, .deptcard>.actions {
+    position: absolute;
+    right: 15px;
+    z-index: 2;
+    top: 18px;
+}
+.actions:not(.actions--inverse) .actions__item {
+    color: #a9adb1;
+}
+.actions__item {
+    line-height: 31px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color .3s;
+    margin: 0 2px;
+    width: 30px;
+    height: 30px;
+}
+.actions__item, .icon-list>li address {
+    vertical-align: top;
+    display: inline-block;
+}
+/* ------------------- */
+.card-body+.listview {
+    margin-top: -.9rem;
+}
+
+.listview__item {
+    padding: 1.25rem 2.2rem;
+    transition: background-color .3s;
+    display: flex;
+    border: 1px solid #e9ecef;
+}
+
+.bg-red {
+    background-color: #ff6b68!important;
+}
+
+
+.listview__content {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    min-width: 0;
+}
+
+.listview__heading {
+    font-size: 1rem;
+    color: #333;
+    position: relative;
+}
+
+.listview__heading+p {
+    margin: .2rem 0 0;
+    font-size: .95rem;
+}
+
+.listview__content>p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #8e9499;
+    margin-bottom: 0;
+}
+
+.listview__attrs {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 100%;
+    flex: 1 100%;
+    margin-top: .5rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.listview__attrs>span {
+    padding: .55rem .7rem;
+    border: 1px solid #e9ecef;
+    display: inline-block;
+    line-height: 100%;
+    font-size: .9rem;
+    margin: .2rem .25rem .055rem 0;
+    background-color: #FFF;
+}
+
+.actions:not(.actions--inverse) .actions__item {
+    color: #a9adb1;
+}
+
+.listview__actions {
+    margin-left: auto;
+    -ms-flex-item-align: start;
+    align-self: flex-start;
+    margin-right: -1rem;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+.dropdown-item {
+    line-height: 1.5;
+    transition: background-color .3s,color .3s;
+}
+.dropdown-item {
+    display: block;
+    width: 100%;
+    padding: .5rem 1.5rem;
+    clear: both;
+    color: #6d6d6d;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+}
+
+/* ======================= */
+
+/* @PK CSS */
+
+.card-detail {
+  z-index: 2;
+  opacity: 0;
+  width: auto;
+  transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+}
+
+
+.card-round:hover .card-detail {
+  opacity: 1;
+  transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
+}
+
+
+ /* Author: PK */
+ .account-ActionBar {
+    opacity: 0;
+    width: auto;
+    transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+  }
+  
+  .account-list:hover {
+    background-color: #E9ECEF;
+  }
+  
+  .account-list:hover .account-ActionBar {
+    opacity: 1;
+    transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    -ms-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+  }
+  .catImg{
+    width: 18px;
+    margin-bottom: 5px;
+  }

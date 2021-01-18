@@ -1,0 +1,54 @@
+body{
+  width: 500px;
+}
+
+// .close-button{
+//     float: right;
+//     top: -94px;
+//     right: -64px;
+//   }
+
+
+.close-button{
+  // float: right;
+  // top: -94px;
+  // right: -64px;
+
+  float: right;
+  right: 18em;
+  color: #2D9CDB;
+  border: solid;
+  top: 1em;
+  border-radius: 2em;
+}
+
+  
+  .close-icon {
+  //  transition: 1s ease-in-out;
+  }
+  
+  .mat-icon{
+    font-size: 28px;
+    color: grey;
+  }
+ 
+  
+  ::ng-deep .icon-outside .mat-dialog-container {
+   overflow: unset
+  }
+
+
+ 
+  p{
+    font-family: 'Mulish', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 28px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    
+    color: #2D9CDB;
+    
+  }
