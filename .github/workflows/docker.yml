@@ -29,7 +29,7 @@ jobs:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-         docker login -u naveenara -p Funtime@2021
+         docker login -u naveennara -p Funtime@2021
       # Runs a single command using the runners shell
       - name: snow app docker build
         run: |
