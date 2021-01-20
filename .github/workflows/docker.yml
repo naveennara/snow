@@ -29,8 +29,7 @@ jobs:
           DOCKE_RUSER: ${{secrets.DOCKERUSERNAME}}
           DOCKER_PASSWORD: ${{secrets.DOCKERPASSWORD}}
         run: |
-          echo $DOCKER_USER
-          echo $DOCKER_PASSWORD
+          echo "$DOCKER_USER" "$DOCKER_PASSWORD"
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       # Runs a single command using the runners shell
       - name: snow app docker build
